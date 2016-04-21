@@ -38,7 +38,7 @@ public class Marcacion implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaHora;
     @ManyToOne(targetEntity = Empleado.class,fetch = FetchType.EAGER, optional = true)
-    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento",nullable = true)
+    @JoinColumn(name = "persona_nro_documento",referencedColumnName = "nro_documento",nullable = true)
     private Empleado empleado;
 
     public Marcacion() {

@@ -6,6 +6,7 @@
     <class>com.biosis.biosislite.entidades.AsignacionHorario</class>
     <class>com.biosis.biosislite.entidades.AsignacionPermiso</class>
     <class>com.biosis.biosislite.entidades.Bitacora</class>
+    <class>com.biosis.biosislite.entidades.Concepto</class>
     <class>com.biosis.biosislite.entidades.DetalleGrupoHorario</class>
     <class>com.biosis.biosislite.entidades.DetalleRegistroAsistencia</class>
     <class>com.biosis.biosislite.entidades.Feriado</class>
@@ -25,6 +26,9 @@
     <class>com.biosis.biosislite.entidades.TipoPermiso</class>
     <class>com.biosis.biosislite.entidades.Usuario</class>
     <class>com.biosis.biosislite.entidades.Vacacion</class>
+    <class>com.biosis.biosislite.entidades.educativo.Matricula</class>
+    <class>com.biosis.biosislite.entidades.educativo.Pago</class>
+    <class>com.biosis.biosislite.entidades.educativo.Cuota</class>
     <class>com.biosis.biosislite.entidades.escalafon.Empleado</class>
     <class>com.biosis.biosislite.entidades.escalafon.FichaGeneral</class>
     <class>com.biosis.biosislite.entidades.escalafon.FichaLaboral</class>
@@ -33,7 +37,6 @@
     <class>com.biosis.biosislite.entidades.escalafon.RegimenLaboral</class>
     <class>com.biosis.biosislite.entidades.escalafon.SituacionTrabajador</class>
     <class>com.biosis.biosislite.entidades.escalafon.TipoContrato</class>
-    <class>com.biosis.biosislite.entidades.escalafon.TipoDocumento</class>
     <class>com.biosis.biosislite.entidades.escalafon.TipoVia</class>
     <class>com.biosis.biosislite.entidades.escalafon.TipoZona</class>
     <class>com.biosis.biosislite.entidades.escalafon.Ubigeo</class>
@@ -46,8 +49,8 @@
     <class>com.biosis.biosislite.entidades.escalafon.AreaEmpleado</class>
     <class>com.biosis.biosislite.entidades.escalafon.Contrato</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://192.168.1.250\SQL2008R2;databaseName=BD_GRP"/>
-      <property name="javax.persistence.jdbc.password" value="Biosi5"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1;databaseName=db_base_biosis_rosario_1"/>
+      <property name="javax.persistence.jdbc.password" value="xapplex"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
@@ -59,8 +62,8 @@
     <class>com.biosis.biosislite.entidades.biostar.Evento</class>
     <class>com.biosis.biosislite.entidades.biostar.Reader</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1\MSS2005EX;databaseName=BDreloj"/>
-      <property name="javax.persistence.jdbc.password" value="Elhacker12"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1;databaseName=db_biostar_ensa"/>
+      <property name="javax.persistence.jdbc.password" value="xapplex"/>
       <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
       <property name="javax.persistence.jdbc.user" value="sa"/>
       <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>

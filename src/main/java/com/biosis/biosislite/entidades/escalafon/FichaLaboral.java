@@ -19,10 +19,9 @@ import javax.persistence.TemporalType;
 @Table(name="ficha_laboral",schema="personal")
 public class FichaLaboral implements Serializable {
 
-    @Column(name="id")
+    @Column(name="persona_nro_documento")
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     @Column(name = "codigo_trabajador")
     private String codigoTrabajador;
     @ManyToOne(targetEntity = TipoContrato.class)
@@ -69,11 +68,11 @@ public class FichaLaboral implements Serializable {
         this.codigoTrabajador = codigoTrabajador;
     }
    
-    public Long getId() {
+    public String getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

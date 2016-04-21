@@ -31,7 +31,7 @@ public class SaldoVacacional implements Serializable {
     @Basic
     private Date fechaDesde;
     @ManyToOne(targetEntity = Empleado.class)
-    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
+    @JoinColumn(name = "persona_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
     @Column(name="fecha_hasta",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Temporal(TemporalType.DATE)

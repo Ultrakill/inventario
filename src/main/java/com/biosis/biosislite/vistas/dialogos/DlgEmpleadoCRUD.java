@@ -6,6 +6,7 @@
 package com.biosis.biosislite.vistas.dialogos;
 
 import com.biosis.biosislite.controladores.AreaEmpleadoControlador;
+import com.biosis.biosislite.controladores.ConceptoControlador;
 import com.biosis.biosislite.controladores.ContratoControlador;
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.DepartamentoControlador;
@@ -17,6 +18,8 @@ import com.biosis.biosislite.controladores.TipoContratoControlador;
 import com.biosis.biosislite.controladores.TipoDocumentoControlador;
 import com.biosis.biosislite.controladores.TipoViaControlador;
 import com.biosis.biosislite.controladores.TipoZonaControlador;
+import com.biosis.biosislite.entidades.Concepto;
+import com.biosis.biosislite.entidades.ConceptoId;
 import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Contrato;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
@@ -73,10 +76,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private final TipoContratoControlador tcc = TipoContratoControlador.getInstance();
     private final RegimenLaboralControlador rlc = RegimenLaboralControlador.getInstance();
     private final SituacionTrabajadorControlador stc = SituacionTrabajadorControlador.getInstance();
-
+    private final ConceptoControlador cptc = ConceptoControlador.getInstance();
+    
     private final AreaEmpleadoControlador ea = new AreaEmpleadoControlador();
     private final ContratoControlador cc = ContratoControlador.getInstance();
 
+    
     private final Empleado empleado;
     private final int accion;
 
@@ -147,6 +152,15 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         dcFechaNacimiento = new com.toedter.calendar.JDateChooser();
         jLabel23 = new javax.swing.JLabel();
         txtNroDocumento = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        cboTipoPersona = new javax.swing.JComboBox();
+        pnlDatosUbicacionAlumno = new javax.swing.JPanel();
+        jLabel18 = new javax.swing.JLabel();
+        cboNivel = new javax.swing.JComboBox();
+        jLabel19 = new javax.swing.JLabel();
+        cboGrado = new javax.swing.JComboBox();
+        jLabel20 = new javax.swing.JLabel();
+        cboSeccion = new javax.swing.JComboBox();
         pnlGenerales = new javax.swing.JScrollPane();
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -235,22 +249,22 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         });
         jPanel3.add(jButton2);
 
-        java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-        pnlEmpleado.setLayout(jPanel1Layout);
+        java.awt.GridBagLayout pnlEmpleadoLayout = new java.awt.GridBagLayout();
+        pnlEmpleadoLayout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
+        pnlEmpleadoLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        pnlEmpleado.setLayout(pnlEmpleadoLayout);
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 5;
         pnlEmpleado.add(jPanel2, gridBagConstraints);
 
         pnlNavegacion.setLayout(new java.awt.GridLayout(1, 0, 2, 0));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 5;
         pnlEmpleado.add(pnlNavegacion, gridBagConstraints);
 
@@ -265,7 +279,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         txtPaterno.setColumns(40);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -274,7 +288,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel3.setText("Apellido paterno:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlEmpleado.add(jLabel3, gridBagConstraints);
@@ -282,7 +296,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel4.setText("Apellido materno:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlEmpleado.add(jLabel4, gridBagConstraints);
@@ -290,7 +304,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel5.setText("Género:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlEmpleado.add(jLabel5, gridBagConstraints);
@@ -298,7 +312,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         txtMaterno.setColumns(40);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
@@ -315,7 +329,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         cboGenero.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MASCULINO", "FEMENINO" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlEmpleado.add(cboGenero, gridBagConstraints);
@@ -323,7 +337,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel7.setText("Fecha de nacimiento:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlEmpleado.add(jLabel7, gridBagConstraints);
@@ -331,7 +345,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel8.setText("Nombres:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlEmpleado.add(jLabel8, gridBagConstraints);
@@ -339,7 +353,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         txtNombres.setColumns(40);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
@@ -347,7 +361,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         pnlEmpleado.add(txtNombres, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 16;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlEmpleado.add(dcFechaNacimiento, gridBagConstraints);
@@ -367,6 +381,58 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         pnlEmpleado.add(txtNroDocumento, gridBagConstraints);
+
+        jLabel17.setText("Tipo Persona:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlEmpleado.add(jLabel17, gridBagConstraints);
+
+        cboTipoPersona.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTipoPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTipoPersonaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlEmpleado.add(cboTipoPersona, gridBagConstraints);
+
+        pnlDatosUbicacionAlumno.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de ubicacion de alumno"));
+
+        jLabel18.setText("Nivel:");
+        pnlDatosUbicacionAlumno.add(jLabel18);
+
+        cboNivel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboNivel.setEnabled(false);
+        pnlDatosUbicacionAlumno.add(cboNivel);
+
+        jLabel19.setText("Grado:");
+        pnlDatosUbicacionAlumno.add(jLabel19);
+
+        cboGrado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboGrado.setEnabled(false);
+        pnlDatosUbicacionAlumno.add(cboGrado);
+
+        jLabel20.setText("Sección:");
+        pnlDatosUbicacionAlumno.add(jLabel20);
+
+        cboSeccion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboSeccion.setEnabled(false);
+        pnlDatosUbicacionAlumno.add(cboSeccion);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        pnlEmpleado.add(pnlDatosUbicacionAlumno, gridBagConstraints);
 
         tblPane.addTab("Datos personales", pnlEmpleado);
 
@@ -1197,6 +1263,25 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tblAreasMouseReleased
 
+    private void cboTipoPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTipoPersonaActionPerformed
+        // TODO add your handling code here:
+        if(cboTipoPersona.getSelectedItem()!= null){
+            Concepto cp = (Concepto)cboTipoPersona.getSelectedItem();
+            System.out.println("Concepto escogido: "+cp.getDescripcion());
+            ConceptoId cpi = cp.getId();
+            System.out.println("Prefijo y correlativo concepto: "+cp.getId().getPrefijo()+" "+cp.getId().getCorrelativo());
+            if(cpi.getCorrelativo()==2){
+                cboNivel.setEnabled(true);
+                cboGrado.setEnabled(true);
+                cboSeccion.setEnabled(true);
+            }else{
+                cboNivel.setEnabled(false);
+                cboGrado.setEnabled(false);
+                cboSeccion.setEnabled(false);
+            }
+        }
+    }//GEN-LAST:event_cboTipoPersonaActionPerformed
+
     private Ubigeo ubigeoSeleccion;
     private Nacionalidad nacionalidadSeleccion;
     private Empleado empleadoSeleccionado;
@@ -1209,10 +1294,14 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JButton btnUbigeo;
     private javax.swing.JComboBox cboEstadoCivil;
     private javax.swing.JComboBox cboGenero;
+    private javax.swing.JComboBox cboGrado;
+    private javax.swing.JComboBox cboNivel;
     private javax.swing.JComboBox cboNivelEducativo;
     private javax.swing.JComboBox cboRegimenLaboral;
+    private javax.swing.JComboBox cboSeccion;
     private javax.swing.JComboBox cboTipoContrato;
     private javax.swing.JComboBox cboTipoDocumento;
+    private javax.swing.JComboBox cboTipoPersona;
     private javax.swing.JComboBox cboTipoVia;
     private javax.swing.JComboBox cboTipoZona;
     private com.toedter.calendar.JDateChooser dcFechaFin;
@@ -1237,7 +1326,11 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -1269,6 +1362,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JPanel panelTblC;
     private javax.swing.JPanel pnlDatosArea;
     private javax.swing.JPanel pnlDatosContrato;
+    private javax.swing.JPanel pnlDatosUbicacionAlumno;
     private javax.swing.JPanel pnlEmpleado;
     private javax.swing.JScrollPane pnlGenerales;
     private javax.swing.JPanel pnlNavegacion;
@@ -1309,19 +1403,78 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         FormularioUtil.activarComponente(this.dcFechaNacimiento, true);
         FormularioUtil.activarComponente(this.dcFechaInicio, true);
 
-        cboTipoDocumento.setModel(new DefaultComboBoxModel(tdc.buscarTodos().toArray()));
-        cboTipoDocumento.setRenderer(new DefaultListCellRenderer() {
-
+//        cboTipoDocumento.setModel(new DefaultComboBoxModel(tdc.buscarTodos().toArray()));
+//        cboTipoDocumento.setRenderer(new DefaultListCellRenderer() {
+//
+//            @Override
+//            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+//                if (value instanceof TipoDocumento) {
+//                    value = ((TipoDocumento) value).getNombre();
+//                }
+//                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+//            }
+//
+//        });
+        
+        cboTipoDocumento.setModel(new DefaultComboBoxModel(cptc.buscarXPrefijo(10).toArray()));
+        cboTipoDocumento.setRenderer(new DefaultListCellRenderer(){
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                if (value instanceof TipoDocumento) {
-                    value = ((TipoDocumento) value).getNombre();
+                if (value instanceof Concepto) {
+                    value = ((Concepto) value).getDescripcion();
                 }
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
             }
-
         });
+        
+        cboTipoPersona.setModel(new DefaultComboBoxModel(cptc.buscarXPrefijo(4).toArray()));
+        cboTipoPersona.setRenderer(new DefaultListCellRenderer(){
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus){
+                 if (value instanceof Concepto) {
+                    value = ((Concepto) value).getDescripcion();
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
 
+            }
+        });
+        
+        //Combo de nivel
+        cboNivel.setModel(new DefaultComboBoxModel(cptc.buscarXPrefijo(1).toArray()));
+        cboNivel.setRenderer(new DefaultListCellRenderer(){
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus){
+                 if (value instanceof Concepto) {
+                    value = ((Concepto) value).getDescripcion();
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+
+            }
+        });
+        //Combo de grado
+        cboGrado.setModel(new DefaultComboBoxModel(cptc.buscarXPrefijo(2).toArray()));
+        cboGrado.setRenderer(new DefaultListCellRenderer(){
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus){
+                 if (value instanceof Concepto) {
+                    value = ((Concepto) value).getDescripcion();
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+
+            }
+        });
+        //Combo de seccion
+        cboSeccion.setModel(new DefaultComboBoxModel(cptc.buscarXPrefijo(3).toArray()));
+        cboSeccion.setRenderer(new DefaultListCellRenderer(){
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus){
+                 if (value instanceof Concepto) {
+                    value = ((Concepto) value).getDescripcion();
+                }
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
+
+            }
+        });
 //        cboOficina.setModel(new DefaultComboBoxModel(dc.buscarTodos().toArray()));
 //        cboOficina.setRenderer(new DefaultListCellRenderer() {
 //
@@ -1417,9 +1570,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             empleado.setPaterno(txtPaterno.getText());
             empleado.setNombre(txtNombres.getText());
             empleado.setSexo(cboGenero.getSelectedItem().toString().charAt(0));
-            empleado.setTipoDocumento((TipoDocumento) cboTipoDocumento.getSelectedItem());
+            empleado.setTipoPersona(((Concepto)cboTipoPersona.getSelectedItem()).getId().getCorrelativo());
+            //empleado.setTipoDocumento((TipoDocumento) cboTipoDocumento.getSelectedItem());
 
+            empleado.setCodigoMolecular("asdsa");
             FichaGeneral fgen = empleado.getFichaGeneral();
+            fgen.setId(txtNroDocumento.getText());
             fgen.setDireccion(txtDireccion.getText());
             fgen.setEmail(txtEmail.getText().toLowerCase());
             fgen.setEstadoCivil(cboEstadoCivil.getSelectedItem().toString().charAt(0));
@@ -1432,6 +1588,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             fgen.setUbigeoResidencia(ubigeoSeleccion);
 
             FichaLaboral flab = empleado.getFichaLaboral();
+            flab.setId(txtNroDocumento.getText());
 //            flab.setArea((Departamento) this.cboOficina.getSelectedItem());
             flab.setCodigoTrabajador(txtNroDocumento.getText());
 //            flab.setFechaInicio(dcFechaInicio.getDate());
@@ -1472,7 +1629,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 
     private void mostrarDatos(Empleado empleado) {
         //DATOS PERSONALES
-        cboTipoDocumento.setSelectedItem(empleado.getTipoDocumento());
+        //cboTipoDocumento.setSelectedItem(empleado.getTipoDocumento());
         txtNroDocumento.setText(empleado.getNroDocumento());
         txtNombres.setText(empleado.getNombre());
         txtPaterno.setText(empleado.getPaterno());

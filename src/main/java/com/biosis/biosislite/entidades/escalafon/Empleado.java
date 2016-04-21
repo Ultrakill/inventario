@@ -1,6 +1,7 @@
 package com.biosis.biosislite.entidades.escalafon;
 
 import com.biosis.biosislite.entidades.DetalleGrupoHorario;
+import com.biosis.biosislite.entidades.educativo.Matricula;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,9 @@ public class Empleado implements Serializable {
     @Column(name = "nro_documento", nullable = false)
     @Id
     private String nroDocumento;
+    @Column(name="codigo_molecular")
+    @Basic
+    private String codigoMolecular;
     @Column(name = "nombres", nullable = false)
     @Basic
     private String nombre;
@@ -36,15 +40,18 @@ public class Empleado implements Serializable {
     @Column(name = "materno", nullable = false)
     @Basic
     private String materno;
-    @ManyToOne(targetEntity = TipoDocumento.class)
-    @JoinColumn(name = "tipo_documento_codigo", referencedColumnName = "codigo")
-    private TipoDocumento tipoDocumento;
+//    @ManyToOne(targetEntity = TipoDocumento.class)
+//    @JoinColumn(name = "tipo_documento_codigo", referencedColumnName = "codigo")
+//    private TipoDocumento tipoDocumento;
     @Column(name = "sexo", nullable = false)
     @Basic(fetch = FetchType.LAZY)    
     private char sexo;
     @Column(name = "paterno", nullable = false)
     @Basic
     private String paterno;
+    @Column(name= "tipo_persona", nullable = false)
+    @Basic
+    private Integer tipoPersona;
     @OneToOne(fetch = FetchType.LAZY, targetEntity = FichaLaboral.class, mappedBy = "empleado",cascade = CascadeType.ALL)
     private FichaLaboral fichaLaboral;
     @OneToOne(fetch = FetchType.LAZY, targetEntity = FichaGeneral.class, mappedBy = "empleado",cascade = CascadeType.ALL)
@@ -60,6 +67,8 @@ public class Empleado implements Serializable {
     private List<DetalleGrupoHorario> detalleGrupoHorarioList;
     @OneToMany(fetch = FetchType.LAZY, targetEntity = AreaEmpleado.class,mappedBy = "empleado")
     private List<AreaEmpleado> areaEmpleadoList;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Matricula.class,cascade = CascadeType.ALL)
+    private List<Matricula> matriculaList;
 
     public List<AreaEmpleado> getAreaEmpleadoList() {
         return areaEmpleadoList;
@@ -107,6 +116,14 @@ public class Empleado implements Serializable {
         return this.nroDocumento;
     }
 
+    public String getCodigoMolecular() {
+        return codigoMolecular;
+    }
+
+    public void setCodigoMolecular(String codigoMolecular) {
+        this.codigoMolecular = codigoMolecular;
+    }
+
     public void setNroDocumento(String nroDocumento) {
         this.nroDocumento = nroDocumento;
     }
@@ -143,13 +160,13 @@ public class Empleado implements Serializable {
         this.materno = materno;
     }
 
-    public TipoDocumento getTipoDocumento() {
-        return this.tipoDocumento;
-    }
-
-    public void setTipoDocumento(TipoDocumento tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
-    }
+//    public TipoDocumento getTipoDocumento() {
+//        return this.tipoDocumento;
+//    }
+//
+//    public void setTipoDocumento(TipoDocumento tipoDocumento) {
+//        this.tipoDocumento = tipoDocumento;
+//    }
 
     public char getSexo() {
         return this.sexo;
@@ -167,6 +184,15 @@ public class Empleado implements Serializable {
         this.paterno = paterno;
     }
 
+    public Integer getTipoPersona() {
+        return tipoPersona;
+    }
+
+    public void setTipoPersona(Integer tipoPersona) {
+        this.tipoPersona = tipoPersona;
+    }
+
+    
     public FichaLaboral getFichaLaboral() {
         return this.fichaLaboral;
     }
@@ -181,6 +207,14 @@ public class Empleado implements Serializable {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public List<Matricula> getMatriculaList() {
+        return matriculaList;
+    }
+
+    public void setMatriculaList(List<Matricula> matriculaList) {
+        this.matriculaList = matriculaList;
     }
 
     @Override

@@ -23,7 +23,7 @@ public class AsignacionPermiso implements Serializable {
     @JoinColumn(name="permiso_id",referencedColumnName="id",insertable=true,nullable=false,unique=false,updatable=true)
     private Permiso permiso;
     @ManyToOne(targetEntity = Empleado.class)
-    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
+    @JoinColumn(name = "persona_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
 
     public AsignacionPermiso() {

@@ -33,7 +33,7 @@ public class Autorizacion implements Serializable {
     private String documentoReferencia;
     
     @ManyToOne(targetEntity = Empleado.class)
-    @JoinColumn(name = "pers_nro_documento",referencedColumnName = "nro_documento")
+    @JoinColumn(name = "persona_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
     
     @ManyToOne(targetEntity = DetalleJornada.class)

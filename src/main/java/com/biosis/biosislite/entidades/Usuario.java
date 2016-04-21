@@ -19,7 +19,7 @@ public class Usuario implements Serializable {
     @Basic
     private boolean cambiarPassword;
     @ManyToOne(targetEntity = Empleado.class)
-    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
+    @JoinColumn(name = "persona_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
     @Column(name="ultimo_inicio")
     @Temporal(TemporalType.TIMESTAMP)

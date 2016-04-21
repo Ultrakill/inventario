@@ -27,7 +27,7 @@ public class AsignacionHorario implements Serializable {
     @JoinColumn(name="horario_codigo",referencedColumnName="codigo",insertable=true,nullable=false,unique=false,updatable=true)
     private Horario horario;
     @ManyToOne(targetEntity = Empleado.class)
-    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
+    @JoinColumn(name = "persona_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
     @ManyToOne(optional=true,targetEntity = GrupoHorario.class)
     @JoinColumn(name="grupo_horario_codigo",referencedColumnName="codigo",insertable=true,nullable=true,unique=false,updatable=true)

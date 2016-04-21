@@ -5,6 +5,7 @@
  */
 package com.biosis.biosislite.controladores;
 
+import com.biosis.biosislite.entidades.educativo.Matricula;
 import com.biosis.biosislite.entidades.escalafon.Contrato;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.FichaGeneral;
@@ -27,14 +28,15 @@ public class EmpleadoControlador extends Controlador<Empleado> {
     @Override
     public void prepararCrear() {
         super.prepararCrear(); //To change body of generated methods, choose Tools | Templates.
-        FichaLaboral fichaLaboral = new FichaLaboral();
-        fichaLaboral.setEmpleado(this.getSeleccionado());
+        
+        //FichaLaboral fichaLaboral = new FichaLaboral();
+        //fichaLaboral.setEmpleado(this.getSeleccionado());
         
         FichaGeneral fichaGeneral = new FichaGeneral();
         fichaGeneral.setEmpleado(this.getSeleccionado());
         
         this.getSeleccionado().setContratoList(new ArrayList<Contrato>());
-        this.getSeleccionado().setFichaLaboral(fichaLaboral);
+        //this.getSeleccionado().setFichaLaboral(fichaLaboral);
         this.getSeleccionado().setFichaGeneral(fichaGeneral);
         
     }
