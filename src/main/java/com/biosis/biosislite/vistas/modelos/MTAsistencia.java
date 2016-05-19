@@ -135,7 +135,7 @@ public class MTAsistencia extends ModeloTabla<RptAsistenciaDetallado> {
             return "PERMISO";
         } else {
             if (horaEvento == null) {
-                return "FALTA";
+                return "--";
             } else {
                 return HerramientaGeneral.formatoHoraMinutoSegundo.format(horaEvento);
             }

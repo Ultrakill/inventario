@@ -1573,7 +1573,9 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             empleado.setTipoPersona(((Concepto)cboTipoPersona.getSelectedItem()).getId().getCorrelativo());
             //empleado.setTipoDocumento((TipoDocumento) cboTipoDocumento.getSelectedItem());
 
-            empleado.setCodigoMolecular("asdsa");
+            empleado.setCodigoMolecular(((Concepto)cboTipoDocumento.getSelectedItem()).getId().getCorrelativo()+","+
+                                            txtNroDocumento.getText()+","+
+                                            cboGenero.getSelectedItem().toString().charAt(0));
             FichaGeneral fgen = empleado.getFichaGeneral();
             fgen.setId(txtNroDocumento.getText());
             fgen.setDireccion(txtDireccion.getText());
@@ -1587,15 +1589,18 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             fgen.setTipoZona((TipoZona) cboTipoZona.getSelectedItem());
             fgen.setUbigeoResidencia(ubigeoSeleccion);
 
-            FichaLaboral flab = empleado.getFichaLaboral();
-            flab.setId(txtNroDocumento.getText());
-//            flab.setArea((Departamento) this.cboOficina.getSelectedItem());
-            flab.setCodigoTrabajador(txtNroDocumento.getText());
-//            flab.setFechaInicio(dcFechaInicio.getDate());
-//            flab.setRegimenLaboral((RegimenLaboral) cboRegimenLaboral.getSelectedItem());
-//            flab.setSituacionTrabajador((SituacionTrabajador) cboSituacionEmpleado.getSelectedItem());
-//            flab.setTipoContrato((TipoContrato) cboTipoContrato.getSelectedItem());
-
+            /*
+               Creacion de ficha laboral de acuerdo al tipo de persona
+            */
+            if((((Concepto)cboTipoPersona.getSelectedItem()).getId().getCorrelativo() != 2 &&
+               ((Concepto)cboTipoPersona.getSelectedItem()).getId().getCorrelativo() != 3 && 
+               ((Concepto)cboTipoPersona.getSelectedItem()).getId().getCorrelativo() != 5 ) && accion == 1){
+                FichaLaboral flab = new FichaLaboral();
+                flab.setId(txtNroDocumento.getText());
+                flab.setCodigoTrabajador(txtNroDocumento.getText());
+                empleado.setFichaLaboral(flab);
+            }
+            
             if (tab = true) {
                 if (!listaAreaEmpleadoG.isEmpty()) {
                     System.out.println("EL TAMAÑO DE AREAS ES: " + listaAreaEmpleadoG.size());
@@ -1629,7 +1634,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 
     private void mostrarDatos(Empleado empleado) {
         //DATOS PERSONALES
-        //cboTipoDocumento.setSelectedItem(empleado.getTipoDocumento());
+        cboTipoDocumento.setSelectedItem(cptc.buscarXPrefijoXCorrelativo(10, empleado.getCodigoTipoDocumento()));
+        cboTipoPersona.setSelectedItem(cptc.buscarXPrefijoXCorrelativo(4, empleado.getTipoPersona()));
         txtNroDocumento.setText(empleado.getNroDocumento());
         txtNombres.setText(empleado.getNombre());
         txtPaterno.setText(empleado.getPaterno());
@@ -1678,14 +1684,19 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         txtDireccion.setText(general.getDireccion());
 
         //DATOS FICHA LABORAL
-        FichaLaboral laboral = empleado.getFichaLaboral();
-//        cboOficina.setSelectedItem(laboral.getArea());
-        txtCodigoTrabajador.setText(laboral.getCodigoTrabajador() == null ? "" : laboral.getCodigoTrabajador());
-//        cboTipoContrato.setSelectedItem(laboral.getTipoContrato());
-//        cboRegimenLaboral.setSelectedItem(laboral.getRegimenLaboral());
-//        dcFechaInicio.setDate(laboral.getFechaInicio());
-//        cboSituacionEmpleado.setSelectedItem(laboral.getSituacionTrabajador());
-
+        if(empleado.getFichaLaboral() == null){
+            this.tblPane.setEnabledAt(2, false);
+        }
+        
+        if(empleado.getFichaLaboral() != null){
+            FichaLaboral laboral = empleado.getFichaLaboral();
+    //        cboOficina.setSelectedItem(laboral.getArea());
+            txtCodigoTrabajador.setText(laboral.getCodigoTrabajador() == null ? "" : laboral.getCodigoTrabajador());
+    //        cboTipoContrato.setSelectedItem(laboral.getTipoContrato());
+    //        cboRegimenLaboral.setSelectedItem(laboral.getRegimenLaboral());
+    //        dcFechaInicio.setDate(laboral.getFechaInicio());
+    //        cboSituacionEmpleado.setSelectedItem(laboral.getSituacionTrabajador());
+        }
     }
 
     private void listarArea() {

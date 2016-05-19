@@ -23,6 +23,7 @@ import com.biosis.biosislite.vistas.mantenimientos.CRUDUsuario;
 import com.biosis.biosislite.vistas.reportes.RptNoMarcan;
 import com.biosis.biosislite.vistas.reportes.RptPermisos;
 import com.biosis.biosislite.vistas.reportes.RptRegistroAsistencia;
+import com.biosis.biosislite.vistas.reportes.RptRegistroAsistenciaAlumno;
 import com.biosis.biosislite.vistas.reportes.RptTardanzasMes;
 import com.biosis.biosislite.vistas.reportes.RptVacaciones;
 import com.personal.utiles.ImagenFondo;
@@ -97,14 +98,18 @@ public class Principal extends javax.swing.JFrame {
         mnuHorario = new javax.swing.JMenu();
         mnuJornada = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
+        mnuSeccionHorario = new javax.swing.JMenuItem();
         mnuGruposHorario = new javax.swing.JMenuItem();
         mnuPermiso = new javax.swing.JMenu();
         mnuTiposPermiso = new javax.swing.JMenuItem();
         mnuAsignarPermiso = new javax.swing.JMenuItem();
         mnuAsignarVacaciones = new javax.swing.JMenuItem();
         mnuHorasExtra = new javax.swing.JMenuItem();
+        Educativo = new javax.swing.JMenu();
+        mnuAsignacionNGS = new javax.swing.JMenuItem();
         mnuReportes = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -254,6 +259,15 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuHorario.add(jMenuItem4);
 
+        mnuSeccionHorario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        mnuSeccionHorario.setText("Asignar Horarios a seccion");
+        mnuSeccionHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSeccionHorarioActionPerformed(evt);
+            }
+        });
+        mnuHorario.add(mnuSeccionHorario);
+
         mnuGruposHorario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         mnuGruposHorario.setText("Grupos horario");
         mnuGruposHorario.addActionListener(new java.awt.event.ActionListener() {
@@ -306,6 +320,19 @@ public class Principal extends javax.swing.JFrame {
 
         menuBar.add(mnuPermiso);
 
+        Educativo.setText("Educativo");
+        Educativo.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+
+        mnuAsignacionNGS.setText("Gestión de Asignaciones");
+        mnuAsignacionNGS.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAsignacionNGSActionPerformed(evt);
+            }
+        });
+        Educativo.add(mnuAsignacionNGS);
+
+        menuBar.add(Educativo);
+
         mnuReportes.setText("Reportes");
         mnuReportes.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
 
@@ -317,6 +344,15 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         mnuReportes.add(jMenuItem1);
+
+        jMenuItem8.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jMenuItem8.setText("Reporte de asistencia alumnos");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        mnuReportes.add(jMenuItem8);
 
         jMenuItem2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jMenuItem2.setText("Reportes de permisos / licencias / comisiones de servicio");
@@ -568,8 +604,27 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(noMarcan,true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+        RptRegistroAsistenciaAlumno reporteAlumno = new RptRegistroAsistenciaAlumno();
+        agregarAPanel(reporteAlumno,true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void mnuAsignacionNGSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAsignacionNGSActionPerformed
+        // TODO add your handling code here:
+        GestionAsignacionSeccion gestionAS = new GestionAsignacionSeccion();
+        agregarAPanel(gestionAS, true);
+    }//GEN-LAST:event_mnuAsignacionNGSActionPerformed
+
+    private void mnuSeccionHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSeccionHorarioActionPerformed
+        // TODO add your handling code here:
+        GestionHorariosSeccion gestionSH = new GestionHorariosSeccion();
+        agregarAPanel(gestionSH, true);
+    }//GEN-LAST:event_mnuSeccionHorarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu Educativo;
     private javax.swing.JButton btnAsignarPermiso;
     private javax.swing.JButton btnEmpleados;
     private javax.swing.JButton btnMarcaciones;
@@ -582,10 +637,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblJuvitec;
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem mnuAsignacionNGS;
     private javax.swing.JMenuItem mnuAsignarPermiso;
     private javax.swing.JMenuItem mnuAsignarVacaciones;
     private javax.swing.JMenuItem mnuCambiarPasswd;
@@ -602,6 +659,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenu mnuPermiso;
     private javax.swing.JMenu mnuReportes;
     private javax.swing.JMenuItem mnuSalir;
+    private javax.swing.JMenuItem mnuSeccionHorario;
     private javax.swing.JMenuItem mnuSedesAreas;
     private javax.swing.JMenuItem mnuTiposPermiso;
     private javax.swing.JMenuItem mnuVerEmpleados;

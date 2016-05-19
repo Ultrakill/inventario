@@ -36,5 +36,17 @@ public class ConceptoControlador extends Controlador<Concepto>{
         return this.getDao().buscar(jpql, mapa);
     }
     
+    public Concepto buscarXPrefijoXCorrelativo(Integer prefijo, Integer correlativo){
+        String jpql = "SELECT c FROM Concepto c WHERE c.id.prefijo = :prefijo AND c.id.correlativo = :correlativo ";
+        Map<String,Object> mapa = new HashMap<>();
+        mapa.put("prefijo", prefijo);
+        mapa.put("correlativo", correlativo);
+        List<Concepto> conceptos = this.getDao().buscar(jpql, mapa, -1, 1);
+        if (conceptos.isEmpty()) {
+            return null;
+        } else {
+            return conceptos.get(0);
+        }
+    }
     
 }

@@ -9,12 +9,12 @@ package com.biosis.biosislite.vistas;
  *
  * @author Aldo
  */
-public class GestionHorarios extends javax.swing.JInternalFrame {
+public class GestionHorarios1 extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form GestionHorarios
      */
-    public GestionHorarios() {
+    public GestionHorarios1() {
         initComponents();
     }
 

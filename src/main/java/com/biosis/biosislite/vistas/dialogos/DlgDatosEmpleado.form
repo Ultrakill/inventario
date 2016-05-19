@@ -193,7 +193,7 @@
                 </Constraint>
               </Constraints>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="txtTipoPersona">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>

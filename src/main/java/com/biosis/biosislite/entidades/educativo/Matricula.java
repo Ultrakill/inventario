@@ -43,22 +43,19 @@ public class Matricula implements Serializable {
     private Date matriculaFecha;
     @ManyToOne(fetch=FetchType.EAGER,targetEntity = Empleado.class, optional = true)
     @JoinColumn(name = "matricula_alumno",referencedColumnName = "nro_documento")
-    private Empleado alumno;
-    @Column(name = "matricula_nivel",nullable = false)
-    @Basic
-    private Integer nivel;
-    @Column(name = "matricula_grado",nullable = false)
-    @Basic
-    private Integer grado;
-    @Column(name = "matricula_seccion",nullable = false)
-    @Basic
-    private Integer seccion;
+    private Empleado alumno; 
+//    @Column(name = "matricula_seccion",nullable = false)
+//    @Basic
+//    private Integer seccion;
+    @ManyToOne(targetEntity = Seccion.class,fetch = FetchType.EAGER)
+    @JoinColumn(name = "matricula_seccion",referencedColumnName = "seccion_id")
+    private Seccion seccion;
     @ManyToOne(fetch = FetchType.EAGER,targetEntity = Empleado.class, optional = true)
     @JoinColumn(name = "matricula_apoderado",referencedColumnName = "nro_documento")
     private Empleado apoderado;
     @ManyToOne(fetch = FetchType.LAZY,targetEntity = Periodo.class)
     @JoinColumn(name = "matricula_periodo",referencedColumnName = "anio")
-    private Integer matriculaPeriodo;
+    private Periodo matriculaPeriodo;
     
     @OneToMany(targetEntity = Pago.class, mappedBy = "matricula",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Pago> pagoList;
@@ -89,29 +86,15 @@ public class Matricula implements Serializable {
         this.alumno = alumno;
     }
 
-    public Integer getNivel() {
-        return nivel;
-    }
+  
 
-    public void setNivel(Integer nivel) {
-        this.nivel = nivel;
-    }
-
-    public Integer getGrado() {
-        return grado;
-    }
-
-    public void setGrado(Integer grado) {
-        this.grado = grado;
-    }
-
-    public Integer getSeccion() {
-        return seccion;
-    }
-
-    public void setSeccion(Integer seccion) {
-        this.seccion = seccion;
-    }
+//    public Integer getSeccion() {
+//        return seccion;
+//    }
+//
+//    public void setSeccion(Integer seccion) {
+//        this.seccion = seccion;
+//    }
 
     public Empleado getApoderado() {
         return apoderado;
@@ -121,11 +104,11 @@ public class Matricula implements Serializable {
         this.apoderado = apoderado;
     }
 
-    public Integer getMatriculaPeriodo() {
+    public Periodo getMatriculaPeriodo() {
         return matriculaPeriodo;
     }
 
-    public void setMatriculaPeriodo(Integer matriculaPeriodo) {
+    public void setMatriculaPeriodo(Periodo matriculaPeriodo) {
         this.matriculaPeriodo = matriculaPeriodo;
     }
 
@@ -135,6 +118,14 @@ public class Matricula implements Serializable {
 
     public void setPagoList(List<Pago> pagoList) {
         this.pagoList = pagoList;
+    }
+
+    public Seccion getSeccion() {
+        return seccion;
+    }
+
+    public void setSeccion(Seccion seccion) {
+        this.seccion = seccion;
     }
     
     

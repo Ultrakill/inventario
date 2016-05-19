@@ -7,6 +7,8 @@ package com.biosis.biosislite.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
@@ -69,6 +72,12 @@ public class DetalleJornada implements Serializable {
     @JoinColumn(name = "jorn_codigo",referencedColumnName = "codigo")
     private Jornada jornada;
 
+    /**
+     * Lista de incidencias que pasaron en un detalle de jornada
+     */
+    @OneToMany(targetEntity = Incidencia.class,mappedBy = "detalleJornada",orphanRemoval = false,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Incidencia> incidenciaList;
+            
     public Long getId() {
         return id;
     }
@@ -149,8 +158,12 @@ public class DetalleJornada implements Serializable {
         this.jornada = jornada;
     }
 
-    
-    
-    
+    public List<Incidencia> getIncidenciaList() {
+        return incidenciaList;
+    }
+
+    public void setIncidenciaList(List<Incidencia> incidenciaList) {
+        this.incidenciaList = incidenciaList;
+    }
     
 }

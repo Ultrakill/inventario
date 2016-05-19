@@ -16,6 +16,7 @@ import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
 import com.biosis.biosislite.vistas.dialogos.DlgImportarDNI;
 import com.biosis.biosislite.vistas.modelos.MTEmpleado;
 import com.biosis.biosislite.vistas.modelos.MTGrupoHorario;
+import com.biosis.biosislite.vistas.modelos.MTPersonGrupo;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -418,10 +419,11 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
         integrantes = ObservableCollections.observableList(new ArrayList<Empleado>());
 
         String[] columnas = {"Código", "Nombre"};
-        String[] columnasIntegrantes = {"Nro Documento", "Empleado"};
+        String[] columnasIntegrantes = {"Nro Documento", "Nombre"};
 
         MTGrupoHorario mt = new MTGrupoHorario(listado, columnas);
-        MTEmpleado mtIntegrantes = new MTEmpleado(integrantes, columnasIntegrantes);
+        MTPersonGrupo mtIntegrantes = new MTPersonGrupo(integrantes,columnasIntegrantes);
+        //MTEmpleado mtIntegrantes = new MTEmpleado(integrantes, columnasIntegrantes);
         tblTabla.setModel(mt);
         tblIntegrantes.setModel(mtIntegrantes);
 

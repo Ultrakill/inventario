@@ -6,6 +6,7 @@
 package com.biosis.biosislite.vistas.dialogos;
 
 import com.biosis.biosislite.controladores.AreaEmpleadoControlador;
+import com.biosis.biosislite.controladores.ConceptoControlador;
 import com.biosis.biosislite.controladores.ContratoControlador;
 import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Contrato;
@@ -88,7 +89,7 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         txtNombre = new javax.swing.JTextField();
         dtFechaNacimiento = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtTipoPersona = new javax.swing.JTextField();
         pnlDatosUbicacionAlumno = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
@@ -225,13 +226,13 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel1.add(jLabel7, gridBagConstraints);
 
-        jTextField1.setEditable(false);
+        txtTipoPersona.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jTextField1, gridBagConstraints);
+        jPanel1.add(txtTipoPersona, gridBagConstraints);
 
         pnlDatosUbicacionAlumno.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de ubicación de alumno"));
         pnlDatosUbicacionAlumno.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -417,7 +418,6 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -430,15 +430,18 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
     private javax.swing.JTextField txtNroDoc;
     private javax.swing.JTextField txtRegimenLaboral;
     private javax.swing.JTextField txtTipoDoc;
+    private javax.swing.JTextField txtTipoPersona;
     // End of variables declaration//GEN-END:variables
 
     ContratoControlador cc = ContratoControlador.getInstance();
     AreaEmpleadoControlador ae = new AreaEmpleadoControlador();
-   
+    ConceptoControlador cpc = ConceptoControlador.getInstance();
     private void actualizarControles() {
         txtNroDoc.setText(empleado.getNroDocumento());
         //txtTipoDoc.setText(empleado.getTipoDocumento().getNombre());
-        txtTipoDoc.setText("...");
+        
+        txtTipoDoc.setText(cpc.buscarXPrefijoXCorrelativo(10, empleado.getCodigoTipoDocumento()).getAbreviatura());
+        txtTipoPersona.setText(cpc.buscarXPrefijoXCorrelativo(4, empleado.getTipoPersona()).getDescripcion());
         txtApellidoPaterno.setText(empleado.getPaterno());
         txtApellidoMaterno.setText(empleado.getMaterno());
         txtNombre.setText(empleado.getNombre());
@@ -451,18 +454,20 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
             dtFechaContrato.setDate(empleado.getContratoList().get(0).getFechaInicio());
         }
         
-        
-        txtRegimenLaboral.setText(contratoVigente.getRegimenLaboral() == null ? "" : contratoVigente.getRegimenLaboral().getNombre());
+        if(empleado.getFichaLaboral()!=null){
+            txtRegimenLaboral.setText(contratoVigente.getRegimenLaboral() == null ? "" : contratoVigente.getRegimenLaboral().getNombre());
                 
-        txtCodigoModular.setText(empleado.getFichaLaboral().getCodigoTrabajador());
-        
-        AreaEmpleado areaVigente = new AreaEmpleado();
-        List<AreaEmpleado> areas = ae.buscarXNombrexFechaASC(empleado);
-        if(!areas.isEmpty()){
-            areaVigente = areas.get(0);
+            txtCodigoModular.setText(empleado.getFichaLaboral().getCodigoTrabajador());
+
+            AreaEmpleado areaVigente = new AreaEmpleado();
+            List<AreaEmpleado> areas = ae.buscarXNombrexFechaASC(empleado);
+            if(!areas.isEmpty()){
+                areaVigente = areas.get(0);
+            }
+
+            txtArea.setText(areaVigente.getDepartamento() == null ? "" : areaVigente.getDepartamento().getNombre());
         }
         
-        txtArea.setText(areaVigente.getDepartamento() == null ? "" : areaVigente.getDepartamento().getNombre());
         
     }
 }

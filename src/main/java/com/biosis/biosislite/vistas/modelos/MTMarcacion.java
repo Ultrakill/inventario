@@ -41,7 +41,7 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
         Empleado empleado = marcacion.getEmpleado();
         switch (columnIndex) {
             case 0:
-                return empleado.getFichaLaboral().getCodigoTrabajador();
+                return empleado.getNroDocumento();
             case 1:
                 return String.format("%s %s %s", empleado.getPaterno(),empleado.getMaterno(),empleado.getNombre());
             case 2:

@@ -36,6 +36,7 @@ public class Main {
     public static File FICHERO_REPORTE_TARDANZAS_MES;
     public static File FICHERO_REPORTE_VACACIONES_SALDO;
     public static File FICHERO_REPORTE_VACACIONES_DETALLE;
+    public static File FICHERO_REPORTE_ASISTENCIA_DETALLADO_ALUMNO;
 
     public static void main(String[] args) {
         // TODO code application logic here
@@ -72,6 +73,7 @@ public class Main {
         FICHERO_REPORTE_PAPELETA_SALIDA = new File(recursos.getProperty("reporte_papeleta_salida"));
         FICHERO_REPORTE_PAPELETA_VACACION = new File(recursos.getProperty("reporte_papeleta_vacacion"));
         FICHERO_REPORTE_ASISTENCIA_DETALLADO = new File(recursos.getProperty("reporte_asistencia_detallado"));
+        FICHERO_REPORTE_ASISTENCIA_DETALLADO_ALUMNO = new File(recursos.getProperty("reporte_asistencia_detallado_alumno"));
         FICHERO_REPORTE_ASISTENCIA_RESUMEN = new File(recursos.getProperty("reporte_asistencia_resumen"));
         FICHERO_REPORTE_PERMISOS = new File(recursos.getProperty("reporte_permisos"));
         FICHERO_REPORTE_TARDANZAS_MES = new File(recursos.getProperty("reporte_tardanzas_mes"));

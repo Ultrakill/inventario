@@ -20,6 +20,7 @@ import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
 import com.biosis.biosislite.entidades.reportes.RptMarcacion;
+import com.biosis.biosislite.interpretes.InterpreteDetalleAlumnado;
 import com.biosis.biosislite.interpretes.InterpreteDetalleGRP;
 import com.biosis.biosislite.interpretes.InterpreteResumenGRP;
 import com.biosis.biosislite.utiles.HerramientaGeneral;
@@ -72,9 +73,9 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private final ReporteUtil reporteador;
     private final DateFormat dfFecha;
     private final EmpleadoControlador ec;
-    private final File archivo = Main.FICHERO_REPORTE_ASISTENCIA_DETALLADO;
+    private final File archivo = Main.FICHERO_REPORTE_ASISTENCIA_DETALLADO_ALUMNO;
     private final Font fuente;
-    private final Interprete interprete = new InterpreteDetalleGRP();
+    private final Interprete interprete = new InterpreteDetalleAlumnado();
     private final AreaEmpleadoControlador aempc = new AreaEmpleadoControlador();
 
     public RptRegistroAsistencia() {
