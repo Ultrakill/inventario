@@ -6,8 +6,8 @@
 package com.biosis.biosislite.vistas.modelos;
 
 import com.biosis.biosislite.entidades.Marcacion;
-import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.personal.utiles.ModeloTabla;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -41,7 +41,7 @@ public class MTMarcacion extends ModeloTabla<Marcacion> {
         Empleado empleado = marcacion.getEmpleado();
         switch (columnIndex) {
             case 0:
-                return empleado.getNroDocumento();
+                return empleado.getFichaLaboral().getCodigoTrabajador();
             case 1:
                 return String.format("%s %s %s", empleado.getPaterno(),empleado.getMaterno(),empleado.getNombre());
             case 2:

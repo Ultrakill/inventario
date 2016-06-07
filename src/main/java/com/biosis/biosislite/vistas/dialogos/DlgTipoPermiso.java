@@ -5,11 +5,9 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
  
-
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.TipoPermisoControlador;
 import com.biosis.biosislite.entidades.TipoPermiso;
-import com.biosis.biosislite.utiles.UsuarioActivo;
 import com.biosis.biosislite.vistas.modelos.MTTipoPermiso;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
@@ -18,6 +16,7 @@ import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import org.jdesktop.observablecollections.ObservableCollections;
+import com.biosis.biosislite.utiles.UsuarioActivo;
 
 /**
  *

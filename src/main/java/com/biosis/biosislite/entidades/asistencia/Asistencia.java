@@ -6,12 +6,14 @@
 package com.biosis.biosislite.entidades.asistencia;
 
 import com.biosis.biosislite.entidades.Feriado;
+import com.biosis.biosislite.entidades.Marcacion;
 import com.biosis.biosislite.entidades.Permiso;
 import com.biosis.biosislite.entidades.Vacacion;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.sisgedo.Boleta;
 import java.util.Date;
 import java.util.List;
+import com.biosis.biosislite.utiles.HerramientaGeneral;
 
 /**
  *
@@ -29,6 +31,31 @@ public class Asistencia {
     private Feriado feriado;
     private boolean permisoConGoce;
     private Boleta boleta;
+    private List<Marcacion> marcacionesFuera;
+    private String marcacionesFueraStr;
+
+    public List<Marcacion> getMarcacionesFuera() {
+        return marcacionesFuera;
+    }
+
+    public void setMarcacionesFuera(List<Marcacion> marcacionesFuera) {
+        this.marcacionesFuera = marcacionesFuera;
+        StringBuilder sb = new StringBuilder();        
+        marcacionesFuera.stream().forEach((Marcacion m) -> {
+            sb.append(HerramientaGeneral.formatoHoraMinuto.format(m.getFechaHora()));
+            sb.append(" ");
+        });
+        this.marcacionesFueraStr = sb.toString();
+    }
+
+    public String getMarcacionesFueraStr() {
+        return marcacionesFueraStr;
+    }
+
+//    public void setMarcacionesFueraStr(String marcacionesFueraStr) {
+//        this.marcacionesFueraStr = marcacionesFueraStr;
+//    }
+    
 
     public Boleta getBoleta() {
         return boleta;

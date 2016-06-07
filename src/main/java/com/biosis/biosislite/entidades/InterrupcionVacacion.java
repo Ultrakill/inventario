@@ -5,6 +5,7 @@
  */
 package com.biosis.biosislite.entidades;
 
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -40,6 +42,14 @@ public class InterrupcionVacacion implements Serializable {
     @OneToOne(targetEntity = Vacacion.class)
     @JoinColumn(name = "vac_id",referencedColumnName = "id")
     private Vacacion vacacion;
+    
+    @ManyToOne(targetEntity = Empleado.class)
+    @JoinColumn(name = "empleado_id",referencedColumnName = "nro_documento")
+    private Empleado empleado;
+    
+    @ManyToOne(targetEntity = Periodo.class)
+    @JoinColumn(name = "periodo_id", referencedColumnName = "anio")
+    private Periodo periodo;
 
     public Long getId() {
         return id;
@@ -80,6 +90,23 @@ public class InterrupcionVacacion implements Serializable {
     public void setVacacion(Vacacion vacacion) {
         this.vacacion = vacacion;
     }
+
+    public Empleado getEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    public Periodo getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Periodo periodo) {
+        this.periodo = periodo;
+    }
+    
     
     
 }

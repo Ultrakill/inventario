@@ -5,10 +5,10 @@
  */
 package com.biosis.biosislite.vistas.modelos;
 
-import com.biosis.biosislite.entidades.reportes.RptNoMarca;
-import com.biosis.biosislite.utiles.HerramientaGeneral;
 import com.personal.utiles.ModeloTabla;
+import com.biosis.biosislite.entidades.reportes.RptNoMarca;
 import java.util.List;
+import com.biosis.biosislite.utiles.HerramientaGeneral;
 
 /**
  *

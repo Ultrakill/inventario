@@ -5,6 +5,7 @@
  */
 package com.biosis.biosislite.vistas.modelos;
 
+import com.biosis.biosislite.entidades.Feriado;
 import com.biosis.biosislite.entidades.Vacacion;
 import java.util.Calendar;
 import java.util.Date;

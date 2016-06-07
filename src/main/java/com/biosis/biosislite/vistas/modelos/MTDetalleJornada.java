@@ -5,8 +5,9 @@
  */
 package com.biosis.biosislite.vistas.modelos;
 
-import com.biosis.biosislite.entidades.DetalleJornada;
+import com.biosis.biosislite.entidades.Jornada;
 import com.personal.utiles.ModeloTabla;
+import com.biosis.biosislite.entidades.DetalleJornada;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;

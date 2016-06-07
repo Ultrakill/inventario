@@ -6,7 +6,9 @@
 package com.biosis.biosislite.controladores;
 
 import com.biosis.biosislite.entidades.Periodo;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -21,6 +23,15 @@ public class PeriodoControlador extends Controlador<Periodo>{
     public List<Periodo> buscarTodosOrden() {
         String jpql = "SELECT p FROM Periodo p ORDER BY p.anio DESC";
         return this.getDao().buscar(jpql);
+    }
+    
+    public List<Periodo> buscarPeriodoxAnio(int periodo){
+        String jpql = "SELECT p FROM Periodo p WHERE p.anio = :periodo";
+        
+        Map<String, Object> variables = new HashMap();
+        variables.put("periodo", periodo);
+        
+        return this.getDao().buscar(jpql, variables);
     }
     
 }

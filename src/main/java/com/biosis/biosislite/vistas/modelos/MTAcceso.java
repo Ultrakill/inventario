@@ -5,7 +5,6 @@
  */
 package com.biosis.biosislite.vistas.modelos;
 
-
 import com.biosis.biosislite.entidades.Acceso;
 import com.biosis.biosislite.entidades.Rol;
 import com.biosis.biosislite.entidades.RolAcceso;

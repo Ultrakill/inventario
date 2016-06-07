@@ -5,13 +5,12 @@
  */
 package com.biosis.biosislite.interpretes;
 
-import com.biosis.biosislite.algoritmo.AnalizadorAsistencia;
-import com.biosis.biosislite.algoritmo.Interprete;
+import com.biosis.biosislite.algoritmo.*;
+import com.personal.utiles.FechaUtil;
 import com.biosis.biosislite.entidades.asistencia.Asistencia;
-import com.biosis.biosislite.entidades.asistencia.DetalleAsistencia;
+import com.biosis.biosislite.entidades.asistencia.DetalleAsistencia; 
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.reportes.RptAsistenciaResumen;
-import com.personal.utiles.FechaUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -257,7 +256,7 @@ public class InterpreteResumenGRP implements Interprete<RptAsistenciaResumen> {
     }
 
     private double obtenerHorasLaboradas(List<DetalleAsistencia> detalles) {
-        double totalHoras = 0;
+        int totalHoras = 0;
         System.out.println("ENTRO A HORAS LABORADAS");
         int posicion = 0;
         while (posicion < detalles.size()) {
@@ -294,6 +293,9 @@ public class InterpreteResumenGRP implements Interprete<RptAsistenciaResumen> {
 
             posicion += 2;
         }
-        return totalHoras / (60 * 1000 * 60);
+        int entero = totalHoras / (60 * 1000 * 60);
+        double resto = (totalHoras%(60 * 1000 * 60));
+        double restofinal = (resto/(60*1000))/100;
+        return entero+restofinal;
     }
 }

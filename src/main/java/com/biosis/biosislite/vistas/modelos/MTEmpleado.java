@@ -5,9 +5,8 @@
  */
 package com.biosis.biosislite.vistas.modelos;
 
-import com.biosis.biosislite.controladores.ConceptoControlador;
-import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.personal.utiles.ModeloTabla;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.util.List;
 
 /**
@@ -15,12 +14,10 @@ import java.util.List;
  * @author fesquivelc
  */
 public class MTEmpleado extends ModeloTabla<Empleado>{
-    
-    ConceptoControlador cc = ConceptoControlador.getInstance();
-    
+
     public MTEmpleado(List<Empleado> datos) {
         super(datos);
-        this.nombreColumnas = new String[]{"Nro Documento","Tipo de Documento","Nombre","Apellido Paterno","Apellido Materno"};     
+        this.nombreColumnas = new String[]{"Nro documento","Nombres y apellidos"};
     }
     
     public MTEmpleado(List<Empleado> datos, String[] nombreColumnas) {
@@ -34,13 +31,11 @@ public class MTEmpleado extends ModeloTabla<Empleado>{
             case 0:
                 return empleado.getNroDocumento();
             case 1:
-                return cc.buscarXPrefijoXCorrelativo(10, empleado.getCodigoTipoDocumento()).getAbreviatura();
-            case 2:
-                return empleado.getNombre();
-            case 3:
-                return empleado.getPaterno();
-            case 4:
-                return empleado.getMaterno();
+                return empleado.getPaterno()
+                        + " "
+                        + empleado.getMaterno()
+                        + " "
+                        + empleado.getNombre();
                 default:
                     return null;
         }

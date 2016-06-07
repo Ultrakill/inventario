@@ -50,6 +50,8 @@
     <class>com.biosis.biosislite.entidades.escalafon.TipoVia</class>
     <class>com.biosis.biosislite.entidades.escalafon.TipoZona</class>
     <class>com.biosis.biosislite.entidades.escalafon.Ubigeo</class>
+    <class>com.biosis.biosislite.entidades.mensajeria.Correo</class>
+    <class>com.biosis.biosislite.entidades.mensajeria.ServidorSmtp</class>
     <class>com.biosis.biosislite.entidades.CambioTurno</class>
     <class>com.biosis.biosislite.entidades.CompraVacacion</class>
     <class>com.biosis.biosislite.entidades.Turno</class>

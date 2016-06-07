@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2016-02-02T08:54:38 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporte_papeleta_salida" pageWidth="595" pageHeight="380" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="55865ced-10c9-4375-a77d-07d9f5f8916b">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="222"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SMBIOSIS"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
@@ -42,7 +40,7 @@ permiso.fecha_inicio as pers_fecha_inicio,
 permiso.fecha_fin as pers_fecha_fin,
 permiso.hora_inicio as pers_hora_inicio,
 permiso.hora_fin as pers_hora_fin,
-asignacion_permiso.empleado_nro_documento AS empleado_nro_documento,
+asignacion_permiso.persona_nro_documento AS empleado_nro_documento,
 tipo_permiso.nombre AS tipo_permiso_nombre,
 tipo_permiso.codigo as tipo_permiso_codigo,
 tipo_permiso.clase AS tipo_permiso_clase,
@@ -55,12 +53,12 @@ FROM
 Permiso permiso
 INNER JOIN asignacion_permiso asignacion_permiso ON permiso.id = asignacion_permiso.permiso_id
 INNER JOIN tipo_permiso tipo_permiso ON permiso.tipo_permiso_codigo = tipo_permiso.codigo
-INNER JOIN personal.persona pers ON pers.nro_documento = asignacion_permiso.empleado_nro_documento
+INNER JOIN personal.persona pers ON pers.nro_documento = asignacion_permiso.persona_nro_documento
 WHERE
 permiso.id = $P{permiso_id} AND
 (
 $P{por_lote}=1 OR
-($P{por_lote} = 0 AND asignacion_permiso.empleado_nro_documento = $P{pers_nro_documento})
+($P{por_lote} = 0 AND asignacion_permiso.persona_nro_documento = $P{pers_nro_documento})
 )]]>
 	</queryString>
 	<field name="permiso_motivo" class="java.lang.String"/>
@@ -108,7 +106,7 @@ $P{por_lote}=1 OR
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[FIRMA DEL EMPLEADO]]></text>
+				<text><![CDATA[FIRMA DEL APODERADO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="277" y="278" width="278" height="30" backcolor="#CCCCCC" uuid="a521a82b-3aa6-437d-b6d8-67151998624a"/>

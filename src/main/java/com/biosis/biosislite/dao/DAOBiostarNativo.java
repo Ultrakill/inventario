@@ -36,7 +36,7 @@ public class DAOBiostarNativo implements DAONativo {
             conn = DriverManager.getConnection(url, usuario, password);
             return conn;
         } catch (SQLException | ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DAOBiostarNativo.class.getName()).log(Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DAOBiostar.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }

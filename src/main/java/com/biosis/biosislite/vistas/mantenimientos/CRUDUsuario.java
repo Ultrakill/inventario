@@ -5,17 +5,15 @@
  */
 package com.biosis.biosislite.vistas.mantenimientos;
 
-
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.UsuarioControlador;
 import com.biosis.biosislite.entidades.Rol;
 import com.biosis.biosislite.entidades.Usuario;
-import com.biosis.biosislite.entidades.escalafon.Empleado;
-import com.biosis.biosislite.utiles.Encriptador;
 import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
 import com.biosis.biosislite.vistas.dialogos.DlgRol;
 import com.personal.utiles.FormularioUtil;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,6 +25,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.utiles.Encriptador;
 
 /**
  *

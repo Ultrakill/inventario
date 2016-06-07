@@ -6,6 +6,8 @@
 package com.biosis.biosislite.controladores;
 
 import com.biosis.biosislite.entidades.Usuario;
+import java.util.HashMap;
+import java.util.Map;
 import com.biosis.biosislite.utiles.Encriptador;
 
 /**

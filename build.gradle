@@ -2,6 +2,11 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 mainClassName = 'com.biosis.biosislite.Main'
+//mainClassName = 'com.biosis.biosislite.email.TestCorreo'
+//mainClassName = 'com.biosis.biosislite.email.TestCorreoC'
+//mainClassName = 'com.biosis.biosislite.email.TestRibbon'
+//mainClassName = 'com.biosis.biosislite.email.TestUsoCodigoModular'
+//mainClassName = 'com.biosis.biosislite.vistas.mantenimientos.PropiedadesBiosis'
 //mainClassName = 'com.biosis.biosislite.vistas.dialogos.DlgPermisoCRU'
 //mainClassName = 'com.biosis.biosislite.vistas.dialogos.DlgVacacionCRUD'
 //mainClassName = 'com.biosis.biosislite.utiles.FormGeneradorMarcacion'
@@ -22,7 +27,7 @@ if (!hasProperty('mainClass')) {
 
 repositories {
     mavenLocal()
-    mavenCentral()
+    mavenCentral() 
 }
 
 dependencies {
@@ -41,7 +46,14 @@ dependencies {
         'com.sun.mail:javax.mail:1.5.0',
         'org.codehaus.groovy:groovy-all:2.0.1',
         'javax.servlet:servlet-api:2.4',
-        'joda-time:joda-time:2.1'
+        'joda-time:joda-time:2.1',
+        'javax.mail:mail:1.4',
+        'jaf:activation:1.0.2',
+        'com.seaglasslookandfeel:seaglasslookandfeel:0.2.1',
+        'org.java.net.substance:substance:6.0',
+        'org.pushing-pixels:trident:1.2',
+        'com.github.insubstantial:flamingo:7.3',
+        'net.sourceforge.jexcelapi:jxl:2.6.12'
     )
 }
 

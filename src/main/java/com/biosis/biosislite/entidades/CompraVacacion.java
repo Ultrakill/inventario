@@ -30,7 +30,7 @@ public class CompraVacacion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;        
     @ManyToOne(targetEntity = Empleado.class)
-    @JoinColumn(name = "persona_nro_documento",referencedColumnName = "nro_documento")
+    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
     @ManyToOne(targetEntity =Periodo.class)
     @JoinColumn(name = "periodo_anio",referencedColumnName = "anio")

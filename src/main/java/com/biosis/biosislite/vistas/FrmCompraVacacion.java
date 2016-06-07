@@ -5,25 +5,27 @@
  */
 package com.biosis.biosislite.vistas;
 
-import com.biosis.biosislite.controladores.CompraVacacionControlador;
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.PeriodoControlador;
 import com.biosis.biosislite.controladores.SaldoVacacionalControlador;
-import com.biosis.biosislite.controladores.TCAnalisisControlador;
 import com.biosis.biosislite.controladores.VacacionControlador;
-import com.biosis.biosislite.entidades.CompraVacacion;
-import com.biosis.biosislite.entidades.InterrupcionVacacion;
+import com.biosis.biosislite.entidades.AsignacionPermiso;
 import com.biosis.biosislite.entidades.Periodo;
+import com.biosis.biosislite.entidades.SaldoVacacional;
 import com.biosis.biosislite.entidades.TipoPermiso;
 import com.biosis.biosislite.entidades.Vacacion;
-import com.biosis.biosislite.entidades.escalafon.Empleado;
-import com.biosis.biosislite.utiles.UsuarioActivo;
 import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-import com.biosis.biosislite.vistas.modelos.MTCompraVacacion;
+import com.biosis.biosislite.vistas.dialogos.DlgInterrupcionVacacion;
+import com.biosis.biosislite.vistas.modelos.MTAsignarVacacion;
 import com.biosis.biosislite.vistas.modelos.MTVacacion;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
+import com.biosis.biosislite.controladores.CompraVacacionControlador;
+import com.biosis.biosislite.controladores.TCAnalisisControlador;
+import com.biosis.biosislite.entidades.CompraVacacion;
+import com.biosis.biosislite.entidades.InterrupcionVacacion;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
@@ -40,6 +42,9 @@ import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgReprogramarVacacion;
+import com.biosis.biosislite.vistas.modelos.MTCompraVacacion;
 
 /**
  *

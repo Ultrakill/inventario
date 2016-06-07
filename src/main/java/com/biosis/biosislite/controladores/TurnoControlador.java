@@ -5,7 +5,7 @@
  */
 package com.biosis.biosislite.controladores;
 
-
+import com.biosis.biosislite.algoritmo.AnalisisAsistencia;
 import com.biosis.biosislite.entidades.Turno;
 
 /**
@@ -13,7 +13,7 @@ import com.biosis.biosislite.entidades.Turno;
  * @author fesquivelc
  */
 public class TurnoControlador extends Controlador<Turno>{
-//    private final AnalisisAsistencia analisis = new AnalisisAsistencia();
+    private final AnalisisAsistencia analisis = new AnalisisAsistencia();
     private final HorarioControlador hc = new HorarioControlador();
     
     private TurnoControlador() {

@@ -6,8 +6,8 @@
 package com.biosis.biosislite.vistas.modelos;
 
 import com.biosis.biosislite.entidades.RegistroAsistencia;
-import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.personal.utiles.ModeloTabla;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

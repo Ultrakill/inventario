@@ -45,7 +45,7 @@ public class Contrato implements Serializable{
     @JoinColumn(name = "tcon_codigo",referencedColumnName = "codigo")
     private TipoContrato tipoContrato;
     @ManyToOne(fetch = FetchType.EAGER, targetEntity = Empleado.class, optional = false)
-    @JoinColumn(name = "persona_nro_documento", referencedColumnName = "nro_documento")
+    @JoinColumn(name = "pers_nro_documento", referencedColumnName = "nro_documento")
     private Empleado empleado;
 
     public Long getId() {

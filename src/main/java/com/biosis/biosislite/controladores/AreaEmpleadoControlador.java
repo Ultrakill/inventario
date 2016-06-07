@@ -5,9 +5,9 @@
  */
 package com.biosis.biosislite.controladores;
 
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
-import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

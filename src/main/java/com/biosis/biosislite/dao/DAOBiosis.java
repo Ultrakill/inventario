@@ -5,7 +5,6 @@
  */
 package com.biosis.biosislite.dao;
 
-import com.biosis.biosislite.utiles.Encriptador;
 import com.personal.utiles.ParametrosUtil;
 import com.personal.utiles.PropertiesUtil;
 import java.sql.Connection;
@@ -21,6 +20,7 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionFactoryImpl;
+import com.biosis.biosislite.utiles.Encriptador;
 
 /**
  *
@@ -61,12 +61,12 @@ public class DAOBiosis<T> implements DAO<T> {
 //            properties.put("hibernate.show_sql", "true");
             properties.put("javax.persistence.schema-generation.database.action", "none");
 
-            try {
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
-                em = emf.createEntityManager();
-            } catch (Exception e) {
-                LOG.error(e.getCause().getMessage() + " " + e.getMessage());
-            }
+//            try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.PU, properties);
+            em = emf.createEntityManager();
+//            } catch (Exception e) {
+//                System.out.println("EM: " + e.getCause().getMessage() + " " + e.getMessage());
+//            }
 
         }
         return em;
@@ -83,7 +83,7 @@ public class DAOBiosis<T> implements DAO<T> {
                 LOG.error("NO SE PUDO OBTENER LA CONEXION");
             }
         } catch (SQLException e) {
-            LOG.error("ERROR " + e.getMessage());
+            LOG.error("ERROR " , e);
             em = null;
         }
         return connection;
@@ -99,7 +99,7 @@ public class DAOBiosis<T> implements DAO<T> {
             getEntityManager().clear();
             return true;
         } catch (Exception e) {
-            LOG.error("ERROR EN EL GUARDADO: " + e.getLocalizedMessage() + " " + e.getMessage() + " " + e.getCause());
+            LOG.error("ERROR EN EL GUARDADO: " , e);
             em = null;
             return false;
         }
@@ -116,7 +116,7 @@ public class DAOBiosis<T> implements DAO<T> {
             getEntityManager().getTransaction().commit();
             return true;
         } catch (Exception e) {
-            LOG.error("ERROR EN EL GUARDADO POR LOTE: " + e.getLocalizedMessage() + " " + e.getMessage());
+            LOG.error("ERROR EN EL GUARDADO POR LOTE: " , e);
             em = null;
             return false;
         }
@@ -130,7 +130,7 @@ public class DAOBiosis<T> implements DAO<T> {
             getEntityManager().getTransaction().commit();
             return true;
         } catch (Exception e) {
-            LOG.error("ERROR AL MODIFICAR: " + e.getLocalizedMessage() + " " + e.getMessage());
+            LOG.error("ERROR AL MODIFICAR: " , e);
             em = null;
             return false;
         }
@@ -145,7 +145,7 @@ public class DAOBiosis<T> implements DAO<T> {
             getEntityManager().getTransaction().commit();
             return true;
         } catch (Exception e) {
-            LOG.error("ERROR AL ELIMINAR: " + e.getLocalizedMessage() + " " + e.getMessage());
+            LOG.error("ERROR AL ELIMINAR: " , e);
             em = null;
             return false;
         }

@@ -6,12 +6,18 @@
 package com.biosis.biosislite.vistas.modelos;
 
 import com.biosis.biosislite.algoritmo.AnalizadorAsistencia;
-import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
-import com.biosis.biosislite.utiles.HerramientaGeneral;
+import com.biosis.biosislite.algoritmo.AnalizadorDiario;
+import com.personal.utiles.FechaUtil;
 import com.personal.utiles.ModeloTabla;
+import com.biosis.biosislite.controladores.MarcacionControlador;
+import com.biosis.biosislite.entidades.Marcacion;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
+import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
+import com.biosis.biosislite.utiles.HerramientaGeneral;
 
 /**
  *
@@ -24,21 +30,42 @@ public class MTAsistencia extends ModeloTabla<RptAsistenciaDetallado> {
     public MTAsistencia(List<RptAsistenciaDetallado> datos) {
         super(datos);
         this.formatoDecimal = new DecimalFormat("#.00");
-        this.nombreColumnas = new String[]{"DNI", "Empleado", "Fecha", "Horario", "Asistencia", "Entrada", "Salida", "Entrada", "Salida", "Descripción", "Tardanza (min)", "Tardanza Refrigerio (min)", "Extra (min)"};
+        this.nombreColumnas 
+                = new String[]{
+                    "Código SAP", 
+                    "Empleado", 
+                    "Fecha", 
+                    "Horario", 
+                    "Asistencia", 
+                    "Entrada", 
+                    "Salida", 
+                    "Entrada", 
+                    "Salida", 
+                    "Descripción", 
+                    "Tardanza (min)", 
+                    "Tardanza Refrigerio (min)", 
+                    "Extra (min)",
+                    "M.N.P."
+                };
     }
+//
+//    private Empleado empleado;
+//    private Date fecha;
 
     @Override
     public Object getValorEn(int rowIndex, int columnIndex) {
         RptAsistenciaDetallado asistencia = this.datos.get(rowIndex);
 //        int marcacionesPendientes = this.numeroMarcacionesPendientes(asistencia);
-//        System.out.println("MARCACIONES TOTALES: "+asistencia.getMarcacionesTotales());
+////        System.out.println("MARCACIONES TOTALES: "+asistencia.getMarcacionesTotales());
+//        empleado = asistencia.getEmpleado();
+//        fecha = asistencia.getFecha();
         if (asistencia.getTipo() == AnalizadorAsistencia.REGULAR
                 || asistencia.getTipo() == AnalizadorAsistencia.TARDANZA
                 || asistencia.getTipo() == AnalizadorAsistencia.INASISTENCIA
                 || asistencia.getTipo() == AnalizadorAsistencia.INCONSISTENCIA) {
             switch (columnIndex) {
                 case 0:
-                    return asistencia.getEmpleado().getNroDocumento();
+                    return asistencia.getEmpleado().getFichaLaboral().getCodigoTrabajador();
                 case 1:
                     return asistencia.getEmpleado().getNombreCompleto();
                 case 2:
@@ -56,7 +83,7 @@ public class MTAsistencia extends ModeloTabla<RptAsistenciaDetallado> {
                         return this.obtenerEvento(asistencia.isEnPermiso3(), asistencia.getHoraEvento3());
                     } else {
                         return null;
-                    }
+                    }                    
                 case 8:
                     if (asistencia.getMarcacionesTotales() > 2) {
                         return this.obtenerEvento(asistencia.isEnPermiso4(), asistencia.getHoraEvento4());
@@ -72,7 +99,8 @@ public class MTAsistencia extends ModeloTabla<RptAsistenciaDetallado> {
 
                 case 12:
                     return String.format("%.2f", asistencia.getMinutosExtra());
-
+                case 13:
+                    return asistencia.getMarcacionesFuera();
                 default:
                     return null;
             }
@@ -80,7 +108,7 @@ public class MTAsistencia extends ModeloTabla<RptAsistenciaDetallado> {
 
             switch (columnIndex) {
                 case 0:
-                    return asistencia.getEmpleado().getNroDocumento();
+                    return asistencia.getEmpleado().getFichaLaboral().getCodigoTrabajador();
                 case 1:
                     return asistencia.getEmpleado().getNombreCompleto();
                 case 2:
@@ -130,12 +158,33 @@ public class MTAsistencia extends ModeloTabla<RptAsistenciaDetallado> {
         return this.formatoDecimal.format(diferenciaMin);
     }
 
+
+    public Marcacion buscarMarcacionFalta(Date fechaInicio, Date horaInicio, Date fechaFin, Date horaFin) {
+        Date fechaHoraInicio = FechaUtil.unirFechaHora(fechaInicio, horaInicio);
+        Date fechaHoraFin = FechaUtil.unirFechaHora(fechaFin, horaFin);
+        System.out.println("FECHA HORA INICIO: " + fechaHoraInicio);
+        System.out.println("FECHA HORA FIN FALTA: " + fechaHoraFin);
+        try {
+            return this.marcaciones
+                    .stream()
+                    .filter(m -> fechaHoraInicio.compareTo(m.getFechaHora()) <= 0 && fechaHoraFin.compareTo(m.getFechaHora()) >= 0)
+                    .sorted((m1, m2) -> m1.getFechaHora().compareTo(m2.getFechaHora()))
+                    .findFirst()
+                    .get();
+        } catch (NoSuchElementException e) {
+            return null;
+        }
+
+    }
+
+    private List<Marcacion> marcaciones;
+
     private Object obtenerEvento(boolean enPermiso, Date horaEvento) {
         if (enPermiso) {
             return "PERMISO";
         } else {
             if (horaEvento == null) {
-                return "--";
+                return "SIN MARCACIÓN";
             } else {
                 return HerramientaGeneral.formatoHoraMinutoSegundo.format(horaEvento);
             }

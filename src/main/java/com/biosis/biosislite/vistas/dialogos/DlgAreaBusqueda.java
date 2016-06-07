@@ -12,6 +12,8 @@ import com.biosis.biosislite.entidades.escalafon.Departamento;
 import java.awt.Component;
 import java.util.List;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;

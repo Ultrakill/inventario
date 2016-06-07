@@ -7,7 +7,7 @@ package com.biosis.biosislite.vistas.dialogos;
 
 import com.biosis.biosislite.controladores.DepartamentoControlador;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
-import com.biosis.biosislite.vistas.render.RenderArea;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -16,6 +16,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
+import org.jdesktop.observablecollections.ObservableCollections;
+import com.biosis.biosislite.vistas.renders.RenderArea;
 
 /**
  *

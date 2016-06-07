@@ -7,7 +7,6 @@ package com.biosis.biosislite.utiles;
 
 import com.biosis.biosislite.entidades.Usuario;
 
-
 /**
  *
  * @author RyuujiMD

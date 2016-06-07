@@ -5,10 +5,12 @@
  */
 package com.biosis.biosislite.controladores;
 
+import com.personal.utiles.FechaUtil;
+import com.personal.utiles.FormularioUtil;
 import com.biosis.biosislite.entidades.Periodo;
 import com.biosis.biosislite.entidades.Vacacion;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
-import com.personal.utiles.FechaUtil;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -136,6 +138,15 @@ public class VacacionControlador extends Controlador<Vacacion> {
         List<Vacacion> vacacion = this.getDao().buscar(jpql, mapa);
         return vacacion;
     }
+    
+    public List<Vacacion> buscarXPeriodoxEmpleado(Periodo periodo, Empleado empleado) {
+        String jpql = "SELECT v FROM Vacacion v WHERE v.empleado = :empleado AND v.periodo = :periodo AND v.hayReprogramacion = 0";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("periodo", periodo);
+        mapa.put("empleado", empleado);
+        List<Vacacion> vacacion = this.getDao().buscar(jpql, mapa);
+        return vacacion;
+    }
 
     public List<Vacacion> buscarXEmpleadoXPeriodoNoReprogramacion(Empleado empleado, Periodo periodo) {
         String jpql = "SELECT v FROM Vacacion v WHERE v.empleado = :dni AND v.periodo = :periodo AND v.vacacionOrigen IS NULL";
@@ -151,11 +162,41 @@ public class VacacionControlador extends Controlador<Vacacion> {
                 + "WHERE "
                 + "v.empleado = :empleado AND "
                 + "((v.fechaInicio <= :fechaInicio AND v.fechaFin >= :fechaInicio) OR (v.fechaInicio BETWEEN :fechaInicio AND :fechaFin)) "
+                + " AND v.hayReprogramacion = 0 "
                 + "ORDER BY v.fechaInicio";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("empleado", empleado);
         mapa.put("fechaInicio", fechaInicio);
         mapa.put("fechaFin", fechaFin);
         return this.getDao().buscar(jpql, mapa);
+    }
+    
+    public List<Vacacion> buscarReprogramacion(Vacacion vacacion){
+        String jpql = "SELECT v FROM Vacacion v WHERE v.vacacionOrigen = :vacacion";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("vacacion", vacacion);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
+    public List<Vacacion> buscarXReferencia(Long referencia){
+        String jpql = "SELECT v FROM Vacacion v WHERE v.referencia = :referencia";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("referencia", referencia);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
+    
+    public Vacacion buscarXReferenciaXInicio(Long referencia){
+        String jpql = "SELECT v FROM Vacacion v WHERE v.referencia = :referencia  ORDER BY v.fechaInicio ASC";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("referencia", referencia);
+        return this.getDao().buscar(jpql, mapa).get(0);
+    }
+    
+    public Vacacion buscarXReferenciaXFin(Long referencia){
+        String jpql = "SELECT v FROM Vacacion v WHERE v.referencia = :referencia  ORDER BY v.fechaFin DESC";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("referencia", referencia);
+        return this.getDao().buscar(jpql, mapa).get(0);
     }
 }

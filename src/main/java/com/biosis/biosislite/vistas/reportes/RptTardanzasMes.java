@@ -1,31 +1,29 @@
 package com.biosis.biosislite.vistas.reportes;
 
-
-import com.biosis.biosislite.Main;
 import com.biosis.biosislite.algoritmo.AnalizadorAsistencia;
+import com.personal.utiles.FechaUtil;
 import com.biosis.biosislite.controladores.DetalleGrupoControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.GrupoHorarioControlador;
-import com.biosis.biosislite.controladores.MarcacionControlador;
 import com.biosis.biosislite.controladores.PeriodoControlador;
 import com.biosis.biosislite.entidades.DetalleGrupoHorario;
 import com.biosis.biosislite.entidades.GrupoHorario;
 import com.biosis.biosislite.entidades.Periodo;
+import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.modelos.MTEmpleado;
+import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
+import com.personal.utiles.ReporteUtil.Formato;
+import com.biosis.biosislite.controladores.MarcacionControlador;
 import com.biosis.biosislite.entidades.asistencia.Asistencia;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.FichaLaboral;
 import com.biosis.biosislite.entidades.reportes.RptTardanzaMensual;
 import com.biosis.biosislite.interpretes.InterpreteTardanzaMensual;
-import com.biosis.biosislite.utiles.UsuarioActivo;
-import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-import com.biosis.biosislite.vistas.dialogos.DlgOficina;
-import com.biosis.biosislite.vistas.modelos.MTEmpleado;
-import com.personal.utiles.FormularioUtil;
-import com.personal.utiles.ReporteUtil;
-import com.personal.utiles.ReporteUtil.Formato;
 import java.awt.Component;
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +41,10 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgOficina;
 import javax.swing.JOptionPane;
+import com.biosis.biosislite.Main;
 
 /**
  *
@@ -57,7 +58,7 @@ public class RptTardanzasMes extends javax.swing.JInternalFrame {
     private final ReporteUtil reporteador;
     private final DateFormat dfFecha;
     private final EmpleadoControlador ec;
-    private final File archivo = Main.FICHERO_REPORTE_TARDANZAS_MES;
+    private final File archivo = new File("reportes/reporte_tardanzas_mensual.jasper");
 
     public RptTardanzasMes() {
         initComponents();
@@ -71,7 +72,6 @@ public class RptTardanzasMes extends javax.swing.JInternalFrame {
         inicializar();
         bindeoSalvaje();
         controles();
-        pnlExportar.setVisible(false);
     }
 
     /**

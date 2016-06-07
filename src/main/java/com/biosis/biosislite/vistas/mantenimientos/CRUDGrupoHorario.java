@@ -5,22 +5,20 @@
  */
 package com.biosis.biosislite.vistas.mantenimientos;
 
-
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.GrupoHorarioControlador;
 import com.biosis.biosislite.entidades.DetalleGrupoHorario;
 import com.biosis.biosislite.entidades.GrupoHorario;
-import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-import com.biosis.biosislite.vistas.dialogos.DlgImportarDNI;
 import com.biosis.biosislite.vistas.modelos.MTEmpleado;
 import com.biosis.biosislite.vistas.modelos.MTGrupoHorario;
-import com.biosis.biosislite.vistas.modelos.MTPersonGrupo;
 import com.personal.utiles.FormularioUtil;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.util.ArrayList;
 import java.util.List;
 import org.jdesktop.observablecollections.ObservableCollections;
+import com.biosis.biosislite.vistas.dialogos.DlgImportarDNI;
 
 /**
  *
@@ -419,11 +417,10 @@ public class CRUDGrupoHorario extends javax.swing.JInternalFrame {
         integrantes = ObservableCollections.observableList(new ArrayList<Empleado>());
 
         String[] columnas = {"Código", "Nombre"};
-        String[] columnasIntegrantes = {"Nro Documento", "Nombre"};
+        String[] columnasIntegrantes = {"Nro Documento", "Empleado"};
 
         MTGrupoHorario mt = new MTGrupoHorario(listado, columnas);
-        MTPersonGrupo mtIntegrantes = new MTPersonGrupo(integrantes,columnasIntegrantes);
-        //MTEmpleado mtIntegrantes = new MTEmpleado(integrantes, columnasIntegrantes);
+        MTEmpleado mtIntegrantes = new MTEmpleado(integrantes, columnasIntegrantes);
         tblTabla.setModel(mt);
         tblIntegrantes.setModel(mtIntegrantes);
 

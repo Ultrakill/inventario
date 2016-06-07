@@ -10,13 +10,13 @@ import com.biosis.biosislite.controladores.TurnoControlador;
 import com.biosis.biosislite.entidades.DetalleJornada;
 import com.biosis.biosislite.entidades.Jornada;
 import com.biosis.biosislite.entidades.Turno;
-import com.biosis.biosislite.vistas.modelos.MTRJornada;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.tree.TreePath;
 import org.jdesktop.swingx.renderer.IconValue;
+import com.biosis.biosislite.vistas.modelos.MTRJornada;
 
 /**
  *
@@ -70,7 +70,7 @@ public class DlgTurno extends javax.swing.JDialog {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Importar empleados");
+        setTitle("Importar jornadas");
 
         java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
         jPanel2Layout.columnWidths = new int[] {0, 7, 0};
@@ -141,7 +141,7 @@ public class DlgTurno extends javax.swing.JDialog {
         pnlBotones.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
         btnAgregar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        btnAgregar.setText("Agregar detalle");
+        btnAgregar.setText("Agregar jornada");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarActionPerformed(evt);

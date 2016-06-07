@@ -5,7 +5,8 @@
  */
 package com.biosis.biosislite.vistas;
 
-import com.biosis.biosislite.Main;
+import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.MarcacionControlador;
 import com.biosis.biosislite.controladores.PermisoControlador;
@@ -20,30 +21,27 @@ import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
 import com.biosis.biosislite.entidades.sisgedo.Boleta;
-import com.biosis.biosislite.utiles.UsuarioActivo;
-import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-import com.biosis.biosislite.vistas.dialogos.DlgOficina;
-import com.biosis.biosislite.vistas.modelos.MCFiltro;
-import com.biosis.biosislite.vistas.modelos.MCFiltro.TipoFiltro;
-import static com.biosis.biosislite.vistas.modelos.MCFiltro.TipoFiltro.POR_EMPLEADO;
-import static com.biosis.biosislite.vistas.modelos.MCFiltro.TipoFiltro.POR_GRUPO_HORARIO;
-import static com.biosis.biosislite.vistas.modelos.MCFiltro.TipoFiltro.POR_OFICINA;
-import com.biosis.biosislite.vistas.modelos.MTDetalleHorarioHR;
-import com.biosis.biosislite.vistas.modelos.MTDetalleRegistroAsistencia;
-import com.biosis.biosislite.vistas.modelos.MTMarcacionRA;
-import com.biosis.biosislite.vistas.render.RenderIndicadorAsistencia;
-import com.personal.utiles.FormularioUtil;
-import com.personal.utiles.ReporteUtil;
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.SwingWorker;
 import org.jdesktop.observablecollections.ObservableCollections;
+import com.biosis.biosislite.Main;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.dialogos.DlgOficina;
+import com.biosis.biosislite.vistas.modelos.MCFiltro;
+import com.biosis.biosislite.vistas.modelos.MCFiltro.TipoFiltro;
+import com.biosis.biosislite.vistas.modelos.MTDetalleHorarioHR;
+import com.biosis.biosislite.vistas.modelos.MTDetalleRegistroAsistencia;
+import com.biosis.biosislite.vistas.modelos.MTMarcacionRA;
+import com.biosis.biosislite.vistas.renders.RenderIndicadorAsistencia;
 
 /**
  *

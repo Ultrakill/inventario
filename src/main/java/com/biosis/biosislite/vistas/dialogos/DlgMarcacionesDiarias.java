@@ -8,7 +8,6 @@ package com.biosis.biosislite.vistas.dialogos;
 import com.biosis.biosislite.controladores.MarcacionControlador;
 import com.biosis.biosislite.entidades.Marcacion;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
-import com.biosis.biosislite.utiles.HerramientaGeneral;
 import java.awt.Component;
 import java.awt.Frame;
 import java.util.ArrayList;
@@ -22,6 +21,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.utiles.HerramientaGeneral;
 
 /**
  *

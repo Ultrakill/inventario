@@ -5,6 +5,8 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
+import com.personal.utiles.FechaUtil;
+import com.personal.utiles.FormularioUtil;
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.biostar.EventoControlador;
 import com.biosis.biosislite.controladores.biostar.ReaderControlador;
@@ -12,8 +14,6 @@ import com.biosis.biosislite.entidades.biostar.Evento;
 import com.biosis.biosislite.entidades.biostar.Reader;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.reportes.RptMarcacion;
-import com.biosis.biosislite.utiles.HerramientaGeneral;
-import com.personal.utiles.FechaUtil;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +29,7 @@ import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.utiles.HerramientaGeneral;
 
 /**
  *
@@ -49,7 +50,7 @@ public class DlgAgregarMarcacion extends javax.swing.JDialog {
         super(JOptionPane.getFrameForComponent(owner), modal);
         initComponents();
         //MIENTRAS PERSISTE EL ERROR -->
-        this.jButton2.setEnabled(false);
+//        this.jButton2.setEnabled(false);
         //FIN
         this.readerc = ReaderControlador.getInstance();
         this.eventoc = EventoControlador.getInstance();

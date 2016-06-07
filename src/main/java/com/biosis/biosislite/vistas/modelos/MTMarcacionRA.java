@@ -7,6 +7,7 @@ package com.biosis.biosislite.vistas.modelos;
 
 import com.biosis.biosislite.entidades.Marcacion;
 import com.personal.utiles.ModeloTabla;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;

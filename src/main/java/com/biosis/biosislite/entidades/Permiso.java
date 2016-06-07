@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -71,6 +72,9 @@ public class Permiso implements Serializable {
     private Date fechaInicio;
     @Column(name = "opcion")
     private char opcion;
+    
+//    @OneToOne(fetch = FetchType.EAGER, targetEntity = Viaje.class, mappedBy = "viaje",cascade = CascadeType.ALL)
+//    private Viaje viaje;
 
     public char getOpcion() {
         return opcion;
@@ -205,4 +209,14 @@ public class Permiso implements Serializable {
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
+
+//    public Viaje getViaje() {
+//        return viaje;
+//    }
+//
+//    public void setViaje(Viaje viaje) {
+//        this.viaje = viaje;
+//    }
+    
+    
 }

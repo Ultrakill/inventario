@@ -5,7 +5,6 @@
  */
 package com.biosis.biosislite.dao;
 
-import com.biosis.biosislite.utiles.Encriptador;
 import com.personal.utiles.ParametrosUtil;
 import com.personal.utiles.PropertiesUtil;
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.Properties;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
+import com.biosis.biosislite.utiles.Encriptador;
 
 /**
  *

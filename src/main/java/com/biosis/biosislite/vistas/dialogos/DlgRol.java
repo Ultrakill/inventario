@@ -5,7 +5,6 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
-
 import com.biosis.biosislite.controladores.AccesoControlador;
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.RolControlador;
@@ -13,10 +12,12 @@ import com.biosis.biosislite.entidades.Acceso;
 import com.biosis.biosislite.entidades.Rol;
 import com.biosis.biosislite.entidades.RolAcceso;
 import com.biosis.biosislite.vistas.modelos.MTAcceso;
+import com.biosis.biosislite.vistas.modelos.MTJornada;
 import com.biosis.biosislite.vistas.modelos.MTRol;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;

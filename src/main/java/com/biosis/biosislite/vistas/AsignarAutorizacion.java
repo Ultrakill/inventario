@@ -5,23 +5,21 @@
  */
 package com.biosis.biosislite.vistas;
 
-
-import com.biosis.biosislite.controladores.AutorizacionControlador;
 import com.biosis.biosislite.controladores.Controlador;
-import com.biosis.biosislite.controladores.DetalleJornadaControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.TCAnalisisControlador;
-import com.biosis.biosislite.controladores.TurnoControlador;
 import com.biosis.biosislite.entidades.AsignacionPermiso;
-import com.biosis.biosislite.entidades.Autorizacion;
-import com.biosis.biosislite.entidades.DetalleJornada;
 import com.biosis.biosislite.entidades.Permiso;
 import com.biosis.biosislite.entidades.TipoPermiso;
-import com.biosis.biosislite.entidades.escalafon.Empleado;
-import com.biosis.biosislite.utiles.UsuarioActivo;
 import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
+import com.biosis.biosislite.controladores.AutorizacionControlador;
+import com.biosis.biosislite.controladores.DetalleJornadaControlador;
+import com.biosis.biosislite.controladores.TurnoControlador;
+import com.biosis.biosislite.entidades.Autorizacion;
+import com.biosis.biosislite.entidades.DetalleJornada;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -45,6 +43,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.utiles.UsuarioActivo;
 
 /**
  *
@@ -102,8 +101,8 @@ public class AsignarAutorizacion extends javax.swing.JInternalFrame {
         btnSiguiente = new javax.swing.JButton();
         btnUltimo = new javax.swing.JButton();
         cboTamanio = new javax.swing.JComboBox();
-        dcFechaInicio = new com.toedter.calendar.JDateChooser();
-        dcFechaFin = new com.toedter.calendar.JDateChooser();
+        dcFechaInicio = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####", '_');
+        dcFechaFin = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####", '_');
         pnlDatos = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -115,7 +114,7 @@ public class AsignarAutorizacion extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txtPapeleta = new javax.swing.JTextField();
-        dcFecha = new com.toedter.calendar.JDateChooser();
+        dcFecha = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####", '_');
         txtPersona = new javax.swing.JTextField();
         cboDetalleJornada = new javax.swing.JComboBox();
         jPanel5 = new javax.swing.JPanel();
@@ -262,7 +261,7 @@ public class AsignarAutorizacion extends javax.swing.JInternalFrame {
         });
         pnlNavegacion.add(btnAnterior);
 
-        spPagina.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        spPagina.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
         spPagina.setMinimumSize(new java.awt.Dimension(60, 20));
         spPagina.setPreferredSize(new java.awt.Dimension(60, 20));
         spPagina.addChangeListener(new javax.swing.event.ChangeListener() {

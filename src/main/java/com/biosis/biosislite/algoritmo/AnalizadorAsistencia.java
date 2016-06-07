@@ -5,6 +5,7 @@
  */
 package com.biosis.biosislite.algoritmo;
 
+import com.personal.utiles.FechaUtil;
 import com.biosis.biosislite.controladores.AsignacionHorarioControlador;
 import com.biosis.biosislite.controladores.ContratoControlador;
 import com.biosis.biosislite.controladores.FeriadoControlador;
@@ -23,7 +24,9 @@ import com.biosis.biosislite.entidades.asistencia.DetalleAsistencia;
 import com.biosis.biosislite.entidades.escalafon.Contrato;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.sisgedo.Boleta;
-import com.personal.utiles.FechaUtil;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,6 +60,7 @@ public class AnalizadorAsistencia {
     public static final int TARDANZA = -1;
     public static final int INASISTENCIA = -2;
     public static final int INCONSISTENCIA = -3;
+    public static final int SUSPENSION = -4;
     /*
      LISTADOS QUE CONTIENEN LA INFORMACION TANTO DE FERIADOS, PERMISOS Y VACACIONES PARA EL EMPLEADO
      */
@@ -165,6 +169,9 @@ public class AnalizadorAsistencia {
             detalle1.setHoraReferenciaDesde(detJorn.getEntradaDesde());
             detalle1.setHoraReferenciaHasta(detJorn.getEntradaHasta());
             detalle1.setHoraReferenciaTolerancia(detJorn.getEntradaTolerancia());
+            //Nuevo limite
+//            detalle1.setHoraReferenciaFalta(detJorn.getFaltaHasta());
+            
             System.out.println(String.format("-- ENTRADA -- REFERENCIA: %s DESDE: %s HASTA: %s TOLERANCIA: %s", detalle1.getHoraReferencia(), detalle1.getHoraReferenciaDesde(), detalle1.getHoraReferenciaHasta(), detalle1.getHoraReferenciaTolerancia()));
             detalle1.setTipo('A');
 
@@ -279,20 +286,71 @@ public class AnalizadorAsistencia {
         }
     }
 
+    /*
+    
+    @param dia 
+    Busca en el listado de vacaciones (cargadas al inicio del análisis) aquella
+    donde el parámetro día se encuentre entre la fecha de inicio y la fecha de fin<br/>
+    <strong>Comprueba que no esté en un rango de interrupción ni en un rango de 
+    reprogramación</strong>
+     */
     private Vacacion buscarVacacion(Date dia) {
+        System.out.println("Analizando Vacacion...");
+
         try {
             Date soloFechaComparacion = FechaUtil.soloFecha(dia);
+
+            System.out.println("dia: " + soloFechaComparacion);
+
             Vacacion vacacion = this.vacacionList
                     .stream()
                     .filter(vac
                             -> {
                         if (vac.getFechaInicio().compareTo(soloFechaComparacion) <= 0
-                        && vac.getFechaFin().compareTo(soloFechaComparacion) >= 0) {
+                                && vac.getFechaFin().compareTo(soloFechaComparacion) >= 0) {
                             if (vac.isHayReprogramacion()) {
                                 return dia.compareTo(vac.getFechaInterrupcion()) < 0;
                             } else if (vac.isHayInterrupcion()) {
-                                return dia.compareTo(vac.getInterrupcionVacacion().getFechaInicio()) < 0
-                                || dia.compareTo(vac.getInterrupcionVacacion().getFechaFin()) > 0;
+
+                                DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+                                System.out.println("fecha con formato: " + formato.format(dia));
+                                System.out.println("fecha inicio interrupcion con formato: " + formato.format(vac.getInterrupcionVacacion().getFechaInicio()));
+                                System.out.println("fecha fin interrupcion con formato: " + formato.format(vac.getInterrupcionVacacion().getFechaFin()));
+
+//                                Calendar fecha = Calendar.getInstance();
+//                                fecha.setTime(dia);
+//                                int anio = fecha.get(Calendar.YEAR);
+//                                int mes = fecha.get(Calendar.MONTH);
+//                                int diaA = fecha.get(Calendar.DAY_OF_MONTH);
+//                              
+                                String actual = formato.format(dia);
+                                String inicio = formato.format(vac.getInterrupcionVacacion().getFechaInicio());
+                                String fin = formato.format(vac.getInterrupcionVacacion().getFechaFin());
+                                
+                                boolean flagFinal = false;
+                                
+                                try {
+                                    Date fechaActual = formato.parse(actual);
+                                    Date fechaStringInicio = formato.parse(inicio);
+                                    Date fechaStringFin = formato.parse(fin);
+                                    
+                                    System.out.println("B inicio: "+fechaActual.before(fechaStringInicio));
+                                    System.out.println("B final: "+fechaActual.after(fechaStringFin));
+                                    
+                                    flagFinal = fechaActual.before(fechaStringInicio) || fechaActual.after(fechaStringFin);
+                                    
+                                } catch (ParseException e) {
+                                    System.out.println("ERROR+" + e);
+                                }
+
+//                                System.out.println("Comparacion con inicio: " + dia.before(vac.getInterrupcionVacacion().getFechaInicio()));
+//                                System.out.println("Comparacion con fin: " + dia.after(vac.getInterrupcionVacacion().getFechaFin()));
+
+                                return flagFinal;
+
+//                                return dia.compareTo(vac.getInterrupcionVacacion().getFechaFin()) > 0
+//                                        || dia.compareTo(vac.getInterrupcionVacacion().getFechaInicio()) < 0;
                             } else {
                                 return true;
                             }
@@ -444,11 +502,8 @@ public class AnalizadorAsistencia {
         Calendar cal = Calendar.getInstance();
         cal.setTime(hasta1);
         cal.add(Calendar.DATE, 1);
-        
+
         this.marcacionList = this.marc.buscarXEmpleadoEntreFecha(empleado, desde1, cal.getTime());
-        if(this.marcacionList == null){
-            System.out.println(String.format("Listado NULL -> Empleado: %s, desde1: %s hasta: %s", empleado.getNombreCompleto(),desde1,hasta1));
-        }
     }
 
     private List<Permiso> buscarPermisoXHora(Empleado empleado, Date dia) {
@@ -476,7 +531,7 @@ public class AnalizadorAsistencia {
     private List<Boleta> buscarBoletaXHora(Empleado empleado, Date dia) {
 
         try {
-            
+
             Date soloFechaComparacion = FechaUtil.soloFecha(dia);
 
             for (int i = 0; i < this.boletaXHoraList.size(); i++) {
@@ -509,14 +564,13 @@ public class AnalizadorAsistencia {
 //        System.out.println("BOLETAS: " + boletas.size());
 
         this.boletaXFechaList = this.bolc.permisoXFechaXEmpleadoEntreFecha(empleado, fechaInicio, fechaFin);
-//        System.out.println("TAMAÑO BOLETAS FECHA: "+this.boletaXFechaList.size());
-//        for (int i = 0 ; i<boletaXFechaList.size(); i++) {
-//            if (boletaXFechaList.get(i).getFinFechaHora() == null || boletaXFechaList.get(i).getInicioFechaHora() == null) {
-//                this.boletaXFechaList.remove(i);
-//            }
-//        }
-//        System.out.println("TAMAÑO BOLETAS FECHA: "+this.boletaXFechaList.size());
-//        System.out.println("BOLETA ES NULL? "+this.boletaXFechaList.get(0).getFinFechaHora()+" - "+this.boletaXFechaList.get(0).getInicioFechaHora());
+        System.out.println("TAMAÑO BOLETAS FECHA A: " + this.boletaXFechaList.size());
+        for (int i = 0; i < boletaXFechaList.size(); i++) {
+            if (boletaXFechaList.get(i).getFinFechaHora() == null || boletaXFechaList.get(i).getInicioFechaHora() == null) {
+                this.boletaXFechaList.remove(i);
+            }
+        }
+        System.out.println("TAMAÑO BOLETAS FECHA D: " + this.boletaXFechaList.size());
 //        this.boletaXFechaList = boletas.stream().filter(bol -> {
 //            if (bol.getInicioFechaHora() == null || bol.getFinFechaHora() == null) {
 //                return false;

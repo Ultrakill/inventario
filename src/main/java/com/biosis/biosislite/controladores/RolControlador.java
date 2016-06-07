@@ -5,7 +5,6 @@
  */
 package com.biosis.biosislite.controladores;
 
-
 import com.biosis.biosislite.entidades.Rol;
 import com.biosis.biosislite.entidades.RolAcceso;
 import java.util.ArrayList;

@@ -5,19 +5,17 @@
  */
 package com.biosis.biosislite.vistas;
 
-import com.biosis.biosislite.controladores.EmpleadoControlador;
+import com.opencsv.CSVWriter;
 import com.biosis.biosislite.controladores.MarcacionControlador;
 import com.biosis.biosislite.entidades.Marcacion;
+import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.modelos.MTMarcacion;
+import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
+import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.FichaLaboral;
-import com.biosis.biosislite.utiles.UsuarioActivo;
-import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-import com.biosis.biosislite.vistas.dialogos.DlgOficina;
-import com.biosis.biosislite.vistas.modelos.MTMarcacion;
-import com.opencsv.CSVWriter;
-import com.personal.utiles.FormularioUtil;
-import com.personal.utiles.ReporteUtil;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,6 +31,8 @@ import javax.swing.SpinnerNumberModel;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.jdesktop.observablecollections.ObservableCollections;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgOficina;
 
 /**
  *
@@ -88,8 +88,8 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         btnSiguiente = new javax.swing.JButton();
         btnUltimo = new javax.swing.JButton();
         cboTamanio = new javax.swing.JComboBox();
-        dcFechaInicio = new com.toedter.calendar.JDateChooser();
-        dcFechaFin = new com.toedter.calendar.JDateChooser();
+        dcFechaInicio = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####", '_');
+        dcFechaFin = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####", '_');
         radFechas = new javax.swing.JRadioButton();
         radHora = new javax.swing.JRadioButton();
         btnBuscar1 = new javax.swing.JButton();
@@ -217,7 +217,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         });
         pnlNavegacion.add(btnAnterior);
 
-        spPagina.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spPagina.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
         spPagina.setMinimumSize(new java.awt.Dimension(60, 20));
         spPagina.setPreferredSize(new java.awt.Dimension(60, 20));
         spPagina.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -266,6 +266,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         jPanel1.add(pnlNavegacion, gridBagConstraints);
 
         dcFechaInicio.setDateFormatString("dd/MM/yyyy");
+        dcFechaInicio.setMinSelectableDate(new java.util.Date(21666000L));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
@@ -273,6 +274,8 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
         jPanel1.add(dcFechaInicio, gridBagConstraints);
 
         dcFechaFin.setDateFormatString("dd/MM/yyyy");
+        dcFechaFin.setDoubleBuffered(false);
+        dcFechaFin.setMinSelectableDate(new java.util.Date(21666000L));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 0;
@@ -553,6 +556,9 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
                 lista.addAll(listado);
 
                 tblEmpleado.packAll();
+                JOptionPane.showMessageDialog(this, "Busqueda finalizada", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "No se encontraron datos", "Mensaje del sistema", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -739,7 +745,7 @@ public class VistaMarcaciones extends javax.swing.JInternalFrame {
                 writer.writeNext(linea, true);
             }
             writer.close();
-
+            JOptionPane.showMessageDialog(this, "CSV generado exitosamente", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException ex) {
             Logger.getLogger(VistaMarcaciones.class.getName()).log(Level.WARN, null, ex);
         }

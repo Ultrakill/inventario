@@ -5,14 +5,13 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
-
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.UsuarioControlador;
 import com.biosis.biosislite.entidades.Usuario;
-import com.biosis.biosislite.utiles.Encriptador;
-import com.biosis.biosislite.utiles.UsuarioActivo;
 import com.personal.utiles.FormularioUtil;
 import javax.swing.JOptionPane;
+import com.biosis.biosislite.utiles.Encriptador;
+import com.biosis.biosislite.utiles.UsuarioActivo;
 
 /**
  *

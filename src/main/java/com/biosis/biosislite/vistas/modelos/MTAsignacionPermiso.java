@@ -6,6 +6,7 @@
 package com.biosis.biosislite.vistas.modelos;
 
 import com.biosis.biosislite.entidades.AsignacionPermiso;
+import com.biosis.biosislite.entidades.Permiso;
 import com.personal.utiles.ModeloTabla;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -38,15 +39,15 @@ public class MTAsignacionPermiso extends ModeloTabla<AsignacionPermiso> {
 
                 return asignacion.getPermiso().getDocumento();
             case 2:
-                return asignacion.getPermiso().getTipoPermiso().getNombre();
+                return clase(asignacion.getPermiso().getTipoPermiso().getClase());
             case 3:
-                if (asignacion.getPermiso().getOpcion() == 'F') {
+                if (asignacion.getPermiso().isPorFecha()) {
                     return dfFecha.format(asignacion.getPermiso().getFechaInicio());
                 } else {
                     return dfFecha.format(asignacion.getPermiso().getFechaInicio()) + " " + dfHora.format(asignacion.getPermiso().getHoraInicio());
                 }
             case 4:
-                if (asignacion.getPermiso().getOpcion() == 'F') {
+                if (asignacion.getPermiso().isPorFecha()) {
                     return dfFecha.format(asignacion.getPermiso().getFechaFin());
                 } else {
                     return dfFecha.format(asignacion.getPermiso().getFechaInicio()) + " " + dfHora.format(asignacion.getPermiso().getHoraFin());

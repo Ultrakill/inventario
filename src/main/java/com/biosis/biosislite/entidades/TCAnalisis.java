@@ -22,7 +22,7 @@ public class TCAnalisis implements Serializable {
     @Temporal(TemporalType.DATE)
     @Basic
     private Date fecha;
-    @Column(name="persona_nro_documento",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
+    @Column(name="empleado_nro_documento",unique=false,updatable=true,insertable=true,nullable=true,length=255,scale=0,precision=0)
     @Id
     private String empleado;
 

@@ -11,8 +11,11 @@ import com.biosis.biosislite.entidades.TipoPermiso;
 import com.biosis.biosislite.vistas.modelos.MTTipoPermiso;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.text.DateFormatter;
 import org.jdesktop.observablecollections.ObservableCollections;
 
 /**

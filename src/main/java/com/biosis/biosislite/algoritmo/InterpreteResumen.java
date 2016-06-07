@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.biosis.biosislite.algoritmo;
+package com.biosis.biosislite.algoritmo; 
 
+import com.personal.utiles.FechaUtil;
 import com.biosis.biosislite.entidades.asistencia.Asistencia;
 import com.biosis.biosislite.entidades.asistencia.DetalleAsistencia;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.reportes.RptAsistenciaResumen;
-import com.personal.utiles.FechaUtil;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

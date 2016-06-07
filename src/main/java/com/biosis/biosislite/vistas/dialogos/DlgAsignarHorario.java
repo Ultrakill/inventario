@@ -5,11 +5,11 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
+import com.personal.utiles.FormularioUtil;
 import com.biosis.biosislite.controladores.GrupoHorarioControlador;
 import com.biosis.biosislite.entidades.AsignacionHorario;
 import com.biosis.biosislite.entidades.GrupoHorario;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
-import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
 import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
@@ -33,8 +33,6 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         super(JOptionPane.getFrameForComponent(parent), modal);
         initComponents();
         inicializar();
-        radAlumnos.setVisible(false);
-        pnlNGS.setVisible(false);
         this.setLocationRelativeTo(parent);
     }
 
@@ -54,19 +52,14 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         radEmpleado = new javax.swing.JRadioButton();
         radGrupo = new javax.swing.JRadioButton();
-        radAlumnos = new javax.swing.JRadioButton();
         txtEmpleado = new javax.swing.JTextField();
         cboGrupoHorario = new javax.swing.JComboBox();
-        dcFechaInicio = new com.toedter.calendar.JDateChooser();
-        dcFechaFin = new com.toedter.calendar.JDateChooser();
+        dcFechaInicio = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####",'_');
+        dcFechaFin = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####",'_');
         btnEmpleado = new javax.swing.JButton();
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        pnlNGS = new javax.swing.JPanel();
-        cboNivel = new javax.swing.JComboBox();
-        cboGrado = new javax.swing.JComboBox();
-        cboSeccion = new javax.swing.JComboBox();
 
         radSeleccion.add(radEmpleado);
         radSeleccion.add(radGrupo);
@@ -75,15 +68,15 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         setTitle("ASIGNAR HORARIO");
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
-        jPanel1Layout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0, 8, 0};
-        jPanel1Layout.rowHeights = new int[] {0, 8, 0, 8, 0, 8, 0, 8, 0, 8, 0};
+        jPanel1Layout.columnWidths = new int[] {0, 8, 0, 8, 0, 8, 0};
+        jPanel1Layout.rowHeights = new int[] {0, 8, 0, 8, 0, 8, 0, 8, 0};
         jPanel1.setLayout(jPanel1Layout);
 
         jLabel3.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel3.setText("Fecha de inicio:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel3, gridBagConstraints);
 
@@ -91,7 +84,7 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         jLabel4.setText("Fecha de fin:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(jLabel4, gridBagConstraints);
 
@@ -122,20 +115,11 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(radGrupo, gridBagConstraints);
 
-        radAlumnos.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        radAlumnos.setText("Alumnos:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(radAlumnos, gridBagConstraints);
-
         txtEmpleado.setEditable(false);
         txtEmpleado.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtEmpleado, gridBagConstraints);
@@ -145,15 +129,14 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(cboGrupoHorario, gridBagConstraints);
 
         dcFechaInicio.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(dcFechaInicio, gridBagConstraints);
@@ -161,8 +144,8 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         dcFechaFin.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel1.add(dcFechaFin, gridBagConstraints);
@@ -175,7 +158,7 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         jPanel1.add(btnEmpleado, gridBagConstraints);
 
@@ -201,32 +184,10 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.weighty = 0.1;
         jPanel1.add(pnlBotones, gridBagConstraints);
-
-        pnlNGS.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        cboNivel.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        cboNivel.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        pnlNGS.add(cboNivel);
-
-        cboGrado.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        cboGrado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        pnlNGS.add(cboGrado);
-
-        cboSeccion.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        cboSeccion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        pnlNGS.add(cboSeccion);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel1.add(pnlNGS, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -241,7 +202,7 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 178, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -272,8 +233,6 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
         AsignacionHorario asignacion = new AsignacionHorario();
         if(radEmpleado.isSelected()){
             asignacion.setEmpleado(empleadoSeleccionado);
-        }else if(radAlumnos.isSelected()){
-            
         }else{
             GrupoHorario grupo = (GrupoHorario)this.cboGrupoHorario.getSelectedItem();            
             asignacion.setGrupoHorario(grupo);
@@ -294,10 +253,7 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEmpleado;
-    private javax.swing.JComboBox cboGrado;
     private javax.swing.JComboBox cboGrupoHorario;
-    private javax.swing.JComboBox cboNivel;
-    private javax.swing.JComboBox cboSeccion;
     private com.toedter.calendar.JDateChooser dcFechaFin;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.JButton jButton2;
@@ -306,8 +262,6 @@ public class DlgAsignarHorario extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pnlBotones;
-    private javax.swing.JPanel pnlNGS;
-    private javax.swing.JRadioButton radAlumnos;
     private javax.swing.JRadioButton radEmpleado;
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.ButtonGroup radSeleccion;

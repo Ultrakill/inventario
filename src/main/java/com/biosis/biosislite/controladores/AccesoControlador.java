@@ -7,7 +7,6 @@ package com.biosis.biosislite.controladores;
 
 import com.biosis.biosislite.entidades.Acceso;
 
-
 /**
  *
  * @author RyuujiMD

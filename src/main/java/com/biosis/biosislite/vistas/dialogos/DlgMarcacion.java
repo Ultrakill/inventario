@@ -5,8 +5,8 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
-import com.biosis.biosislite.entidades.reportes.RptMarcacion;
 import com.personal.utiles.FormularioUtil;
+import com.biosis.biosislite.entidades.reportes.RptMarcacion;
 import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;

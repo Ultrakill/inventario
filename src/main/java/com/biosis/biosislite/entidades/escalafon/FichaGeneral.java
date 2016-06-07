@@ -16,9 +16,10 @@ import javax.persistence.Table;
 @Table(name="ficha_general",schema="personal")
 public class FichaGeneral implements Serializable {
 
-    @Column(name="persona_nro_documento")
+    @Column(name="id")
     @Id
-    private String id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     @Column(name="direccion")
     @Basic
     private String direccion;
@@ -57,11 +58,11 @@ public class FichaGeneral implements Serializable {
 
     }
    
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
    

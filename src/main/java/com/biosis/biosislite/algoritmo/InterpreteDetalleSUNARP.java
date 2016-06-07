@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.biosis.biosislite.algoritmo; 
+package com.biosis.biosislite.algoritmo;  
+
 
 import com.biosis.biosislite.entidades.asistencia.Asistencia;
 import com.biosis.biosislite.entidades.asistencia.DetalleAsistencia;
 import com.biosis.biosislite.entidades.escalafon.RegimenLaboral;
 import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
-import com.biosis.biosislite.utiles.HerramientaGeneral;
-import com.personal.utiles.FechaUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import com.biosis.biosislite.utiles.HerramientaGeneral;
+import com.personal.utiles.FechaUtil;
 
 /**
  *

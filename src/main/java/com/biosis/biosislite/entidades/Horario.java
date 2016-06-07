@@ -1,6 +1,5 @@
 package com.biosis.biosislite.entidades;
 
-import com.biosis.biosislite.entidades.educativo.SeccionHorario;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -41,8 +40,6 @@ public class Horario implements Serializable {
     //EL TIPO DE HORARIO PUEDE SER T = TECNICO O A = ADMINISTRATIVO / TECNICO ADMINISTRATIVO
     @Column(name = "tipo")
     private char tipo;
-    @OneToMany(targetEntity = SeccionHorario.class,mappedBy = "horario",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private List<SeccionHorario> seccionHorarioList;
     
     public List<Turno> getTurnoList() {
         return turnoList;
@@ -95,14 +92,4 @@ public class Horario implements Serializable {
     public void setAsignacionHorarioList(List<AsignacionHorario> asignacionHorarioList) {
         this.asignacionHorarioList = asignacionHorarioList;
     }
-
-    public List<SeccionHorario> getSeccionHorarioList() {
-        return seccionHorarioList;
-    }
-
-    public void setSeccionHorarioList(List<SeccionHorario> seccionHorarioList) {
-        this.seccionHorarioList = seccionHorarioList;
-    }
-    
-    
 }

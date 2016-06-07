@@ -5,7 +5,6 @@
  */
 package com.biosis.biosislite.vistas.mantenimientos;
 
-
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.PeriodoControlador;
 import com.biosis.biosislite.entidades.Feriado;
@@ -16,6 +15,7 @@ import com.biosis.biosislite.vistas.modelos.MTPeriodo;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.jdesktop.observablecollections.ObservableCollections;
 
@@ -69,6 +69,7 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
         tblFeriado = new org.jdesktop.swingx.JXTable();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -198,7 +199,7 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(chkVigente, gridBagConstraints);
 
-        spPeriodo.setModel(new javax.swing.SpinnerNumberModel(2015, 2000, 3000, 1));
+        spPeriodo.setModel(new javax.swing.SpinnerNumberModel(2016, 1950, 3000, 1));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -253,6 +254,17 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel1.add(jButton3, gridBagConstraints);
+
+        jButton2.setText("Cargar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        jPanel1.add(jButton2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -412,6 +424,28 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Periodo periodoLast = controlador.buscarTodosOrden().get(0);
+
+        List<Feriado> feriados = periodoLast.getFeriadoList();
+        Periodo seleccionada = this.controlador.getSeleccionado();
+        
+        this.feriadoList.clear();
+        for (Feriado feriado : feriados) {
+            Feriado feriadoN = new Feriado();
+
+            feriadoN.setFechaInicio(feriado.getFechaInicio());
+            feriadoN.setFechaFin(feriado.getFechaFin());
+            feriadoN.setNombre(feriado.getNombre());
+            
+            seleccionada.getFeriadoList().add(feriadoN);
+//            this.feriadoList.add(feriadoN);
+
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -420,6 +454,7 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNuevo;
     private javax.swing.JCheckBox chkVigente;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -470,7 +505,7 @@ public class CRUDPeriodo extends javax.swing.JInternalFrame {
 
     private void actualizarTabla() {
         periodoList.clear();
-        periodoList.addAll(controlador.buscarTodos());
+        periodoList.addAll(controlador.buscarTodosOrden());
     }
 
     private void inicializar() {

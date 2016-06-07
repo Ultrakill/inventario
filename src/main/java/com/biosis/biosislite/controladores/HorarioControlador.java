@@ -5,7 +5,6 @@
  */
 package com.biosis.biosislite.controladores;
 
-
 import com.biosis.biosislite.entidades.AsignacionHorario;
 import com.biosis.biosislite.entidades.GrupoHorario;
 import com.biosis.biosislite.entidades.Horario;

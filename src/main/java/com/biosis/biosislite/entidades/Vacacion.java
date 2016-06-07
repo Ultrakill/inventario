@@ -28,7 +28,7 @@ public class Vacacion implements Serializable {
     @Basic
     private Date fechaInterrupcion;
     @ManyToOne(targetEntity = Empleado.class)
-    @JoinColumn(name = "persona_nro_documento",referencedColumnName = "nro_documento")
+    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
     @Column(unique = false, updatable = true, insertable = true, nullable = true, length = 255, scale = 0, precision = 0)
     @Basic
@@ -62,6 +62,10 @@ public class Vacacion implements Serializable {
     private String documentoReprogramacion;
     @OneToOne(mappedBy = "vacacion",cascade = CascadeType.ALL,orphanRemoval = true,optional = true)
     private InterrupcionVacacion interrupcionVacacion;
+    
+    @Column(name = "referencia")
+    @Basic
+    private Long referencia;
 
     public InterrupcionVacacion getInterrupcionVacacion() {
         return interrupcionVacacion;
@@ -172,4 +176,14 @@ public class Vacacion implements Serializable {
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
+
+    public Long getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(Long referencia) {
+        this.referencia = referencia;
+    }
+    
+    
 }

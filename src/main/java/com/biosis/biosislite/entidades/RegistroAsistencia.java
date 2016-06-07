@@ -43,7 +43,7 @@ public class RegistroAsistencia implements Serializable {
     @Basic
     private Date fecha;
     @ManyToOne(targetEntity = Empleado.class)
-    @JoinColumn(name = "persona_nro_documento",referencedColumnName = "nro_documento")
+    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
     @Column(name = "tipo_asistencia", unique = false, updatable = true, insertable = true, nullable = false, length = 255, scale = 0, precision = 0)
     @Basic

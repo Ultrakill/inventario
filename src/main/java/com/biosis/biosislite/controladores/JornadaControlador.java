@@ -5,7 +5,6 @@
  */
 package com.biosis.biosislite.controladores;
 
-
 import com.biosis.biosislite.entidades.DetalleJornada;
 import com.biosis.biosislite.entidades.Jornada;
 import java.util.ArrayList;

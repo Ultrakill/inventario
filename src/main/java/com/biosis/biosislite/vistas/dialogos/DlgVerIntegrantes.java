@@ -5,7 +5,6 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
-
 import com.biosis.biosislite.controladores.DetalleGrupoControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.entidades.DetalleGrupoHorario;

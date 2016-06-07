@@ -5,7 +5,6 @@
  */
 package com.biosis.biosislite.controladores;
 
-
 import com.biosis.biosislite.entidades.Periodo;
 import com.biosis.biosislite.entidades.SaldoVacacional;
 import com.biosis.biosislite.entidades.escalafon.Empleado;

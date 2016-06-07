@@ -3,17 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.biosis.biosislite.algoritmo;
+package com.biosis.biosislite.algoritmo; 
 
+import com.personal.utiles.FechaUtil;
 import com.biosis.biosislite.entidades.asistencia.Asistencia;
 import com.biosis.biosislite.entidades.asistencia.DetalleAsistencia;
 import com.biosis.biosislite.entidades.escalafon.RegimenLaboral;
 import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
-import com.biosis.biosislite.utiles.HerramientaGeneral;
-import com.personal.utiles.FechaUtil;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import com.biosis.biosislite.utiles.HerramientaGeneral;
 
 /**
  *
@@ -44,7 +47,7 @@ public class InterpreteDetalle implements Interprete<RptAsistenciaDetallado> {
                 int contador = 0;
                 int marcacionContador = 0;
                 double minutosTardanza = 0;
-                
+
                 for (DetalleAsistencia detalle : asistencia.getDetalleAsistenciaList()) {
                     marcacionContador++;
                     if (contador == 0) {
@@ -58,10 +61,10 @@ public class InterpreteDetalle implements Interprete<RptAsistenciaDetallado> {
                     }
 
                     if (tipo == AnalizadorAsistencia.TARDANZA) {
-                        
-                        if(detalle.isBandera() && detalle.getHoraReferenciaTolerancia() != null && !detalle.isPermiso()){
-                            System.out.println("BANDERA: "+detalle.getHoraReferencia());
-                            
+
+                        if (detalle.isBandera() && detalle.getHoraReferenciaTolerancia() != null && !detalle.isPermiso()) {
+                            System.out.println("BANDERA: " + detalle.getHoraReferencia());
+
                             minutosTardanza = minutosTardanza + this.tardanzaMin(detalle.getHoraEvento(), detalle.getHoraReferenciaTolerancia());
                         }
                     }
@@ -101,7 +104,7 @@ public class InterpreteDetalle implements Interprete<RptAsistenciaDetallado> {
 
                     contador++;
                     detalleAsistencia.setDetalleFinal(marcacionContador == marcacionesMaximas.intValue());
-                    if(contador == marcacionesMaximas.intValue() && tipo != AnalizadorAsistencia.INASISTENCIA && !detalle.isPermiso()){
+                    if (contador == marcacionesMaximas.intValue() && tipo != AnalizadorAsistencia.INASISTENCIA && !detalle.isPermiso()) {
                         detalleAsistencia.setMinutosExtra(this.tardanzaMin(detalle.getHoraEvento(), detalle.getHoraReferencia()));
                     }
                     if (contador == 4 || contador == marcacionesMaximas.intValue()) {
@@ -208,15 +211,34 @@ public class InterpreteDetalle implements Interprete<RptAsistenciaDetallado> {
     }
 
     private double tardanzaMin(Date evento, Date tolerancia) {
-        System.out.println("HORA EVENTO: "+evento+" TOLERANCIA: "+tolerancia);
-        if (tolerancia.before(evento)) {
-            double tardanza = (FechaUtil.soloHora(evento).getTime() - FechaUtil.soloHora(tolerancia).getTime()) / (60 * 1000);
-            if(tardanza >= 1){
+        System.out.println("HORA EVENTO: " + evento + " TOLERANCIA: " + tolerancia);
+
+        DateFormat formato = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+
+        String even = formato.format(evento);
+        String tol = formato.format(tolerancia);
+
+        Date fechaEvento = new Date();
+        Date fechaTolerancia = new Date();
+        
+        try {
+            fechaEvento = formato.parse(even);
+            fechaTolerancia = formato.parse(tol);
+
+        } catch (ParseException e) {
+            System.out.println("ERROR+" + e);
+        }
+
+        if (fechaTolerancia.before(fechaEvento)) {
+            double tardanza = (FechaUtil.soloHora(fechaEvento).getTime() - FechaUtil.soloHora(fechaTolerancia).getTime()) / (60 * 1000);
+            System.out.println("Minutos Tardanza: "+tardanza);
+            
+            if (tardanza >= 1) {
                 return tardanza;
-            }else{
+            } else {
                 return 0.0;
             }
-            
+
         } else {
             return 0.0;
         }

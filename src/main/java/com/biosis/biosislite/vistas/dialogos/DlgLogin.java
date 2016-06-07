@@ -5,17 +5,17 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
-import com.biosis.biosislite.Main;
+import com.personal.utiles.FormularioUtil;
 import com.biosis.biosislite.controladores.UsuarioControlador;
 import com.biosis.biosislite.dao.DAOBiosis;
 import com.biosis.biosislite.entidades.Usuario;
 import com.biosis.biosislite.vistas.Principal;
-import com.personal.utiles.FormularioUtil;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
+import com.biosis.biosislite.Main;
 
 /**
  *
@@ -245,7 +245,6 @@ public class DlgLogin extends javax.swing.JDialog {
             java.util.logging.Logger.getLogger(DlgLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -315,7 +314,7 @@ public class DlgLogin extends javax.swing.JDialog {
             DAOBiosis dao = new DAOBiosis();
             dao.getEntityManager();
         } catch (Exception e) {
-            LOG.error(e.getMessage());
+             LOG.error("error al iniciar DAOBiosis", e);
             error++;
             mensaje += "LA CONEXION CON LA BD BIOSIS FALLA\n";
         }

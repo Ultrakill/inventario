@@ -37,9 +37,18 @@ public class AreaEmpleado implements Serializable {
     @ManyToOne(targetEntity = Departamento.class, optional = false)
     @JoinColumn(name = "area_id", referencedColumnName = "area_id")
     private Departamento departamento;
+    
     @ManyToOne(targetEntity = Empleado.class, optional = false)
-    @JoinColumn(name = "persona_nro_documento", referencedColumnName = "nro_documento")
+    @JoinColumn(name = "pers_nro_documento", referencedColumnName = "nro_documento")
     private Empleado empleado;
+    
+    @ManyToOne(targetEntity = Gerencia.class, optional = true)
+    @JoinColumn(name = "gerencia_id", referencedColumnName = "id")
+    private Gerencia gerencia;
+    
+    @ManyToOne(targetEntity = UnidadNegocio.class)
+    @JoinColumn(name = "unidad_id", referencedColumnName = "id")
+    private UnidadNegocio unidad;
 
     public Long getId() {
         return id;
@@ -80,6 +89,23 @@ public class AreaEmpleado implements Serializable {
     public void setEmpleado(Empleado empleado) {
         this.empleado = empleado;
     }
+
+    public Gerencia getGerencia() {
+        return gerencia;
+    }
+
+    public void setGerencia(Gerencia gerencia) {
+        this.gerencia = gerencia;
+    }
+
+    public UnidadNegocio getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(UnidadNegocio unidad) {
+        this.unidad = unidad;
+    }
+    
     
     
 }

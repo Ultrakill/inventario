@@ -1,11 +1,6 @@
 package com.biosis.biosislite.entidades.escalafon;
 
-import com.biosis.biosislite.entidades.Alerta;
 import com.biosis.biosislite.entidades.DetalleGrupoHorario;
-import com.biosis.biosislite.entidades.Incidencia;
-import com.biosis.biosislite.entidades.Notificacion;
-import com.biosis.biosislite.entidades.educativo.AsignacionNGS;
-import com.biosis.biosislite.entidades.educativo.Matricula;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -30,14 +25,11 @@ public class Empleado implements Serializable {
     @Column(name = "nro_documento", nullable = false)
     @Id
     private String nroDocumento;
-    @Column(name="codigo_molecular")
-    @Basic
-    private String codigoMolecular;
     @Column(name = "nombres", nullable = false)
     @Basic
     private String nombre;
     @Column(name = "condicion")
-    @Basic(fetch = FetchType.LAZY)    
+    @Basic
     private char condicion = 'A';
 //    @OneToOne(fetch = FetchType.LAZY, targetEntity = FichaGeneral.class, mappedBy = "empleado")
 //    private FichaGeneral fcihaGeneral;
@@ -48,62 +40,29 @@ public class Empleado implements Serializable {
     @JoinColumn(name = "tipo_documento_codigo", referencedColumnName = "codigo")
     private TipoDocumento tipoDocumento;
     @Column(name = "sexo", nullable = false)
-    @Basic(fetch = FetchType.LAZY)    
+    @Basic
     private char sexo;
     @Column(name = "paterno", nullable = false)
     @Basic
     private String paterno;
-    @Column(name= "tipo_persona", nullable = false)
-    @Basic
-    private Integer tipoPersona;
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = FichaLaboral.class, mappedBy = "empleado",cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = FichaLaboral.class, mappedBy = "empleado",cascade = CascadeType.ALL)
     private FichaLaboral fichaLaboral;
     @OneToOne(fetch = FetchType.LAZY, targetEntity = FichaGeneral.class, mappedBy = "empleado",cascade = CascadeType.ALL)
     private FichaGeneral fichaGeneral;
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Contrato.class,mappedBy = "empleado",cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, targetEntity = Contrato.class,mappedBy = "empleado",cascade = CascadeType.ALL)
     private List<Contrato> contratoList;
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
-    @Basic(fetch = FetchType.LAZY)    
+    @Basic
     private Date fechaNacimiento;
     
     @OneToMany(fetch = FetchType.LAZY, targetEntity = DetalleGrupoHorario.class,mappedBy = "empleado")
     private List<DetalleGrupoHorario> detalleGrupoHorarioList;
     @OneToMany(fetch = FetchType.LAZY, targetEntity = AreaEmpleado.class,mappedBy = "empleado")
     private List<AreaEmpleado> areaEmpleadoList;
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Matricula.class,mappedBy = "alumno")
-    private List<Matricula> matriculaList;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Matricula.class,mappedBy = "apoderado")
-    private List<Matricula> matriculaListA;
-    
-    /**
-     * Lista de incidencias del empleado
-     */
-    @OneToMany(targetEntity = Incidencia.class,mappedBy = "empleado",orphanRemoval = false,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Incidencia> incidenciaList;
-    
-    /**
-     * Lista de alertas de un empleado
-     */
-    @OneToMany(targetEntity = Alerta.class,mappedBy = "empleado",orphanRemoval = false,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Alerta> alertaList;
-    
-    /**
-     * Lista de notificaciones para empleado que es emisor
-     */
-    @OneToMany(targetEntity = Notificacion.class,mappedBy = "emisor",orphanRemoval = false,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Notificacion> notificacionListEmisor;
-    
-    /**
-     * Lista de notificaciones para empleado que es emisor
-     */
-    @OneToMany(targetEntity = Notificacion.class,mappedBy = "receptor",orphanRemoval = false,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Notificacion> notificacionListReceptor;
-    
-    
-    @OneToMany(targetEntity = AsignacionNGS.class,mappedBy = "responsable",orphanRemoval = false,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<AsignacionNGS> asignacionNGSList;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = PuestoEmpleado.class,mappedBy = "empleado")
+    private List<Puesto> puestoList;
     
     public List<AreaEmpleado> getAreaEmpleadoList() {
         return areaEmpleadoList;
@@ -127,7 +86,9 @@ public class Empleado implements Serializable {
 
     public void setDetalleGrupoHorarioList(List<DetalleGrupoHorario> detalleGrupoHorarioList) {
         this.detalleGrupoHorarioList = detalleGrupoHorarioList;
-    }    
+    }
+    
+    
     
     public String getNombreCompleto(){
         return String.format("%s %s %s", this.paterno, this.materno, this.nombre);
@@ -149,14 +110,6 @@ public class Empleado implements Serializable {
         return this.nroDocumento;
     }
 
-    public String getCodigoMolecular() {
-        return codigoMolecular;
-    }
-
-    public void setCodigoMolecular(String codigoMolecular) {
-        this.codigoMolecular = codigoMolecular;
-    }
-
     public void setNroDocumento(String nroDocumento) {
         this.nroDocumento = nroDocumento;
     }
@@ -176,6 +129,14 @@ public class Empleado implements Serializable {
     public void setCondicion(char condicion) {
         this.condicion = condicion;
     }
+
+//    public FichaGeneral getFcihaGeneral() {
+//        return this.fcihaGeneral;
+//    }
+//
+//    public void setFcihaGeneral(FichaGeneral fcihaGeneral) {
+//        this.fcihaGeneral = fcihaGeneral;
+//    }
 
     public String getMaterno() {
         return this.materno;
@@ -209,15 +170,6 @@ public class Empleado implements Serializable {
         this.paterno = paterno;
     }
 
-    public Integer getTipoPersona() {
-        return tipoPersona;
-    }
-
-    public void setTipoPersona(Integer tipoPersona) {
-        this.tipoPersona = tipoPersona;
-    }
-
-    
     public FichaLaboral getFichaLaboral() {
         return this.fichaLaboral;
     }
@@ -234,74 +186,17 @@ public class Empleado implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public List<Matricula> getMatriculaList() {
-        return matriculaList;
-    }
-
-    public void setMatriculaList(List<Matricula> matriculaList) {
-        this.matriculaList = matriculaList;
-    }
-
-    public List<Matricula> getMatriculaListA() {
-        return matriculaListA;
-    }
-
-    public void setMatriculaListA(List<Matricula> matriculaListA) {
-        this.matriculaListA = matriculaListA;
-    }
-
-    public List<Incidencia> getIncidenciaList() {
-        return incidenciaList;
-    }
-
-    public void setIncidenciaList(List<Incidencia> incidenciaList) {
-        this.incidenciaList = incidenciaList;
-    }
-
-    public List<Alerta> getAlertaList() {
-        return alertaList;
-    }
-
-    public void setAlertaList(List<Alerta> alertaList) {
-        this.alertaList = alertaList;
-    }
-
-    public List<Notificacion> getNotificacionListEmisor() {
-        return notificacionListEmisor;
-    }
-
-    public void setNotificacionListEmisor(List<Notificacion> notificacionListEmisor) {
-        this.notificacionListEmisor = notificacionListEmisor;
-    }
-
-    public List<Notificacion> getNotificacionListReceptor() {
-        return notificacionListReceptor;
-    }
-
-    public void setNotificacionListReceptor(List<Notificacion> notificacionListReceptor) {
-        this.notificacionListReceptor = notificacionListReceptor;
-    }
-
-    public List<AsignacionNGS> getAsignacionNGSList() {
-        return asignacionNGSList;
-    }
-
-    public void setAsignacionNGSList(List<AsignacionNGS> asignacionNGSList) {
-        this.asignacionNGSList = asignacionNGSList;
-    }
-
-    /**
-     * @return Integer
-     * Retorna el correlativo del documento
-     */
-    public Integer getCodigoTipoDocumento(){
-        String[] items = this.codigoMolecular.split(",");
-        return Integer.parseInt(items[0]);
-    }
-    
     @Override
     public String toString() {
         return nombre +" " +paterno+" " + materno+" ("+nroDocumento + ")";
+    }
+
+    public List<Puesto> getPuestoList() {
+        return puestoList;
+    }
+
+    public void setPuestoList(List<Puesto> puestoList) {
+        this.puestoList = puestoList;
     }
     
     

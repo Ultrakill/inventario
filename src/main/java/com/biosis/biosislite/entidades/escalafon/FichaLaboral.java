@@ -19,9 +19,10 @@ import javax.persistence.TemporalType;
 @Table(name="ficha_laboral",schema="personal")
 public class FichaLaboral implements Serializable {
 
-    @Column(name="persona_nro_documento")
+    @Column(name="id")
     @Id
-    private String id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "codigo_trabajador")
     private String codigoTrabajador;
     @ManyToOne(targetEntity = TipoContrato.class)
@@ -47,6 +48,10 @@ public class FichaLaboral implements Serializable {
     @ManyToOne(targetEntity = RegimenLaboral.class)
     @JoinColumn(name="regimen_laboral_codigo",referencedColumnName="codigo")
     private RegimenLaboral regimenLaboral;
+    
+//    @ManyToOne(targetEntity = TipoInternoTrabajador.class)
+//    @JoinColumn(name="tipo_interno_trabajador",referencedColumnName="id")
+//    private TipoInternoTrabajador tipoInterno;
 
     public Date getFechaCese() {
         return fechaCese;
@@ -68,11 +73,11 @@ public class FichaLaboral implements Serializable {
         this.codigoTrabajador = codigoTrabajador;
     }
    
-    public String getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -124,4 +129,14 @@ public class FichaLaboral implements Serializable {
     public void setRegimenLaboral(RegimenLaboral regimenLaboral) {
         this.regimenLaboral = regimenLaboral;
     }
+
+//    public TipoInternoTrabajador getTipoInterno() {
+//        return tipoInterno;
+//    }
+//
+//    public void setTipoInterno(TipoInternoTrabajador tipoInterno) {
+//        this.tipoInterno = tipoInterno;
+//    }
+    
+    
 }

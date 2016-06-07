@@ -5,8 +5,8 @@
  */
 package com.biosis.biosislite.entidades.reportes;
 
-//import entidades.sisgedo.Salida;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
+//import entidades.sisgedo.Salida;
 import java.util.Date;
 
 /**
@@ -28,6 +28,13 @@ public class RptAsistenciaDetallado {
     private Date horaEvento2;
     private Date horaEvento3;
     private Date horaEvento4;
+    
+    private Date horaReferenciaFalta1;
+    private Date horaReferenciaFalta2;
+    private Date horaReferenciaFalta3;
+    private Date horaReferenciaFalta4;
+    
+    
     private boolean enPermiso1;
     private boolean enPermiso2;
     private boolean enPermiso3;
@@ -43,6 +50,16 @@ public class RptAsistenciaDetallado {
     private double minutosTardanzaRefrigerio;
     private double minutosExtra;
     private int mes;
+    
+    private String marcacionesFuera;
+
+    public String getMarcacionesFuera() {
+        return marcacionesFuera;
+    }
+
+    public void setMarcacionesFuera(String marcacionesFuera) {
+        this.marcacionesFuera = marcacionesFuera;
+    }
 
     public double getMinutosTardanzaRefrigerio() {
         return minutosTardanzaRefrigerio;
@@ -306,5 +323,39 @@ public class RptAsistenciaDetallado {
     public void setReferencias(String referencias) {
         this.referencias = referencias;
     }
+
+    public Date getHoraReferenciaFalta1() {
+        return horaReferenciaFalta1;
+    }
+
+    public void setHoraReferenciaFalta1(Date horaReferenciaFalta1) {
+        this.horaReferenciaFalta1 = horaReferenciaFalta1;
+    }
+
+    public Date getHoraReferenciaFalta2() {
+        return horaReferenciaFalta2;
+    }
+
+    public void setHoraReferenciaFalta2(Date horaReferenciaFalta2) {
+        this.horaReferenciaFalta2 = horaReferenciaFalta2;
+    }
+
+    public Date getHoraReferenciaFalta3() {
+        return horaReferenciaFalta3;
+    }
+
+    public void setHoraReferenciaFalta3(Date horaReferenciaFalta3) {
+        this.horaReferenciaFalta3 = horaReferenciaFalta3;
+    }
+
+    public Date getHoraReferenciaFalta4() {
+        return horaReferenciaFalta4;
+    }
+
+    public void setHoraReferenciaFalta4(Date horaReferenciaFalta4) {
+        this.horaReferenciaFalta4 = horaReferenciaFalta4;
+    }
+    
+    
 
 }

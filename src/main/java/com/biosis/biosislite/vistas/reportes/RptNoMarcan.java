@@ -1,18 +1,22 @@
 package com.biosis.biosislite.vistas.reportes;
 
-import com.biosis.biosislite.Main;
 import com.biosis.biosislite.algoritmo.AnalizadorAsistencia;
 import com.biosis.biosislite.algoritmo.Interprete;
 import com.biosis.biosislite.algoritmo.InterpreteResumen;
-import com.biosis.biosislite.controladores.AreaEmpleadoControlador;
 import com.biosis.biosislite.controladores.DetalleGrupoControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.GrupoHorarioControlador;
-import com.biosis.biosislite.controladores.MarcacionControlador;
 import com.biosis.biosislite.controladores.PeriodoControlador;
 import com.biosis.biosislite.entidades.DetalleGrupoHorario;
 import com.biosis.biosislite.entidades.GrupoHorario;
 import com.biosis.biosislite.entidades.Periodo;
+import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.modelos.MTEmpleado;
+import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
+import com.personal.utiles.ReporteUtil.Formato;
+import com.biosis.biosislite.controladores.AreaEmpleadoControlador;
+import com.biosis.biosislite.controladores.MarcacionControlador;
 import com.biosis.biosislite.entidades.asistencia.Asistencia;
 import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
@@ -20,16 +24,6 @@ import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
 import com.biosis.biosislite.entidades.reportes.RptNoMarca;
 import com.biosis.biosislite.interpretes.InterpreteNoMarcacion;
-import com.biosis.biosislite.utiles.HerramientaGeneral;
-import com.biosis.biosislite.utiles.UsuarioActivo;
-import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-import com.biosis.biosislite.vistas.dialogos.DlgMarcacionesDiarias;
-import com.biosis.biosislite.vistas.dialogos.DlgOficina;
-import com.biosis.biosislite.vistas.modelos.MTEmpleado;
-import com.biosis.biosislite.vistas.modelos.MTNoMarcan;
-import com.personal.utiles.FormularioUtil;
-import com.personal.utiles.ReporteUtil;
-import com.personal.utiles.ReporteUtil.Formato;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
@@ -52,8 +46,14 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgOficina;
 import javax.swing.JPanel;
 import org.jdesktop.swingbinding.JTableBinding;
+import com.biosis.biosislite.Main;
+import com.biosis.biosislite.utiles.HerramientaGeneral;
+import com.biosis.biosislite.vistas.dialogos.DlgMarcacionesDiarias;
+import com.biosis.biosislite.vistas.modelos.MTNoMarcan;
 
 /**
  *
@@ -67,7 +67,7 @@ public class RptNoMarcan extends javax.swing.JInternalFrame {
     private final ReporteUtil reporteador;
     private final DateFormat dfFecha;
     private final EmpleadoControlador ec;
-    private final File archivo = Main.FICHERO_REPORTE_EMPLEADOS_NO_MARCAN;
+    private final File archivo = new File("reportes/reporte_empleados_no_marcan.jasper");
     private final Font fuente;
     private final Interprete interprete = new InterpreteNoMarcacion();
     private final AreaEmpleadoControlador aempc = new AreaEmpleadoControlador();
@@ -408,10 +408,7 @@ public class RptNoMarcan extends javax.swing.JInternalFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
         DlgEmpleado dialogo = new DlgEmpleado(this);
-        Empleado empleado = dialogo.getSeleccionado();
-        if(!empleadoList.contains(empleado)){
-            empleadoList.add(empleado);
-        }
+        dialogo.setVisible(true);
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void radPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPorFechaActionPerformed

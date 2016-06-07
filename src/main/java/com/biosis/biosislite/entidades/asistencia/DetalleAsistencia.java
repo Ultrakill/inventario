@@ -5,6 +5,7 @@
  */
 package com.biosis.biosislite.entidades.asistencia;
 
+import com.biosis.biosislite.entidades.DetalleJornada;
 import java.util.Date;
 
 /**
@@ -17,6 +18,8 @@ public class DetalleAsistencia {
     private Date horaReferenciaDesde;
     private Date horaReferenciaHasta;
     private Date horaReferenciaTolerancia;
+    private Date horaReferenciaFalta;
+    
     private boolean permiso;
     //bandera: 1 es inicio, 0 es fin
     private boolean bandera;
@@ -112,5 +115,15 @@ public class DetalleAsistencia {
     public void setTipo(char tipo) {
         this.tipo = tipo;
     }
+
+    public Date getHoraReferenciaFalta() {
+        return horaReferenciaFalta;
+    }
+
+    public void setHoraReferenciaFalta(Date horaReferenciaFalta) {
+        this.horaReferenciaFalta = horaReferenciaFalta;
+    }
+    
+    
 
 }

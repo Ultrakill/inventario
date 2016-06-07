@@ -5,14 +5,13 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
+import com.biosis.biosislite.vistas.VistaRegistroAsistencia;
+import com.biosis.biosislite.vistas.AsignarPermiso;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
-import com.biosis.biosislite.vistas.AsignarPermiso;
 import com.biosis.biosislite.vistas.mantenimientos.CRUDGrupoHorario;
 import com.biosis.biosislite.vistas.reportes.RptPermisos;
 import com.biosis.biosislite.vistas.reportes.RptRegistroAsistencia;
-import com.biosis.biosislite.vistas.reportes.RptVacaciones;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JDialog;
@@ -24,6 +23,7 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.vistas.reportes.RptVacaciones;
 
 /**
  *
@@ -36,7 +36,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
      */
     private List<Empleado> lista;
     private final EmpleadoControlador ec;
-    private final JInternalFrame padre;
+    private final JInternalFrame padre;    
     private boolean agregar;
 
     public boolean isAgregar() {
@@ -58,7 +58,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
         agregar = true;
         this.setLocationRelativeTo(parent);
     }
-
+    
     public DlgEmpleado(JDialog parent) {
         super(parent, true);
         initComponents();
@@ -123,7 +123,6 @@ public class DlgEmpleado extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtBusqueda, gridBagConstraints);
 
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Search.png"))); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,9 +140,6 @@ public class DlgEmpleado extends javax.swing.JDialog {
             }
         });
         tblEmpleado.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                tblEmpleadoKeyPressed(evt);
-            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tblEmpleadoKeyReleased(evt);
             }
@@ -193,7 +189,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
         });
         pnlNavegacion.add(btnAnterior);
 
-        spPagina.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        spPagina.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
         spPagina.setMinimumSize(new java.awt.Dimension(60, 20));
         spPagina.setPreferredSize(new java.awt.Dimension(60, 20));
         spPagina.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -248,14 +244,14 @@ public class DlgEmpleado extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 883, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -287,25 +283,12 @@ public class DlgEmpleado extends javax.swing.JDialog {
             this.buscar();
             this.actualizarControlesNavegacion();
             lblBusqueda.setBusy(false);
-        } else if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
-            if (tblEmpleado.getRowCount() > 0) {
-                tblEmpleado.requestFocus();
-                this.tblEmpleado.setRowSelectionInterval(0, 0);
-            }
         }
     }//GEN-LAST:event_txtBusquedaKeyReleased
-
+    
     private void tblEmpleadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadoKeyReleased
         // TODO add your handling code here:
-        if (tblEmpleado.getSelectedRow() == 0) {
-            if (evt.getKeyCode() == KeyEvent.VK_UP) {
-//                tblEmpleado.setRowSelectionInterval(-1, -1);
-                txtBusqueda.requestFocus();
-                
-            }
-        }
 
-        
     }//GEN-LAST:event_tblEmpleadoKeyReleased
 
     private void tblEmpleadoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEmpleadoMouseReleased
@@ -320,13 +303,19 @@ public class DlgEmpleado extends javax.swing.JDialog {
                 } else if (this.padre instanceof AsignarPermiso && agregar) {
                     ((AsignarPermiso) padre).agregarEmpleado(lista.get(fila));
 
-                } else if (this.padre instanceof RptPermisos && agregar) {
-                    ((RptPermisos) this.padre).agregarEmpleado(lista.get(fila));
-                } else if (this.padre instanceof RptRegistroAsistencia && agregar) {
-                    ((RptRegistroAsistencia) this.padre).agregarEmpleado(lista.get(fila));
-                } else if (this.padre instanceof RptVacaciones && agregar) {
-                    ((RptVacaciones) this.padre).agregarEmpleado(lista.get(fila));
-                } else {
+                } else if(this.padre instanceof VistaRegistroAsistencia && agregar){
+                    ((VistaRegistroAsistencia)padre).agregarEmpleado(lista.get(fila));
+                } 
+                else if(this.padre instanceof RptPermisos && agregar){
+                    ((RptPermisos)this.padre).agregarEmpleado(lista.get(fila));
+                }
+                else if(this.padre instanceof RptRegistroAsistencia && agregar){
+                    ((RptRegistroAsistencia)this.padre).agregarEmpleado(lista.get(fila));
+                }
+                else if(this.padre instanceof RptVacaciones && agregar){
+                    ((RptVacaciones)this.padre).agregarEmpleado(lista.get(fila));
+                }
+                else {
                     empleadoSeleccionado = lista.get(fila);
                     this.dispose();
                 }
@@ -367,31 +356,6 @@ public class DlgEmpleado extends javax.swing.JDialog {
         this.actualizarControlesNavegacion();
     }//GEN-LAST:event_cboTamanioActionPerformed
 
-    private void tblEmpleadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadoKeyPressed
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            int fila = tblEmpleado.getSelectedRow();
-            if (fila != -1) {
-                if (this.padre instanceof CRUDGrupoHorario && agregar) {
-                    ((CRUDGrupoHorario) padre).agregarEmpleado(lista.get(fila));
-                    lista.remove(fila);
-                } else if (this.padre instanceof AsignarPermiso && agregar) {
-                    ((AsignarPermiso) padre).agregarEmpleado(lista.get(fila));
-
-                } else if (this.padre instanceof RptPermisos && agregar) {
-                    ((RptPermisos) this.padre).agregarEmpleado(lista.get(fila));
-                } else if (this.padre instanceof RptRegistroAsistencia && agregar) {
-                    ((RptRegistroAsistencia) this.padre).agregarEmpleado(lista.get(fila));
-                } else if (this.padre instanceof RptVacaciones && agregar) {
-                    ((RptVacaciones) this.padre).agregarEmpleado(lista.get(fila));
-                } else {
-                    empleadoSeleccionado = lista.get(fila);
-                    this.dispose();
-                }
-            }
-        }
-    }//GEN-LAST:event_tblEmpleadoKeyPressed
-
     private Empleado empleadoSeleccionado;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -417,13 +381,13 @@ public class DlgEmpleado extends javax.swing.JDialog {
         JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista, tblEmpleado);
 
         BeanProperty pNroDocumento = BeanProperty.create("nroDocumento");
-//        BeanProperty pCodigoModular = BeanProperty.create("fichaLaboral.codigoTrabajador");
+        BeanProperty pCodigoModular = BeanProperty.create("fichaLaboral.codigoTrabajador");
         BeanProperty pTipoDocumento = BeanProperty.create("tipoDocumento.abreviatura");
         BeanProperty pNombre = BeanProperty.create("nombre");
         BeanProperty pApellidoPaterno = BeanProperty.create("paterno");
         BeanProperty pApellidoMaterno = BeanProperty.create("materno");
 
-//        binding.addColumnBinding(pCodigoModular).setColumnName("Código modular").setEditable(false);
+        binding.addColumnBinding(pCodigoModular).setColumnName("Código modular").setEditable(false);
         binding.addColumnBinding(pNroDocumento).setColumnName("Nro. Documento").setEditable(false);
         binding.addColumnBinding(pTipoDocumento).setColumnName("Tipo de documento").setEditable(false);
         binding.addColumnBinding(pNombre).setColumnName("Nombre").setEditable(false);

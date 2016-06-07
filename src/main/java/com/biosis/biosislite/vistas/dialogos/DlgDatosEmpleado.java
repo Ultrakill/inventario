@@ -5,18 +5,18 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
+import com.personal.utiles.FormularioUtil;
 import com.biosis.biosislite.controladores.AreaEmpleadoControlador;
-import com.biosis.biosislite.controladores.ConceptoControlador;
 import com.biosis.biosislite.controladores.ContratoControlador;
 import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Contrato;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
-import com.personal.utiles.FormularioUtil;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import org.apache.commons.beanutils.BeanUtils;
 
 /**
  *
@@ -88,15 +88,6 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         txtApellidoPaterno = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
         dtFechaNacimiento = new com.toedter.calendar.JDateChooser();
-        jLabel7 = new javax.swing.JLabel();
-        txtTipoPersona = new javax.swing.JTextField();
-        pnlDatosUbicacionAlumno = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel13 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
@@ -153,7 +144,7 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         jLabel3.setText("Apellido paterno:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel1.add(jLabel3, gridBagConstraints);
@@ -161,7 +152,7 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         jLabel4.setText("Apellido materno:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel1.add(jLabel4, gridBagConstraints);
@@ -169,7 +160,7 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         jLabel5.setText("Nombre:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel1.add(jLabel5, gridBagConstraints);
@@ -177,7 +168,7 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         jLabel6.setText("Fecha de nac.:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel1.add(jLabel6, gridBagConstraints);
@@ -185,7 +176,7 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         txtApellidoMaterno.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
@@ -194,7 +185,7 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         txtApellidoPaterno.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
@@ -203,7 +194,7 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         txtNombre.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
@@ -212,60 +203,11 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         dtFechaNacimiento.setDateFormatString("dd-MM-yyyy");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         jPanel1.add(dtFechaNacimiento, gridBagConstraints);
-
-        jLabel7.setText("Tipo Persona:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(jLabel7, gridBagConstraints);
-
-        txtTipoPersona.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(txtTipoPersona, gridBagConstraints);
-
-        pnlDatosUbicacionAlumno.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de ubicación de alumno"));
-        pnlDatosUbicacionAlumno.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-
-        jLabel8.setText("Nivel:");
-        pnlDatosUbicacionAlumno.add(jLabel8);
-
-        jTextField2.setEditable(false);
-        jTextField2.setName(""); // NOI18N
-        jTextField2.setPreferredSize(new java.awt.Dimension(60, 20));
-        pnlDatosUbicacionAlumno.add(jTextField2);
-
-        jLabel9.setText("Grado:");
-        pnlDatosUbicacionAlumno.add(jLabel9);
-
-        jTextField3.setEditable(false);
-        jTextField3.setPreferredSize(new java.awt.Dimension(60, 20));
-        pnlDatosUbicacionAlumno.add(jTextField3);
-
-        jLabel13.setText("Sección:");
-        pnlDatosUbicacionAlumno.add(jLabel13);
-
-        jTextField4.setEditable(false);
-        jTextField4.setPreferredSize(new java.awt.Dimension(60, 20));
-        pnlDatosUbicacionAlumno.add(jTextField4);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
-        jPanel1.add(pnlDatosUbicacionAlumno, gridBagConstraints);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -273,7 +215,7 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -404,24 +346,16 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JPanel pnlDatosUbicacionAlumno;
     private javax.swing.JTextField txtApellidoMaterno;
     private javax.swing.JTextField txtApellidoPaterno;
     private javax.swing.JTextField txtArea;
@@ -430,18 +364,14 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
     private javax.swing.JTextField txtNroDoc;
     private javax.swing.JTextField txtRegimenLaboral;
     private javax.swing.JTextField txtTipoDoc;
-    private javax.swing.JTextField txtTipoPersona;
     // End of variables declaration//GEN-END:variables
 
     ContratoControlador cc = ContratoControlador.getInstance();
     AreaEmpleadoControlador ae = new AreaEmpleadoControlador();
-    ConceptoControlador cpc = ConceptoControlador.getInstance();
+   
     private void actualizarControles() {
         txtNroDoc.setText(empleado.getNroDocumento());
-        //txtTipoDoc.setText(empleado.getTipoDocumento().getNombre());
-        
-        txtTipoDoc.setText(cpc.buscarXPrefijoXCorrelativo(10, empleado.getCodigoTipoDocumento()).getAbreviatura());
-        txtTipoPersona.setText(cpc.buscarXPrefijoXCorrelativo(4, empleado.getTipoPersona()).getDescripcion());
+        txtTipoDoc.setText(empleado.getTipoDocumento().getNombre());
         txtApellidoPaterno.setText(empleado.getPaterno());
         txtApellidoMaterno.setText(empleado.getMaterno());
         txtNombre.setText(empleado.getNombre());
@@ -451,23 +381,21 @@ public class DlgDatosEmpleado extends javax.swing.JDialog {
         List<Contrato> contratos = cc.buscarXNombrexFechaASC(empleado);
         if(!contratos.isEmpty()){
             contratoVigente = contratos.get(0);
-            dtFechaContrato.setDate(empleado.getContratoList().get(0).getFechaInicio());
+            dtFechaContrato.setDate(contratos.get(0).getFechaInicio());
         }
         
-        if(empleado.getFichaLaboral()!=null){
-            txtRegimenLaboral.setText(contratoVigente.getRegimenLaboral() == null ? "" : contratoVigente.getRegimenLaboral().getNombre());
+        
+        txtRegimenLaboral.setText(contratoVigente.getRegimenLaboral() == null ? "" : contratoVigente.getRegimenLaboral().getNombre());
                 
-            txtCodigoModular.setText(empleado.getFichaLaboral().getCodigoTrabajador());
-
-            AreaEmpleado areaVigente = new AreaEmpleado();
-            List<AreaEmpleado> areas = ae.buscarXNombrexFechaASC(empleado);
-            if(!areas.isEmpty()){
-                areaVigente = areas.get(0);
-            }
-
-            txtArea.setText(areaVigente.getDepartamento() == null ? "" : areaVigente.getDepartamento().getNombre());
+        txtCodigoModular.setText(empleado.getFichaLaboral().getCodigoTrabajador());
+        
+        AreaEmpleado areaVigente = new AreaEmpleado();
+        List<AreaEmpleado> areas = ae.buscarXNombrexFechaASC(empleado);
+        if(!areas.isEmpty()){
+            areaVigente = areas.get(0);
         }
         
+        txtArea.setText(areaVigente.getDepartamento() == null ? "" : areaVigente.getDepartamento().getNombre());
         
     }
 }

@@ -5,13 +5,13 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
-
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.JornadaControlador;
 import com.biosis.biosislite.entidades.Jornada;
 import com.biosis.biosislite.vistas.modelos.MTJornada;
 import com.personal.utiles.FormularioUtil;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;

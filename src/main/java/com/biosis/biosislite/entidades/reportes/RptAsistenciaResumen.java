@@ -7,7 +7,6 @@ package com.biosis.biosislite.entidades.reportes;
 
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 
-
 /**
  *
  * @author Francis

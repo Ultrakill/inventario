@@ -9,7 +9,6 @@ import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.dao.DAOBiostar;
 import com.biosis.biosislite.entidades.biostar.Reader;
 
-
 /**
  *
  * @author RyuujiMD

@@ -5,8 +5,7 @@
  */
 package com.biosis.biosislite.vistas.reportes;
 
-
-import com.biosis.biosislite.Main;
+import com.biosis.biosislite.algoritmo.AnalisisAsistencia;
 import com.biosis.biosislite.controladores.DetalleGrupoControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.GrupoHorarioControlador;
@@ -14,15 +13,13 @@ import com.biosis.biosislite.controladores.PeriodoControlador;
 import com.biosis.biosislite.entidades.DetalleGrupoHorario;
 import com.biosis.biosislite.entidades.GrupoHorario;
 import com.biosis.biosislite.entidades.Periodo;
-import com.biosis.biosislite.entidades.escalafon.Departamento;
-import com.biosis.biosislite.entidades.escalafon.Empleado;
-import com.biosis.biosislite.entidades.escalafon.FichaLaboral;
-import com.biosis.biosislite.utiles.UsuarioActivo;
 import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-import com.biosis.biosislite.vistas.dialogos.DlgOficina;
 import com.biosis.biosislite.vistas.modelos.MTEmpleado;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
+import com.biosis.biosislite.entidades.escalafon.Departamento;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
+import com.biosis.biosislite.entidades.escalafon.FichaLaboral;
 import java.awt.Component;
 import java.io.File;
 import java.text.DateFormat;
@@ -41,6 +38,8 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgOficina;
 
 /**
  *
@@ -557,7 +556,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
 
     private void imprimir() {
-//        String reporte = "reportes/r_permisos_licencia_comision.jasper";
+        String reporte = "reportes/r_permisos_licencia_comision.jasper";
         List<String> listaTipo = obtenerTipos();
         List<Empleado> empleados = obtenerDNI();
         List<String> listaDNI = new ArrayList<>();
@@ -608,7 +607,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
 //            reporte = "reportes/ensa_reporte_permiso.jasper";
 //            parametros.put("tipo", tipo);
 //        }
-        File archivo = Main.FICHERO_REPORTE_PERMISOS;
+        File archivo = new File(reporte);
         System.out.println("archivo: " + archivo.getAbsolutePath());
 
         parametros.put("usuario", UsuarioActivo.getUsuario().getLogin());
@@ -666,6 +665,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         }
     }
 
+    private final AnalisisAsistencia analisis = new AnalisisAsistencia();
     private final DetalleGrupoControlador dgc = new DetalleGrupoControlador();
 
     private List<Empleado> obtenerEmpleados() {

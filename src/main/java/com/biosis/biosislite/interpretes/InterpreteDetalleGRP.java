@@ -5,18 +5,20 @@
  */
 package com.biosis.biosislite.interpretes;
 
-import com.biosis.biosislite.algoritmo.AnalizadorAsistencia;
-import com.biosis.biosislite.algoritmo.Interprete;
+import com.biosis.biosislite.algoritmo.*;
+import com.personal.utiles.FechaUtil;
 import com.biosis.biosislite.entidades.asistencia.Asistencia;
 import com.biosis.biosislite.entidades.asistencia.DetalleAsistencia;
 import com.biosis.biosislite.entidades.escalafon.RegimenLaboral;
 import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
-import com.biosis.biosislite.utiles.HerramientaGeneral;
-import com.personal.utiles.FechaUtil;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import com.biosis.biosislite.utiles.HerramientaGeneral;
 
 /**
  *
@@ -72,6 +74,8 @@ public class InterpreteDetalleGRP implements Interprete<RptAsistenciaDetallado> 
                             System.out.println("CONTADOR DETALLES = " + contadorDetalles);
                             if (contadorDetalles == 0) {
                                 minutosTardanzaEntrada = minutosTardanzaEntrada + this.tardanzaMin(detalle.getHoraEvento(), detalle.getHoraReferenciaTolerancia());
+                                System.out.println("-- MINUTOS TARDANZA ENTRADA -- " + minutosTardanzaRefrigerio);
+                                
                             }
                         }
 
@@ -98,6 +102,7 @@ public class InterpreteDetalleGRP implements Interprete<RptAsistenciaDetallado> 
                             detalleAsistencia.setHoraReferencia1(detalle.getHoraReferencia());
                             detalleAsistencia.setHoraTolerancia1(detalle.getHoraReferenciaTolerancia());
                             detalleAsistencia.setHoraEvento1(detalle.getHoraEvento());
+                            detalleAsistencia.setHoraReferenciaFalta1(detalle.getHoraReferenciaFalta());
 
                             break;
                         case 1:
@@ -105,18 +110,21 @@ public class InterpreteDetalleGRP implements Interprete<RptAsistenciaDetallado> 
                             detalleAsistencia.setHoraReferencia2(detalle.getHoraReferencia());
                             detalleAsistencia.setHoraTolerancia2(detalle.getHoraReferenciaTolerancia());
                             detalleAsistencia.setHoraEvento2(detalle.getHoraEvento());
+                            detalleAsistencia.setHoraReferenciaFalta2(detalle.getHoraReferenciaFalta());
                             break;
                         case 2:
                             detalleAsistencia.setEnPermiso3(detalle.isPermiso());
                             detalleAsistencia.setHoraReferencia3(detalle.getHoraReferencia());
                             detalleAsistencia.setHoraTolerancia3(detalle.getHoraReferenciaTolerancia());
                             detalleAsistencia.setHoraEvento3(detalle.getHoraEvento());
+                            detalleAsistencia.setHoraReferenciaFalta3(detalle.getHoraReferenciaFalta());
                             break;
                         case 3:
                             detalleAsistencia.setEnPermiso4(detalle.isPermiso());
                             detalleAsistencia.setHoraReferencia4(detalle.getHoraReferencia());
                             detalleAsistencia.setHoraTolerancia4(detalle.getHoraReferenciaTolerancia());
                             detalleAsistencia.setHoraEvento4(detalle.getHoraEvento());
+                            detalleAsistencia.setHoraReferenciaFalta4(detalle.getHoraReferenciaFalta());
                             break;
                     }
 //                    detalleAsistencia.getEnPermiso()[contador] = detalle.isPermiso();
@@ -133,10 +141,13 @@ public class InterpreteDetalleGRP implements Interprete<RptAsistenciaDetallado> 
                         detalleAsistencia.setMinutosExtra(minutosExtra >= 120 ? minutosExtra : 0);
                     }
                     if (contador == 4 || contador == marcacionesMaximas.intValue()) {
+                        System.out.println("MINUTOS TARDANZA ENTRADA: " + minutosTardanzaEntrada);
                         detalleAsistencia.setMinutosTardanza(minutosTardanzaEntrada);
                         System.out.println("MINUTOS TARDANZA REFRIGERIO: " + minutosTardanzaRefrigerio);
                         detalleAsistencia.setMinutosTardanzaRefrigerio(minutosTardanzaRefrigerio);
+                        detalleAsistencia.setMarcacionesFuera(asistencia.getMarcacionesFueraStr());
                         registro.add(detalleAsistencia);
+                        
 //                        detalleAsistencia = null;
                         contador = 0;
                         minutosTardanzaEntrada = 0;
@@ -212,7 +223,7 @@ public class InterpreteDetalleGRP implements Interprete<RptAsistenciaDetallado> 
         DetalleAsistencia salida = detalleAsistenciaList.get(detalleAsistenciaList.size() - 1);
 
         if ((entrada.getHoraEvento() != null || entrada.isPermiso()) && (salida.getHoraEvento() != null || salida.isPermiso())) {
-            hayTardanza = (!entrada.isPermiso() && tardanzaMin(FechaUtil.soloHora(entrada.getHoraEvento()), FechaUtil.soloHora(entrada.getHoraReferenciaTolerancia())) > 1);
+            hayTardanza = (!entrada.isPermiso() && tardanzaMin(FechaUtil.soloHora(entrada.getHoraEvento()), FechaUtil.soloHora(entrada.getHoraReferenciaTolerancia())) >= 1);
 
             if (hayTardanza) {
                 return AnalizadorAsistencia.TARDANZA;
@@ -312,9 +323,27 @@ public class InterpreteDetalleGRP implements Interprete<RptAsistenciaDetallado> 
 
     private double tardanzaMin(Date evento, Date tolerancia) {
         System.out.println("HORA EVENTO: " + evento + " TOLERANCIA: " + tolerancia);
-        if (tolerancia.before(evento)) {
-            double tardanza = (FechaUtil.soloHora(evento).getTime() - FechaUtil.soloHora(tolerancia).getTime()) / (60 * 1000);
-            if (tardanza >= 1) {
+        
+        DateFormat formato = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+
+        String even = formato.format(evento);
+        String tol = formato.format(tolerancia);
+
+        Date fechaEvento = new Date();
+        Date fechaTolerancia = new Date();
+        
+        try {
+            fechaEvento = formato.parse(even);
+            fechaTolerancia = formato.parse(tol);
+
+        } catch (ParseException e) {
+            System.out.println("ERROR+" + e);
+        }
+
+        if (fechaTolerancia.before(fechaEvento)) {
+            double tardanza = (FechaUtil.soloHora(fechaEvento).getTime() - FechaUtil.soloHora(fechaTolerancia).getTime()) / (60 * 1000);
+            System.out.println("Minutos Tardanza: "+tardanza);
+            if (tardanza >= 1.0) {
                 return tardanza;
             } else {
                 return 0.0;

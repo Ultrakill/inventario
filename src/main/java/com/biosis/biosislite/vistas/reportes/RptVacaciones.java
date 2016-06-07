@@ -5,30 +5,26 @@
  */
 package com.biosis.biosislite.vistas.reportes;
 
-import com.biosis.biosislite.Main;
-import com.biosis.biosislite.controladores.CompraVacacionControlador;
 import com.biosis.biosislite.controladores.DetalleGrupoControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.GrupoHorarioControlador;
 import com.biosis.biosislite.controladores.PeriodoControlador;
 import com.biosis.biosislite.controladores.SaldoVacacionalControlador;
-import com.biosis.biosislite.controladores.VacacionControlador;
-import com.biosis.biosislite.entidades.CompraVacacion;
 import com.biosis.biosislite.entidades.DetalleGrupoHorario;
 import com.biosis.biosislite.entidades.GrupoHorario;
-import com.biosis.biosislite.entidades.InterrupcionVacacion;
 import com.biosis.biosislite.entidades.Periodo;
 import com.biosis.biosislite.entidades.SaldoVacacional;
+import com.biosis.biosislite.vistas.modelos.MTEmpleado;
+import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
+import com.biosis.biosislite.controladores.CompraVacacionControlador;
+import com.biosis.biosislite.controladores.VacacionControlador;
+import com.biosis.biosislite.entidades.CompraVacacion;
+import com.biosis.biosislite.entidades.InterrupcionVacacion;
 import com.biosis.biosislite.entidades.Vacacion;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.FichaLaboral;
-import com.biosis.biosislite.utiles.UsuarioActivo;
-import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-import com.biosis.biosislite.vistas.dialogos.DlgOficina;
-import com.biosis.biosislite.vistas.modelos.MTEmpleado;
-import com.personal.utiles.FormularioUtil;
-import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
@@ -45,6 +41,10 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.Main;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.dialogos.DlgOficina;
 
 /**
  *
@@ -435,12 +435,12 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
         if (radSaldo.isSelected()) {
             List<SaldoVacacional> saldos = generarSaldos((Periodo) cboPeriodo.getSelectedItem(), empleados);
-//            String ficheroReport = "reportes/ensa_reporte_saldo_vacacion.jasper";
+            String ficheroReport = "reportes/ensa_reporte_saldo_vacacion.jasper";
             Map<String, Object> parametros = new HashMap<>();
             parametros.put("reporte_usuario", UsuarioActivo.getUsuario().getLogin());
             parametros.put("reporte_institucion", Main.REPORTE_INSTITUCION);
             parametros.put("periodo_anio", ((Periodo) cboPeriodo.getSelectedItem()).getAnio());
-            File reporteFile = Main.FICHERO_REPORTE_VACACIONES_SALDO;
+            File reporteFile = new File(ficheroReport);
             Component component = reporteUtil.obtenerReporte(saldos, reporteFile, parametros);
             if (component != null) {
                 pnlTab.remove(0);
@@ -454,9 +454,9 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         for (Empleado e : empleados) {
             dnis.add(e.getNroDocumento());
         }
-//        String ficheroReporte = "reportes/ensa_reporte_vacacion.jasper";
+        String ficheroReporte = "reportes/ensa_reporte_vacacion.jasper";
 
-        File archivo = Main.FICHERO_REPORTE_VACACIONES_DETALLE;
+        File archivo = new File(ficheroReporte);
         Map<String, Object> parametros = new HashMap<>();
         parametros.put("reporte_usuario", UsuarioActivo.getUsuario().getLogin());
         parametros.put("persona_lista", dnis);

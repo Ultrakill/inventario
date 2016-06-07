@@ -7,7 +7,6 @@ package com.biosis.biosislite.vistas.dialogos;
 
 import com.biosis.biosislite.algoritmo.AnalizadorAsistencia;
 
-
 /**
  *
  * @author Francis
@@ -206,7 +205,6 @@ public class DlgGenerarMarcacion extends javax.swing.JDialog {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(DlgGenerarMarcacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */

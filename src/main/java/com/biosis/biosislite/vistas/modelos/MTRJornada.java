@@ -10,6 +10,7 @@ import com.biosis.biosislite.entidades.Jornada;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import javax.swing.table.TableModel;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 
 /**

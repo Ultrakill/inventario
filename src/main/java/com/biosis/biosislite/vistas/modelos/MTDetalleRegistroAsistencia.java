@@ -5,8 +5,8 @@
  */
 package com.biosis.biosislite.vistas.modelos;
 
-import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
 import com.personal.utiles.ModeloTabla;
+import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;

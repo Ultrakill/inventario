@@ -7,6 +7,7 @@ package com.biosis.biosislite.controladores;
 
 import com.biosis.biosislite.entidades.CompraVacacion;
 import com.biosis.biosislite.entidades.Periodo;
+import com.biosis.biosislite.entidades.Vacacion;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.util.Date;
 import java.util.HashMap;

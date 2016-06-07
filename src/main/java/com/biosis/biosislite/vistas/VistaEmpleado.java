@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.biosis.biosislite.vistas;
+package com.biosis.biosislite.vistas; 
 
+import com.personal.utiles.ReporteUtil;
 import com.biosis.biosislite.controladores.Controlador;
+import com.biosis.biosislite.vistas.dialogos.DlgDatosEmpleado;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.MarcacionControlador;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
-import com.biosis.biosislite.utiles.UsuarioActivo;
-import com.biosis.biosislite.vistas.dialogos.DlgDatosEmpleado;
-import com.biosis.biosislite.vistas.dialogos.DlgEmpleadoCRUD;
-import com.biosis.biosislite.vistas.modelos.MTEmpleado;
-import com.personal.utiles.ReporteUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +23,8 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgEmpleadoCRUD;
 
 /**
  *
@@ -103,7 +102,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         jPanel1.add(txtBusqueda, gridBagConstraints);
 
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Search.png"))); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -128,7 +126,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
 
         jPanel2.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add.png"))); // NOI18N
         jButton5.setText("NUEVO");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,7 +134,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         });
         jPanel2.add(jButton5);
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/edit-paste.png"))); // NOI18N
         jButton6.setText("EDITAR");
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,7 +142,6 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
         });
         jPanel2.add(jButton6);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/personal.png"))); // NOI18N
         jButton1.setText("VER DATOS");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,14 +228,14 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -357,10 +352,23 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
 
     private void bindeoSalvaje() {
         lista = ObservableCollections.observableList(new ArrayList<Empleado>());
-        String[] columnasIntegrantes = {"Nro Documento","Tipo de Documento","Nombre","Apellido Paterno","Apellido Materno"};
-        
-        MTEmpleado mtIntegrantes = new MTEmpleado(lista, columnasIntegrantes);
-        tblEmpleado.setModel(mtIntegrantes);
+        JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista, tblEmpleado);
+
+        BeanProperty pNroDocumento = BeanProperty.create("nroDocumento");
+        BeanProperty pCodigoModular = BeanProperty.create("fichaLaboral.codigoTrabajador");
+        BeanProperty pTipoDocumento = BeanProperty.create("tipoDocumento.abreviatura");
+        BeanProperty pNombre = BeanProperty.create("nombre");
+        BeanProperty pApellidoPaterno = BeanProperty.create("paterno");
+        BeanProperty pApellidoMaterno = BeanProperty.create("materno");
+
+        binding.addColumnBinding(pCodigoModular).setColumnName("Código modular").setEditable(false);
+        binding.addColumnBinding(pNroDocumento).setColumnName("Nro. Documento").setEditable(false);
+        binding.addColumnBinding(pTipoDocumento).setColumnName("Tipo de documento").setEditable(false);
+        binding.addColumnBinding(pNombre).setColumnName("Nombre").setEditable(false);
+        binding.addColumnBinding(pApellidoPaterno).setColumnName("Apellido paterno").setEditable(false);
+        binding.addColumnBinding(pApellidoMaterno).setColumnName("Apellido materno").setEditable(false);
+
+        binding.bind();
     }
 
 //    private void buscar() {

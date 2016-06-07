@@ -7,16 +7,16 @@ package com.biosis.biosislite.vistas.dialogos;
 
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.dao.DAOBiosis;
-import com.biosis.biosislite.utiles.Encriptador;
+import com.biosis.biosislite.entidades.Marcacion;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.PropertiesUtil;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.util.Properties;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import org.apache.log4j.Logger;
-
-
+import com.biosis.biosislite.utiles.Encriptador;
 
 /**
  *
@@ -67,32 +67,17 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         jLabel51 = new javax.swing.JLabel();
         cboTipoBD3 = new javax.swing.JComboBox();
         chkCrear = new javax.swing.JCheckBox();
-        pnlRRHH = new javax.swing.JPanel();
-        jLabel40 = new javax.swing.JLabel();
-        jLabel41 = new javax.swing.JLabel();
-        jLabel42 = new javax.swing.JLabel();
-        txtConexion1 = new javax.swing.JTextField();
-        txtUsuario1 = new javax.swing.JTextField();
-        txtPassword1 = new javax.swing.JPasswordField();
-        jLabel43 = new javax.swing.JLabel();
-        cboTipoBD1 = new javax.swing.JComboBox();
-        pnlBiostar = new javax.swing.JPanel();
-        jLabel44 = new javax.swing.JLabel();
-        jLabel45 = new javax.swing.JLabel();
-        jLabel46 = new javax.swing.JLabel();
-        txtConexion2 = new javax.swing.JTextField();
-        txtUsuario2 = new javax.swing.JTextField();
-        txtPassword2 = new javax.swing.JPasswordField();
-        jLabel47 = new javax.swing.JLabel();
-        cboTipoBD2 = new javax.swing.JComboBox();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.Y_AXIS));
+        setMinimumSize(new java.awt.Dimension(800, 235));
+        setPreferredSize(new java.awt.Dimension(800, 235));
+        setResizable(false);
 
         pnlBiosis.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de conexión a Biosis"));
+        pnlBiosis.setPreferredSize(new java.awt.Dimension(300, 149));
         pnlBiosis.setLayout(new java.awt.GridBagLayout());
 
         jLabel48.setText("Conexión:");
@@ -106,7 +91,7 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         jLabel49.setText("Usuario:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 0.1;
         pnlBiosis.add(jLabel49, gridBagConstraints);
@@ -114,27 +99,30 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         jLabel50.setText("Contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 0.1;
         pnlBiosis.add(jLabel50, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 18;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 183;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlBiosis.add(txtConexion3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 18;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 183;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         pnlBiosis.add(txtUsuario3, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 18;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 183;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -143,15 +131,17 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         jLabel51.setText("Tipo de BD:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 0.1;
         pnlBiosis.add(jLabel51, gridBagConstraints);
 
         cboTipoBD3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SQL Server", "PostgreSQL", "MySQL" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 18;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 76;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -159,164 +149,31 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         pnlBiosis.add(cboTipoBD3, gridBagConstraints);
 
         chkCrear.setText("¿Crear tablas?");
+        chkCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkCrearActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBiosis.add(chkCrear, gridBagConstraints);
 
-        getContentPane().add(pnlBiosis);
-
-        pnlRRHH.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de conexión a RRHH"));
-        pnlRRHH.setLayout(new java.awt.GridBagLayout());
-
-        jLabel40.setText("Conexión:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 0.1;
-        pnlRRHH.add(jLabel40, gridBagConstraints);
-
-        jLabel41.setText("Usuario:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 0.1;
-        pnlRRHH.add(jLabel41, gridBagConstraints);
-
-        jLabel42.setText("Contraseña:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 0.1;
-        pnlRRHH.add(jLabel42, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 183;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlRRHH.add(txtConexion1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 183;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlRRHH.add(txtUsuario1, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 183;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlRRHH.add(txtPassword1, gridBagConstraints);
-
-        jLabel43.setText("Tipo de BD:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 0.1;
-        pnlRRHH.add(jLabel43, gridBagConstraints);
-
-        cboTipoBD1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SQL Server", "PostgreSQL", "MySQL" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 76;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.1;
-        pnlRRHH.add(cboTipoBD1, gridBagConstraints);
-
-        getContentPane().add(pnlRRHH);
-
-        pnlBiostar.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de conexión a Biostar"));
-        pnlBiostar.setLayout(new java.awt.GridBagLayout());
-
-        jLabel44.setText("Conexión:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 0.1;
-        pnlBiostar.add(jLabel44, gridBagConstraints);
-
-        jLabel45.setText("Usuario:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 0.1;
-        pnlBiostar.add(jLabel45, gridBagConstraints);
-
-        jLabel46.setText("Contraseña:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 0.1;
-        pnlBiostar.add(jLabel46, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 183;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlBiostar.add(txtConexion2, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 183;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlBiostar.add(txtUsuario2, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 183;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        pnlBiostar.add(txtPassword2, gridBagConstraints);
-
-        jLabel47.setText("Tipo de BD:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weighty = 0.1;
-        pnlBiostar.add(jLabel47, gridBagConstraints);
-
-        cboTipoBD2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "SQL Server", "PostgreSQL", "MySQL" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipadx = 76;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.1;
-        pnlBiostar.add(cboTipoBD2, gridBagConstraints);
-
-        getContentPane().add(pnlBiostar);
-
+        jPanel4.setPreferredSize(new java.awt.Dimension(124, 10));
         jPanel4.setLayout(new java.awt.GridBagLayout());
 
         jButton1.setText("Salir");
+        jButton1.setMaximumSize(new java.awt.Dimension(70, 23));
+        jButton1.setMinimumSize(new java.awt.Dimension(70, 23));
+        jButton1.setPreferredSize(new java.awt.Dimension(70, 23));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel4.add(jButton1, gridBagConstraints);
 
         jButton2.setText("Guardar");
@@ -326,14 +183,25 @@ public class DlgConfiguracion extends javax.swing.JDialog {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
-        gridBagConstraints.weighty = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 2, 0, 2);
         jPanel4.add(jButton2, gridBagConstraints);
 
-        getContentPane().add(jPanel4);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlBiosis, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pnlBiosis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -342,8 +210,8 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         // TODO add your handling code here:
 
         try {
-            this.guardar(rrhh, urlRRHH, cboTipoBD1, txtConexion1, txtUsuario1, txtPassword1);
-            this.guardar(biostar, urlBIOSTAR, cboTipoBD2, txtConexion2, txtUsuario2, txtPassword2);
+//            this.guardar(rrhh, urlRRHH, cboTipoBD1, txtConexion1, txtUsuario1, txtPassword1);
+//            this.guardar(biostar, urlBIOSTAR, cboTipoBD2, txtConexion2, txtUsuario2, txtPassword2);
             this.guardar(biosis, urlBIOSIS, cboTipoBD3, txtConexion3, txtUsuario3, txtPassword3, chkCrear.isSelected());
             FormularioUtil.mensajeExito(this, Controlador.MODIFICAR);
             iniciar();
@@ -359,14 +227,18 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void chkCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCrearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkCrearActionPerformed
+
     private void mostrarValores() {
         //CARGANDO PROPIEDADES DE RECURSOS HUMANOS
         rrhh = PropertiesUtil.cargarProperties(urlRRHH);
         biosis = PropertiesUtil.cargarProperties(urlBIOSIS);
         biostar = PropertiesUtil.cargarProperties(urlBIOSTAR);
 
-        cargar(rrhh, cboTipoBD1, txtConexion1, txtUsuario1, txtPassword1);
-        cargar(biostar, cboTipoBD2, txtConexion2, txtUsuario2, txtPassword2);
+//        cargar(rrhh, cboTipoBD1, txtConexion1, txtUsuario1, txtPassword1);
+//        cargar(biostar, cboTipoBD2, txtConexion2, txtUsuario2, txtPassword2);
         cargar(biosis, cboTipoBD3, txtConexion3, txtUsuario3, txtPassword3);
 
     }
@@ -459,36 +331,18 @@ public class DlgConfiguracion extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox cboTipoBD1;
-    private javax.swing.JComboBox cboTipoBD2;
     private javax.swing.JComboBox cboTipoBD3;
     private javax.swing.JCheckBox chkCrear;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel41;
-    private javax.swing.JLabel jLabel42;
-    private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel50;
     private javax.swing.JLabel jLabel51;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel pnlBiosis;
-    private javax.swing.JPanel pnlBiostar;
-    private javax.swing.JPanel pnlRRHH;
-    private javax.swing.JTextField txtConexion1;
-    private javax.swing.JTextField txtConexion2;
     private javax.swing.JTextField txtConexion3;
-    private javax.swing.JPasswordField txtPassword1;
-    private javax.swing.JPasswordField txtPassword2;
     private javax.swing.JPasswordField txtPassword3;
-    private javax.swing.JTextField txtUsuario1;
-    private javax.swing.JTextField txtUsuario2;
     private javax.swing.JTextField txtUsuario3;
     // End of variables declaration//GEN-END:variables
 }

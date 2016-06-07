@@ -53,6 +53,17 @@ public class AsignacionHorarioControlador extends Controlador<AsignacionHorario>
         return this.getDao().buscar(jpql, mapa);
     }
     
+    public List<AsignacionHorario> buscarXEmpleadoxHorario(Empleado empleado,Horario horario){
+        String jpql = "SELECT a FROM AsignacionHorario a WHERE "                
+                + "( a.empleado = :empleado OR "                
+                + "EXISTS(SELECT d FROM DetalleGrupoHorario d WHERE d.empleado = :empleado AND d.grupoHorario = a.grupoHorario)) "
+                + "AND a.horario = :horario";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("empleado", empleado);
+        mapa.put("horario", horario);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
     public List<AsignacionHorario> buscarXEmpleado(Empleado empleado, Date fechaInicio, Date fechaFin){
         String jpql = "SELECT a FROM AsignacionHorario a WHERE "                
                 + "(a.fechaInicio BETWEEN :fechaInicio AND :fechaFin OR :fechaInicio BETWEEN a.fechaInicio AND a.fechaFin) AND "

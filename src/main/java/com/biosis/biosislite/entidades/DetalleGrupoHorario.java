@@ -20,7 +20,7 @@ public class DetalleGrupoHorario implements Serializable {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(targetEntity = Empleado.class)
-    @JoinColumn(name = "persona_nro_documento",referencedColumnName = "nro_documento")
+    @JoinColumn(name = "empleado_nro_documento",referencedColumnName = "nro_documento")
     private Empleado empleado;
     @ManyToOne(optional=false,targetEntity = GrupoHorario.class)
     @JoinColumn(name="grupo_horario_codigo",referencedColumnName="codigo",insertable=true,nullable=false,unique=false,updatable=true)
