@@ -3,7 +3,7 @@
 <Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JInternalFrameFormInfo">
   <Properties>
     <Property name="closable" type="boolean" value="true"/>
-    <Property name="title" type="java.lang.String" value="REGSTRO DE SEDES Y &#xc1;REAS DE LA INSTITUCI&#xd3;N"/>
+    <Property name="title" type="java.lang.String" value="REGISTRO DE SEDES Y &#xc1;REAS DE LA INSTITUCI&#xd3;N"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>

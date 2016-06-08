@@ -157,8 +157,8 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(desktopPane, java.awt.BorderLayout.CENTER);
 
         pnlBotnes.setBackground(new java.awt.Color(255, 213, 155));
-        pnlBotnes.setMinimumSize(new java.awt.Dimension(579, 100));
-        pnlBotnes.setPreferredSize(new java.awt.Dimension(579, 100));
+        pnlBotnes.setMinimumSize(new java.awt.Dimension(579, 80));
+        pnlBotnes.setPreferredSize(new java.awt.Dimension(579, 80));
         java.awt.GridBagLayout pnlBotnesLayout = new java.awt.GridBagLayout();
         pnlBotnesLayout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0};
         pnlBotnesLayout.rowHeights = new int[] {0};

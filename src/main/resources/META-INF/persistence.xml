@@ -3,22 +3,21 @@
   <persistence-unit name="biosis-PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>com.biosis.biosislite.entidades.Acceso</class>
-    <class>com.biosis.biosislite.entidades.Alerta</class>
-    <class>com.biosis.biosislite.entidades.AlertaIncidencia</class>
     <class>com.biosis.biosislite.entidades.AsignacionHorario</class>
     <class>com.biosis.biosislite.entidades.AsignacionPermiso</class>
+    <class>com.biosis.biosislite.entidades.Autorizacion</class>
     <class>com.biosis.biosislite.entidades.Bitacora</class>
-    <class>com.biosis.biosislite.entidades.Concepto</class>
+    <class>com.biosis.biosislite.entidades.CambioTurno</class>
+    <class>com.biosis.biosislite.entidades.CompraVacacion</class>
     <class>com.biosis.biosislite.entidades.DetalleGrupoHorario</class>
+    <class>com.biosis.biosislite.entidades.DetalleJornada</class>
     <class>com.biosis.biosislite.entidades.DetalleRegistroAsistencia</class>
     <class>com.biosis.biosislite.entidades.Feriado</class>
     <class>com.biosis.biosislite.entidades.GrupoHorario</class>
     <class>com.biosis.biosislite.entidades.Horario</class>
-    <class>com.biosis.biosislite.entidades.Incidencia</class>
     <class>com.biosis.biosislite.entidades.InterrupcionVacacion</class>
     <class>com.biosis.biosislite.entidades.Jornada</class>
     <class>com.biosis.biosislite.entidades.Marcacion</class>
-    <class>com.biosis.biosislite.entidades.Notificacion</class>
     <class>com.biosis.biosislite.entidades.Periodo</class>
     <class>com.biosis.biosislite.entidades.Permiso</class>
     <class>com.biosis.biosislite.entidades.RegistroAsistencia</class>
@@ -28,16 +27,15 @@
     <class>com.biosis.biosislite.entidades.TCAnalisis</class>
     <class>com.biosis.biosislite.entidades.TCSistema</class>
     <class>com.biosis.biosislite.entidades.TipoPermiso</class>
+    <class>com.biosis.biosislite.entidades.Turno</class>
     <class>com.biosis.biosislite.entidades.Usuario</class>
     <class>com.biosis.biosislite.entidades.Vacacion</class>
-    <class>com.biosis.biosislite.entidades.educativo.AsignacionNGS</class>
-    <class>com.biosis.biosislite.entidades.educativo.Nivel</class>
-    <class>com.biosis.biosislite.entidades.educativo.Grado</class>
-    <class>com.biosis.biosislite.entidades.educativo.Seccion</class>
-    <class>com.biosis.biosislite.entidades.educativo.SeccionHorario</class>
-    <class>com.biosis.biosislite.entidades.educativo.Matricula</class>
-    <class>com.biosis.biosislite.entidades.educativo.Pago</class>
-    <class>com.biosis.biosislite.entidades.educativo.Cuota</class>
+    <class>com.biosis.biosislite.entidades.Viaje</class>
+    <class>com.biosis.biosislite.entidades.biostar.Evento</class>
+    <class>com.biosis.biosislite.entidades.biostar.Reader</class>
+    <class>com.biosis.biosislite.entidades.escalafon.AreaEmpleado</class>
+    <class>com.biosis.biosislite.entidades.escalafon.Contrato</class>
+    <class>com.biosis.biosislite.entidades.escalafon.Departamento</class>
     <class>com.biosis.biosislite.entidades.escalafon.Empleado</class>
     <class>com.biosis.biosislite.entidades.escalafon.FichaGeneral</class>
     <class>com.biosis.biosislite.entidades.escalafon.FichaLaboral</class>
@@ -45,21 +43,19 @@
     <class>com.biosis.biosislite.entidades.escalafon.NivelEducativo</class>
     <class>com.biosis.biosislite.entidades.escalafon.RegimenLaboral</class>
     <class>com.biosis.biosislite.entidades.escalafon.SituacionTrabajador</class>
-    <class>com.biosis.biosislite.entidades.escalafon.TipoDocumento</class>
     <class>com.biosis.biosislite.entidades.escalafon.TipoContrato</class>
+    <class>com.biosis.biosislite.entidades.escalafon.TipoDocumento</class>
     <class>com.biosis.biosislite.entidades.escalafon.TipoVia</class>
     <class>com.biosis.biosislite.entidades.escalafon.TipoZona</class>
     <class>com.biosis.biosislite.entidades.escalafon.Ubigeo</class>
-    <class>com.biosis.biosislite.entidades.mensajeria.Correo</class>
-    <class>com.biosis.biosislite.entidades.mensajeria.ServidorSmtp</class>
-    <class>com.biosis.biosislite.entidades.CambioTurno</class>
-    <class>com.biosis.biosislite.entidades.CompraVacacion</class>
-    <class>com.biosis.biosislite.entidades.Turno</class>
-    <class>com.biosis.biosislite.entidades.escalafon.Departamento</class>
-    <class>com.biosis.biosislite.entidades.DetalleJornada</class>
-    <class>com.biosis.biosislite.entidades.Autorizacion</class>
-    <class>com.biosis.biosislite.entidades.escalafon.AreaEmpleado</class>
-    <class>com.biosis.biosislite.entidades.escalafon.Contrato</class>
+    <class>com.biosis.biosislite.entidades.escalafon.UnidadNegocio</class>
+    <class>com.biosis.biosislite.entidades.escalafon.TipoInternoTrabajador</class>
+    <class>com.biosis.biosislite.entidades.escalafon.Puesto</class>
+    <class>com.biosis.biosislite.entidades.escalafon.PuestoEmpleado</class>
+    <class>com.biosis.biosislite.entidades.escalafon.Gerencia</class>    
+    <class>com.biosis.biosislite.entidades.sisgedo.Boleta</class>
+    <class>com.biosis.biosislite.entidades.sisgedo.Motivo</class>
+    <class>com.biosis.biosislite.entidades.sisgedo.UsuarioSISGEDO</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1;databaseName=db_base_biosis_rosario_1"/>
       <property name="javax.persistence.jdbc.password" value="xapplex"/>

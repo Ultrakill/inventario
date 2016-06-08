@@ -307,14 +307,12 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 
         pnlBusqueda.setLayout(new java.awt.GridBagLayout());
 
-        dcFechaInicioBusqueda.setDateFormatString("dd/MM/yyyy");
         dcFechaInicioBusqueda.setMinSelectableDate(new java.util.Date(21711000L));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         pnlBusqueda.add(dcFechaInicioBusqueda, gridBagConstraints);
 
-        dcFechaFinBusqueda.setDateFormatString("dd/MM/yyyy");
         dcFechaFinBusqueda.setMinSelectableDate(new java.util.Date(21711000L));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
@@ -590,8 +588,9 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(spHoraInicio, gridBagConstraints);
 
-        dcFechaFin.setDateFormatString("dd/MM/yyyy");
         dcFechaFin.setMinSelectableDate(new java.util.Date(21712000L));
+        dcFechaFin.setMinimumSize(new java.awt.Dimension(130, 23));
+        dcFechaFin.setPreferredSize(new java.awt.Dimension(91, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 14;
@@ -600,9 +599,9 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(dcFechaFin, gridBagConstraints);
 
-        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
         dcFechaInicio.setMinSelectableDate(new java.util.Date(21712000L));
-        dcFechaInicio.setMinimumSize(new java.awt.Dimension(130, 20));
+        dcFechaInicio.setMinimumSize(new java.awt.Dimension(130, 23));
+        dcFechaInicio.setPreferredSize(new java.awt.Dimension(91, 30));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;

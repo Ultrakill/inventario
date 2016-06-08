@@ -67,7 +67,7 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         btnLimpiarSuperior = new javax.swing.JButton();
 
         setClosable(true);
-        setTitle("REGSTRO DE SEDES Y ÁREAS DE LA INSTITUCIÓN");
+        setTitle("REGISTRO DE SEDES Y ÁREAS DE LA INSTITUCIÓN");
 
         java.awt.GridBagLayout jPanel1Layout = new java.awt.GridBagLayout();
         jPanel1Layout.columnWidths = new int[] {0, 5, 0};

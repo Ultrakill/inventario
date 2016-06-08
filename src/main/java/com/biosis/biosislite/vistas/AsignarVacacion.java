@@ -435,6 +435,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         dcFechaInicio1.setDateFormatString("dd/MM/yyyy");
         dcFechaInicio1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         dcFechaInicio1.setMinSelectableDate(new java.util.Date(21662000L));
+        dcFechaInicio1.setMinimumSize(new java.awt.Dimension(120, 22));
+        dcFechaInicio1.setPreferredSize(new java.awt.Dimension(100, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 0;
@@ -443,6 +445,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         dcFechaFin1.setDateFormatString("dd/MM/yyyy");
         dcFechaFin1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         dcFechaFin1.setMinSelectableDate(new java.util.Date(21662000L));
+        dcFechaFin1.setMinimumSize(new java.awt.Dimension(120, 22));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 12;
         gridBagConstraints.gridy = 0;
@@ -522,11 +525,9 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         pnlFHInicio1.setMinimumSize(new java.awt.Dimension(130, 22));
         pnlFHInicio1.setLayout(new java.awt.GridBagLayout());
 
-        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
         dcFechaInicio.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         dcFechaInicio.setMinSelectableDate(new java.util.Date(21662000L));
         dcFechaInicio.setMinimumSize(new java.awt.Dimension(150, 22));
-        dcFechaInicio.setPreferredSize(new java.awt.Dimension(91, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
