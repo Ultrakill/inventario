@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * @author JuanCarlos
  */
 @Entity
-@Table(name="unidad_negocio")
+@Table(name="unidad_negocio", schema = "institucional")
 public class UnidadNegocio implements Serializable {
     
     @Id

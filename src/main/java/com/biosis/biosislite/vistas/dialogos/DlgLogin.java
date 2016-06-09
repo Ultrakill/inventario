@@ -5,17 +5,17 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
-import com.personal.utiles.FormularioUtil;
+import com.biosis.biosislite.Main;
 import com.biosis.biosislite.controladores.UsuarioControlador;
 import com.biosis.biosislite.dao.DAOBiosis;
 import com.biosis.biosislite.entidades.Usuario;
-import com.biosis.biosislite.vistas.Principal;
+import com.biosis.biosislite.view.misc.dialog.CargarPrincipal;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
 import org.apache.log4j.Logger;
-import com.biosis.biosislite.Main;
 
 /**
  *
@@ -31,14 +31,28 @@ public class DlgLogin extends javax.swing.JDialog {
     public DlgLogin(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
 
+        this.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+//        this.getContentPane().setBackground(Color.decode("#4c66a4"));
+//        AWTUtilities.setWindowOpacity(this, Float.valueOf("0.95f"));
+
+        
         uc = new UsuarioControlador();
         initComponents();
+        
+        
+//        pnlLogin.setOpaque(false);
+//        pnlLogin.setBackground(new Color(31, 65, 64, 20));
+
+//        lblDatos.setBackground(Color.BLACK);
+        btnCancelar.setOpaque(false);
+        btnIngresar.setOpaque(false);
+
         this.lblTitulo.setText(Main.LOGIN_TITULO);
-        this.lblSubtitulo.setText(Main.LOGIN_SUBTITULO);
-        File file = new File(Main.LOGIN_IMAGEN);
-        if (file.exists()) {
-            FormularioUtil.imagenALabel(Main.LOGIN_IMAGEN, lblLogo);
-        }
+//        this.lblSubtitulo.setText(Main.LOGIN_SUBTITULO);
+//        File file = new File(Main.LOGIN_IMAGEN);
+//        if (file.exists()) {
+//            FormularioUtil.imagenALabel(Main.LOGIN_IMAGEN, lblLogo);
+//        }
 
         iniciar();
         this.setLocationRelativeTo(null);
@@ -54,162 +68,309 @@ public class DlgLogin extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtUsuario = new javax.swing.JTextField();
-        lblTitulo = new javax.swing.JLabel();
-        lblSubtitulo = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        lblTitulo = new javax.swing.JLabel(){
+            protected void paintComponent(Graphics g)
+            {
+                g.setColor( getBackground() );
+                g.fillRect(0, 0, getWidth(), getHeight());
+                super.paintComponent(g);
+            }
+        };
+
+        lblTitulo.setOpaque(false);
+        lblSubtitulo = new javax.swing.JLabel(){
+            protected void paintComponent(Graphics g)
+            {
+                g.setColor( getBackground() );
+                g.fillRect(0, 0, getWidth(), getHeight());
+                super.paintComponent(g);
+            }
+        };
+
+        lblSubtitulo.setOpaque(false);
+        lblSubtitulo.setBackground(new Color(31, 65, 64, 200));
+        lblLogo = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        pnlLogin = new javax.swing.JPanel(){
+            protected void paintComponent(Graphics g)
+            {
+                g.setColor( getBackground() );
+                g.fillRect(0, 0, getWidth(), getHeight());
+                super.paintComponent(g);
+            }
+        };
+        txtUsuario = new org.edisoncor.gui.textField.TextFieldRoundIcon();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        lblDatos = new javax.swing.JLabel(){
+            protected void paintComponent(Graphics g)
+            {
+                g.setColor( getBackground() );
+                g.fillRect(0, 0, getWidth(), getHeight());
+                super.paintComponent(g);
+            }
+        };
+        jPanel3 = new javax.swing.JPanel();
         btnIngresar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        txtPassword = new javax.swing.JPasswordField();
-        lblLogo = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        txtPassword = new org.edisoncor.gui.passwordField.PasswordFieldRoundIcon();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ingrese su usuario y contraseña");
         setAlwaysOnTop(true);
-        java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
-        layout.columnWidths = new int[] {0, 10, 0};
-        layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
-        getContentPane().setLayout(layout);
+        setBackground(new java.awt.Color(9, 9, 45));
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                formMouseMoved(evt);
+            }
+        });
+        getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel1.setText("Usuario:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        getContentPane().add(jLabel1, gridBagConstraints);
+        jPanel1.setMaximumSize(new java.awt.Dimension(681, 415));
+        jPanel1.setMinimumSize(new java.awt.Dimension(681, 415));
+        jPanel1.setOpaque(false);
+        jPanel1.setPreferredSize(new java.awt.Dimension(681, 415));
 
-        jLabel2.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        jLabel2.setText("Contraseña:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        getContentPane().add(jLabel2, gridBagConstraints);
+        lblTitulo.setBackground(new Color(31, 65, 64, 200));
+        lblTitulo.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL");
 
-        txtUsuario.setColumns(50);
-        txtUsuario.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        lblSubtitulo.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        lblSubtitulo.setForeground(new java.awt.Color(255, 255, 255));
+        lblSubtitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSubtitulo.setText("BIOSIS");
+
+        lblLogo.setPreferredSize(new java.awt.Dimension(233, 80));
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel12.setText("SERVICIOS INFORMÁTICOS JUVITEC S.R.L.");
+        jLabel12.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        pnlLogin.setOpaque(false);
+        pnlLogin.setBackground(new Color(96,152,255, 150));
+
         txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtUsuarioKeyReleased(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        getContentPane().add(txtUsuario, gridBagConstraints);
 
-        lblTitulo.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
-        getContentPane().add(lblTitulo, gridBagConstraints);
+        jLabel5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/usuarioLx32.png"))); // NOI18N
 
-        lblSubtitulo.setFont(new java.awt.Font("SansSerif", 1, 16)); // NOI18N
-        lblSubtitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblSubtitulo.setText("BIOSIS - SAN MARCOS");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        getContentPane().add(lblSubtitulo, gridBagConstraints);
+        jLabel8.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/pwx32.png"))); // NOI18N
 
-        jPanel1.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
+        lblDatos.setOpaque(false);
+        lblDatos.setBackground(new Color(31, 65, 64, 200));
+        lblDatos.setFont(new java.awt.Font("Calibri", 1, 20)); // NOI18N
+        lblDatos.setForeground(new java.awt.Color(255, 255, 255));
+        lblDatos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDatos.setText("DATOS DE USUARIO");
+        lblDatos.setToolTipText("");
 
-        btnIngresar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        btnIngresar.setText("Ingresar");
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+        btnIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/ente64r.png"))); // NOI18N
+        btnIngresar.setBorderPainted(false);
+        btnIngresar.setContentAreaFilled(false);
+        btnIngresar.setOpaque(true);
+        btnIngresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnIngresarMouseExited(evt);
+            }
+        });
+        btnIngresar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnIngresarMouseMoved(evt);
+            }
+        });
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIngresarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnIngresar);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel3.add(btnIngresar, gridBagConstraints);
 
         btnCancelar.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
-        btnCancelar.setText("Salir");
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/exit64.png"))); // NOI18N
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.setContentAreaFilled(false);
+        btnCancelar.setOpaque(true);
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseExited(evt);
+            }
+        });
+        btnCancelar.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseDragged(evt);
+            }
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseMoved(evt);
+            }
+        });
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCancelar);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
-        gridBagConstraints.gridwidth = 3;
-        getContentPane().add(jPanel1, gridBagConstraints);
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel3.add(btnCancelar, gridBagConstraints);
 
-        txtPassword.setColumns(50);
-        txtPassword.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
+        jLabel10.setText("           ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        jPanel3.add(jLabel10, gridBagConstraints);
+
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPasswordKeyReleased(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        getContentPane().add(txtPassword, gridBagConstraints);
 
-        lblLogo.setPreferredSize(new java.awt.Dimension(233, 80));
+        javax.swing.GroupLayout pnlLoginLayout = new javax.swing.GroupLayout(pnlLogin);
+        pnlLogin.setLayout(pnlLoginLayout);
+        pnlLoginLayout.setHorizontalGroup(
+            pnlLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLoginLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(pnlLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnlLoginLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(10, 10, 10)
+                        .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlLoginLayout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(10, 10, 10)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(19, Short.MAX_VALUE))
+            .addComponent(lblDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        pnlLoginLayout.setVerticalGroup(
+            pnlLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlLoginLayout.createSequentialGroup()
+                .addComponent(lblDatos)
+                .addGap(37, 37, 37)
+                .addGroup(pnlLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnlLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(45, 45, 45)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblSubtitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(163, 163, 163)
+                .addComponent(pnlLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(lblTitulo)
+                .addGap(0, 0, 0)
+                .addComponent(lblSubtitulo)
+                .addGap(30, 30, 30)
+                .addComponent(pnlLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jLabel12))
+        );
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        getContentPane().add(lblLogo, gridBagConstraints);
+        gridBagConstraints.ipady = -4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(6, 0, 4, 0);
+        getContentPane().add(jPanel1, gridBagConstraints);
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel5.setText("SERVICIOS INFORMÁTICOS JUVITEC S.R.L.");
-        jLabel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/login4.png"))); // NOI18N
+        jLabel1.setMaximumSize(new java.awt.Dimension(681, 415));
+        jLabel1.setMinimumSize(new java.awt.Dimension(681, 415));
+        jLabel1.setPreferredSize(new java.awt.Dimension(681, 415));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        getContentPane().add(jLabel5, gridBagConstraints);
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        getContentPane().add(jLabel1, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+        // TODO add your handling code here:
+
+//        this.btnCancelar.setOpaque(false);
+////        this.btnCancelar.setBackground(Color.BLACK);
+//        this.btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/exit64.png")));
+
+    }//GEN-LAST:event_formMouseMoved
+
+    private void btnIngresarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMouseExited
+        // TODO add your handling code here:
+        this.btnIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/ente64r.png")));
+    }//GEN-LAST:event_btnIngresarMouseExited
+
+    private void btnIngresarMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMouseMoved
+        // TODO add your handling code here:
+        this.btnIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/ente64rW.png")));
+    }//GEN-LAST:event_btnIngresarMouseMoved
+
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // TODO add your handling code here:
         login();
-
     }//GEN-LAST:event_btnIngresarActionPerformed
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
         // TODO add your handling code here:
+        this.btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/exit64.png")));
+    }//GEN-LAST:event_btnCancelarMouseExited
+
+    private void btnCancelarMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseDragged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarMouseDragged
+
+    private void btnCancelarMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseMoved
+        // TODO add your handling code here:
+        this.btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/exit64W.png")));
+    }//GEN-LAST:event_btnCancelarMouseMoved
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:+
         System.exit(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
-
-    private void txtUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyReleased
-        // TODO add your handling code here:
-        int code = evt.getKeyCode();
-        if (code == KeyEvent.VK_ENTER) {
-            login();
-        }
-    }//GEN-LAST:event_txtUsuarioKeyReleased
 
     private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
         // TODO add your handling code here:
@@ -218,6 +379,14 @@ public class DlgLogin extends javax.swing.JDialog {
             login();
         }
     }//GEN-LAST:event_txtPasswordKeyReleased
+
+    private void txtUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyReleased
+        // TODO add your handling code here:
+        int code = evt.getKeyCode();
+        if (code == KeyEvent.VK_ENTER) {
+            login();
+        }
+    }//GEN-LAST:event_txtUsuarioKeyReleased
 
     /**
      * @param args the command line arguments
@@ -265,14 +434,19 @@ public class DlgLogin extends javax.swing.JDialog {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnIngresar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lblDatos;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblSubtitulo;
     private javax.swing.JLabel lblTitulo;
-    private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JPanel pnlLogin;
+    private org.edisoncor.gui.passwordField.PasswordFieldRoundIcon txtPassword;
+    private org.edisoncor.gui.textField.TextFieldRoundIcon txtUsuario;
     // End of variables declaration//GEN-END:variables
 
     private void login() {
@@ -294,10 +468,13 @@ public class DlgLogin extends javax.swing.JDialog {
                 if (u == null) {
                     LOG.error("USUARIO ES NULL");
                 }
-                Principal principal = new Principal();
-                principal.setUsuario(u);
+//                Principal principal = new Principal();
+//                principal.setUsuario(u);
+//                principal.setVisible(true);
+//                principal.setExtendedState(principal.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+
+                CargarPrincipal principal = new CargarPrincipal(u);
                 principal.setVisible(true);
-                principal.setExtendedState(principal.getExtendedState() | JFrame.MAXIMIZED_BOTH);
                 this.dispose();
             }
         } else {
@@ -314,7 +491,7 @@ public class DlgLogin extends javax.swing.JDialog {
             DAOBiosis dao = new DAOBiosis();
             dao.getEntityManager();
         } catch (Exception e) {
-             LOG.error("error al iniciar DAOBiosis", e);
+            LOG.error("error al iniciar DAOBiosis", e);
             error++;
             mensaje += "LA CONEXION CON LA BD BIOSIS FALLA\n";
         }
@@ -328,4 +505,9 @@ public class DlgLogin extends javax.swing.JDialog {
         }
 
     }
+
+//    public class cargar extends Thread {
+//
+//        
+//    }
 }

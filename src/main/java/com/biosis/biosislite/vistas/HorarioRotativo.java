@@ -513,7 +513,7 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
             this.accion = Controlador.MODIFICAR;
             this.horarioControlador.setSeleccionado(this.horarioList.get(fila));
 //            this.mostrar(horarioControlador.getSeleccionado());
-            
+
             if (chkFiltrar.isSelected()) {
                 TipoFiltro filtro = (TipoFiltro) mcFiltro.getSelectedItem();
                 switch (filtro) {
@@ -523,9 +523,10 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
                         this.asignacionHorarioList.clear();
                         this.asignacionHorarioList.addAll(lista);
                         this.tblAsignacion.packAll();
+                        mostrarXEmpleado(empleadoSeleccionado, this.horarioSeleccionado);
                 }
 
-            }else {
+            } else {
                 this.horarioSeleccionado = horarioList.get(fila);
                 mostrar(this.horarioSeleccionado);
             }
@@ -568,6 +569,7 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
                         this.asignacionHorarioList.clear();
                         this.asignacionHorarioList.addAll(lista);
                         this.tblAsignacion.packAll();
+                        mostrarXEmpleado(empleadoSeleccionado, this.horarioSeleccionado);
                 }
 
             } else {
@@ -718,7 +720,8 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(btnCncelar, false);
 
         FormularioUtil.activarComponente(this.pnlDatosHorario, false);
-
+        FormularioUtil.activarComponente(this.tblAsignacion, true);
+        FormularioUtil.activarComponente(this.tblDetalleHorario, true);
         FormularioUtil.limpiarComponente(pnlDatosHorario);
 
 //        FormularioUtil.activarComponente(this.tblHorario, true);
@@ -885,6 +888,25 @@ public class HorarioRotativo extends javax.swing.JInternalFrame {
 
         this.asignacionHorarioList.clear();
         this.asignacionHorarioList.addAll(seleccionado.getAsignacionHorarioList());
+
+        this.tblAsignacion.packAll();
+
+        this.detalleHorarioList.clear();
+        this.detalleHorarioList.addAll(seleccionado.getTurnoList());
+        this.tblDetalleHorario.packAll();
+
+//        spFechaFin.setValue(seleccionado.getFechaFin());
+    }
+
+    private void mostrarXEmpleado(Empleado empleado, Horario seleccionado) {
+        txtDocumento.setText(seleccionado.getDocumento());
+        txtCodigo.setText(seleccionado.getCodigo());
+        txtNombre.setText(seleccionado.getNombre());
+
+        List<AsignacionHorario> lista = ahc.buscarXEmpleadoxHorario(empleado, seleccionado);
+        this.asignacionHorarioList.clear();
+        this.asignacionHorarioList.addAll(lista);
+
         this.tblAsignacion.packAll();
 
         this.detalleHorarioList.clear();

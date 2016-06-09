@@ -156,9 +156,9 @@ public class Principal extends javax.swing.JFrame {
         desktopPane.setFont(new java.awt.Font("Calibri", 0, 11)); // NOI18N
         getContentPane().add(desktopPane, java.awt.BorderLayout.CENTER);
 
-        pnlBotnes.setBackground(new java.awt.Color(255, 213, 155));
-        pnlBotnes.setMinimumSize(new java.awt.Dimension(579, 80));
-        pnlBotnes.setPreferredSize(new java.awt.Dimension(579, 80));
+        pnlBotnes.setBackground(new java.awt.Color(213, 233, 249));
+        pnlBotnes.setMinimumSize(new java.awt.Dimension(579, 70));
+        pnlBotnes.setPreferredSize(new java.awt.Dimension(579, 70));
         java.awt.GridBagLayout pnlBotnesLayout = new java.awt.GridBagLayout();
         pnlBotnesLayout.columnWidths = new int[] {0, 10, 0, 10, 0, 10, 0};
         pnlBotnesLayout.rowHeights = new int[] {0};
@@ -188,14 +188,14 @@ public class Principal extends javax.swing.JFrame {
 
         pnlAccesos.setLayout(new java.awt.GridLayout(1, 0, 20, 0));
 
-        btnEmpleados.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
-        btnEmpleados.setForeground(new java.awt.Color(255, 255, 255));
-        btnEmpleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/usuario32x32.png"))); // NOI18N
+        btnEmpleados.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        btnEmpleados.setForeground(new java.awt.Color(45, 115, 167));
+        btnEmpleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/usuariox32.png"))); // NOI18N
         btnEmpleados.setText("Usuarios");
         btnEmpleados.setMaximumSize(new java.awt.Dimension(150, 44));
         btnEmpleados.setMinimumSize(new java.awt.Dimension(150, 44));
         btnEmpleados.setPreferredSize(new java.awt.Dimension(150, 44));
-        btnEmpleados.setUI(new PersButtonUI("#7A7499", "#4E34CC"));
+        btnEmpleados.setUI(new PersButtonUI("#D5E9F9", "#2D73A7"));
         btnEmpleados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEmpleadosActionPerformed(evt);
@@ -203,14 +203,14 @@ public class Principal extends javax.swing.JFrame {
         });
         pnlAccesos.add(btnEmpleados);
 
-        btnMarcaciones.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
-        btnMarcaciones.setForeground(new java.awt.Color(255, 255, 255));
-        btnMarcaciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/marcacion-icon.png"))); // NOI18N
+        btnMarcaciones.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        btnMarcaciones.setForeground(new java.awt.Color(45, 115, 167));
+        btnMarcaciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/marcacionx32.png"))); // NOI18N
         btnMarcaciones.setText("Marcaciones");
         btnMarcaciones.setMaximumSize(new java.awt.Dimension(200, 44));
         btnMarcaciones.setMinimumSize(new java.awt.Dimension(200, 44));
         btnMarcaciones.setPreferredSize(new java.awt.Dimension(200, 44));
-        btnMarcaciones.setUI( new PersButtonUI("#7A7499", "#4E34CC"));
+        btnMarcaciones.setUI( new PersButtonUI("#D5E9F9", "#2D73A7"));
         btnMarcaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMarcacionesActionPerformed(evt);
@@ -218,14 +218,14 @@ public class Principal extends javax.swing.JFrame {
         });
         pnlAccesos.add(btnMarcaciones);
 
-        btnAsignarPermiso.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
-        btnAsignarPermiso.setForeground(new java.awt.Color(255, 255, 255));
-        btnAsignarPermiso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/permisos.png"))); // NOI18N
+        btnAsignarPermiso.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        btnAsignarPermiso.setForeground(new java.awt.Color(45, 115, 167));
+        btnAsignarPermiso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/permisosx32.png"))); // NOI18N
         btnAsignarPermiso.setText("Asignar permisos");
         btnAsignarPermiso.setMaximumSize(new java.awt.Dimension(155, 44));
         btnAsignarPermiso.setMinimumSize(new java.awt.Dimension(155, 44));
         btnAsignarPermiso.setPreferredSize(new java.awt.Dimension(155, 44));
-        btnAsignarPermiso.setUI(new PersButtonUI("#7A7499","#4E34CC"));
+        btnAsignarPermiso.setUI(new PersButtonUI("#D5E9F9","#2D73A7"));
         btnAsignarPermiso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAsignarPermisoActionPerformed(evt);
@@ -244,7 +244,7 @@ public class Principal extends javax.swing.JFrame {
 
         pnlFooter.setLayout(new java.awt.BorderLayout());
 
-        lblJuvitec.setBackground(new java.awt.Color(122, 116, 153));
+        lblJuvitec.setBackground(new java.awt.Color(45, 115, 167));
         lblJuvitec.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         lblJuvitec.setForeground(new java.awt.Color(255, 255, 255));
         lblJuvitec.setText("juvitec.com.pe - ventas@juvitec.com.pe ");
@@ -253,21 +253,22 @@ public class Principal extends javax.swing.JFrame {
 
         getContentPane().add(pnlFooter, java.awt.BorderLayout.SOUTH);
 
-        menuBar.setBackground(new java.awt.Color(122, 116, 153));
-        menuBar.setForeground(new java.awt.Color(122, 116, 153));
+        menuBar.setBackground(new java.awt.Color(45, 115, 167));
+        menuBar.setForeground(new java.awt.Color(45, 115, 167));
         menuBar.setPreferredSize(new java.awt.Dimension(442, 45));
 
-        mnuMarcaciones.setBackground(new java.awt.Color(122, 116, 153));
+        mnuMarcaciones.setBackground(new java.awt.Color(45, 115, 167));
         mnuMarcaciones.setForeground(new java.awt.Color(255, 255, 255));
         mnuMarcaciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/usuario32x32.png"))); // NOI18N
         mnuMarcaciones.setMnemonic('e');
         mnuMarcaciones.setText("Usuarios");
-        mnuMarcaciones.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        mnuMarcaciones.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         mnuMarcaciones.setMaximumSize(new java.awt.Dimension(125, 44));
         mnuMarcaciones.setMinimumSize(new java.awt.Dimension(125, 44));
         mnuMarcaciones.setOpaque(true);
         mnuMarcaciones.setPreferredSize(new java.awt.Dimension(125, 44));
 
+        mnuVerEmpleados.setBackground(new java.awt.Color(153, 204, 255));
         mnuVerEmpleados.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         mnuVerEmpleados.setMnemonic('t');
         mnuVerEmpleados.setText("Ver usuarios");
@@ -278,6 +279,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuMarcaciones.add(mnuVerEmpleados);
 
+        mnuMarcacionesSinProcesar.setBackground(new java.awt.Color(255, 255, 255));
         mnuMarcacionesSinProcesar.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         mnuMarcacionesSinProcesar.setText("Marcaciones de usuarios");
         mnuMarcacionesSinProcesar.addActionListener(new java.awt.event.ActionListener() {
@@ -289,17 +291,18 @@ public class Principal extends javax.swing.JFrame {
 
         menuBar.add(mnuMarcaciones);
 
-        mnuHorario.setBackground(new java.awt.Color(122, 116, 153));
+        mnuHorario.setBackground(new java.awt.Color(45, 115, 167));
         mnuHorario.setForeground(new java.awt.Color(255, 255, 255));
         mnuHorario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/time.png"))); // NOI18N
         mnuHorario.setMnemonic('f');
         mnuHorario.setText("Horarios");
-        mnuHorario.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        mnuHorario.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         mnuHorario.setMaximumSize(new java.awt.Dimension(120, 44));
         mnuHorario.setMinimumSize(new java.awt.Dimension(120, 44));
         mnuHorario.setOpaque(true);
         mnuHorario.setPreferredSize(new java.awt.Dimension(120, 44));
 
+        mnuJornada.setBackground(new java.awt.Color(153, 204, 255));
         mnuJornada.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         mnuJornada.setMnemonic('o');
         mnuJornada.setText("Jornadas");
@@ -310,6 +313,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuHorario.add(mnuJornada);
 
+        jMenuItem4.setBackground(new java.awt.Color(255, 255, 255));
         jMenuItem4.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jMenuItem4.setText("Horarios / Asignar Horarios");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -319,6 +323,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuHorario.add(jMenuItem4);
 
+        jMenuItem3.setBackground(new java.awt.Color(153, 204, 255));
         jMenuItem3.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jMenuItem3.setText("Grupo Horario");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -330,16 +335,17 @@ public class Principal extends javax.swing.JFrame {
 
         menuBar.add(mnuHorario);
 
-        mnuPermiso.setBackground(new java.awt.Color(122, 116, 153));
+        mnuPermiso.setBackground(new java.awt.Color(45, 115, 167));
         mnuPermiso.setForeground(new java.awt.Color(255, 255, 255));
         mnuPermiso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/permisos.png"))); // NOI18N
         mnuPermiso.setText("Permisos");
-        mnuPermiso.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        mnuPermiso.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         mnuPermiso.setMaximumSize(new java.awt.Dimension(120, 44));
         mnuPermiso.setMinimumSize(new java.awt.Dimension(120, 44));
         mnuPermiso.setOpaque(true);
         mnuPermiso.setPreferredSize(new java.awt.Dimension(120, 44));
 
+        mnuTiposPermiso.setBackground(new java.awt.Color(153, 204, 255));
         mnuTiposPermiso.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         mnuTiposPermiso.setText("Tipos de permiso");
         mnuTiposPermiso.addActionListener(new java.awt.event.ActionListener() {
@@ -349,6 +355,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuPermiso.add(mnuTiposPermiso);
 
+        mnuAsignarPermiso.setBackground(new java.awt.Color(255, 255, 255));
         mnuAsignarPermiso.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         mnuAsignarPermiso.setText("Asignar permiso");
         mnuAsignarPermiso.addActionListener(new java.awt.event.ActionListener() {
@@ -358,6 +365,7 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuPermiso.add(mnuAsignarPermiso);
 
+        jMenuItem5.setBackground(new java.awt.Color(153, 204, 255));
         jMenuItem5.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         jMenuItem5.setText("Asignar vacaciones");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -369,11 +377,11 @@ public class Principal extends javax.swing.JFrame {
 
         menuBar.add(mnuPermiso);
 
-        mnuReportes.setBackground(new java.awt.Color(122, 116, 153));
+        mnuReportes.setBackground(new java.awt.Color(45, 115, 167));
         mnuReportes.setForeground(new java.awt.Color(255, 255, 255));
         mnuReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reporte.png"))); // NOI18N
         mnuReportes.setText("Reportes");
-        mnuReportes.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        mnuReportes.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         mnuReportes.setMaximumSize(new java.awt.Dimension(120, 44));
         mnuReportes.setMinimumSize(new java.awt.Dimension(120, 44));
         mnuReportes.setOpaque(true);
@@ -408,11 +416,11 @@ public class Principal extends javax.swing.JFrame {
 
         menuBar.add(mnuReportes);
 
-        mnuConfiguracion.setBackground(new java.awt.Color(122, 116, 153));
+        mnuConfiguracion.setBackground(new java.awt.Color(45, 115, 167));
         mnuConfiguracion.setForeground(new java.awt.Color(255, 255, 255));
         mnuConfiguracion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/configuracion.png"))); // NOI18N
         mnuConfiguracion.setText("Configuración");
-        mnuConfiguracion.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        mnuConfiguracion.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         mnuConfiguracion.setMaximumSize(new java.awt.Dimension(147, 44));
         mnuConfiguracion.setOpaque(true);
         mnuConfiguracion.setPreferredSize(new java.awt.Dimension(147, 44));
@@ -873,7 +881,7 @@ public class Principal extends javax.swing.JFrame {
 //    }
     
     public class BackgroundJMenuBar extends JMenuBar{
-        Color bgColor= new Color(122,116,153);
+        Color bgColor= new Color(45,115,167);
      
 
         public void setColor(Color color)

@@ -5,13 +5,12 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
-import com.personal.utiles.FechaUtil;
-import com.personal.utiles.FormularioUtil;
-import com.biosis.biosislite.controladores.Controlador;
-import com.biosis.biosislite.controladores.DepartamentoControlador;
 import com.biosis.biosislite.controladores.AreaEmpleadoControlador;
 import com.biosis.biosislite.controladores.ContratoControlador;
+import com.biosis.biosislite.controladores.Controlador;
+import com.biosis.biosislite.controladores.DepartamentoControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
+import com.biosis.biosislite.controladores.GerenciaControlador;
 import com.biosis.biosislite.controladores.NivelEducativoControlador;
 import com.biosis.biosislite.controladores.PuestoEmpleadoControlador;
 import com.biosis.biosislite.controladores.RegimenLaboralControlador;
@@ -20,12 +19,13 @@ import com.biosis.biosislite.controladores.TipoContratoControlador;
 import com.biosis.biosislite.controladores.TipoDocumentoControlador;
 import com.biosis.biosislite.controladores.TipoViaControlador;
 import com.biosis.biosislite.controladores.TipoZonaControlador;
-import com.biosis.biosislite.entidades.escalafon.Departamento;
-import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Contrato;
+import com.biosis.biosislite.entidades.escalafon.Departamento;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.FichaGeneral;
 import com.biosis.biosislite.entidades.escalafon.FichaLaboral;
+import com.biosis.biosislite.entidades.escalafon.Gerencia;
 import com.biosis.biosislite.entidades.escalafon.Nacionalidad;
 import com.biosis.biosislite.entidades.escalafon.NivelEducativo;
 import com.biosis.biosislite.entidades.escalafon.PuestoEmpleado;
@@ -36,6 +36,8 @@ import com.biosis.biosislite.entidades.escalafon.TipoDocumento;
 import com.biosis.biosislite.entidades.escalafon.TipoVia;
 import com.biosis.biosislite.entidades.escalafon.TipoZona;
 import com.biosis.biosislite.entidades.escalafon.Ubigeo;
+import com.personal.utiles.FechaUtil;
+import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -80,12 +82,14 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private final NivelEducativoControlador nec = NivelEducativoControlador.getInstance();
     private final TipoViaControlador tvc = TipoViaControlador.getInstance();
     private final TipoZonaControlador tzc = TipoZonaControlador.getInstance();
+    private final GerenciaControlador gc = new GerenciaControlador();
     private final TipoContratoControlador tcc = TipoContratoControlador.getInstance();
     private final RegimenLaboralControlador rlc = RegimenLaboralControlador.getInstance();
     private final SituacionTrabajadorControlador stc = SituacionTrabajadorControlador.getInstance();
 
     private final AreaEmpleadoControlador ea = new AreaEmpleadoControlador();
     private final ContratoControlador cc = ContratoControlador.getInstance();
+    private final PuestoEmpleadoControlador pec = PuestoEmpleadoControlador.getInstance();
 
     private final Empleado empleado;
     private final int accion;
@@ -120,12 +124,13 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 
         this.setLocationRelativeTo(parent);
         listarArea();
-        listarContratos();
-        
+        listarContratos();        
         listarCargos();
 
         FormularioUtil.activarComponente(panelDatosC, false);
         FormularioUtil.activarComponente(panelDatosA, false);
+        FormularioUtil.activarComponente(panelDatosP, false);
+        
     }
 
     /**
@@ -211,6 +216,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         panelTblA = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblAreas = new javax.swing.JTable();
+        jPanel8 = new javax.swing.JPanel();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         panelDatosA = new javax.swing.JPanel();
@@ -226,29 +232,29 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jButton13 = new javax.swing.JButton();
         btnModAreasA = new javax.swing.JButton();
         jLabel33 = new javax.swing.JLabel();
-        txtArea2 = new javax.swing.JTextField();
-        jButton16 = new javax.swing.JButton();
         jLabel34 = new javax.swing.JLabel();
-        txtArea3 = new javax.swing.JTextField();
+        txtUnidad = new javax.swing.JTextField();
         jButton17 = new javax.swing.JButton();
-        jPanel8 = new javax.swing.JPanel();
+        cboGerencia = new javax.swing.JComboBox();
+        pnlDatosCargo = new javax.swing.JPanel();
         panelTblP = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblCargos = new javax.swing.JTable();
+        jPanel10 = new javax.swing.JPanel();
         jButton12 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
         panelDatosP = new javax.swing.JPanel();
         jLabel26 = new javax.swing.JLabel();
-        txtArea1 = new javax.swing.JTextField();
+        txtCargo = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
         jLabel29 = new javax.swing.JLabel();
         dtFechaInicioCargo = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####",'_');
         jLabel32 = new javax.swing.JLabel();
         dtFechaFinCargo = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####",'_');
         jPanel9 = new javax.swing.JPanel();
-        btnAgregarA1 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        btnModAreasA1 = new javax.swing.JButton();
+        btnCancelarP = new javax.swing.JButton();
+        btnModPuestos = new javax.swing.JButton();
+        btnAgregarP = new javax.swing.JButton();
 
         setTitle("DATOS DE EMPLEADO");
         setResizable(false);
@@ -605,6 +611,9 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         pnlDatosContrato.setLayout(new java.awt.GridBagLayout());
 
         panelTblC.setBorder(javax.swing.BorderFactory.createTitledBorder("Historial de Contratos"));
+        panelTblC.setMaximumSize(new java.awt.Dimension(380, 2147483647));
+        panelTblC.setMinimumSize(new java.awt.Dimension(380, 69));
+        panelTblC.setPreferredSize(new java.awt.Dimension(380, 448));
         panelTblC.setLayout(new java.awt.GridBagLayout());
 
         tblContratos.setModel(new javax.swing.table.DefaultTableModel(
@@ -618,6 +627,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblContratos.setMaximumSize(new java.awt.Dimension(380, 64));
+        tblContratos.setMinimumSize(new java.awt.Dimension(350, 64));
         tblContratos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 tblContratosMouseReleased(evt);
@@ -668,7 +679,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 
         panelDatosC.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
         java.awt.GridBagLayout panelDatosCLayout = new java.awt.GridBagLayout();
-        panelDatosCLayout.columnWidths = new int[] {0, 5, 0};
+        panelDatosCLayout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
         panelDatosCLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         panelDatosC.setLayout(panelDatosCLayout);
 
@@ -696,18 +707,26 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         panelDatosC.add(jLabel25, gridBagConstraints);
 
         cboTipoContrato.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTipoContrato.setMaximumSize(new java.awt.Dimension(180, 32767));
+        cboTipoContrato.setMinimumSize(new java.awt.Dimension(180, 20));
+        cboTipoContrato.setPreferredSize(new java.awt.Dimension(180, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.1;
         panelDatosC.add(cboTipoContrato, gridBagConstraints);
 
         cboRegimenLaboral.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboRegimenLaboral.setMaximumSize(new java.awt.Dimension(180, 32767));
+        cboRegimenLaboral.setMinimumSize(new java.awt.Dimension(180, 20));
+        cboRegimenLaboral.setPreferredSize(new java.awt.Dimension(180, 20));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.weightx = 0.1;
@@ -728,6 +747,10 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         panelDatosC.add(jLabel27, gridBagConstraints);
 
         dcFechaInicio.setDateFormatString("dd/MM/yyyy");
+        dcFechaInicio.setMaximumSize(new java.awt.Dimension(120, 24));
+        dcFechaInicio.setMinSelectableDate(new java.util.Date(21703000L));
+        dcFechaInicio.setMinimumSize(new java.awt.Dimension(120, 24));
+        dcFechaInicio.setPreferredSize(new java.awt.Dimension(120, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
@@ -744,6 +767,10 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         panelDatosC.add(jLabel31, gridBagConstraints);
 
         dcFechaFin.setDateFormatString("dd/MM/yyyy");
+        dcFechaFin.setMaximumSize(new java.awt.Dimension(120, 24));
+        dcFechaFin.setMinSelectableDate(new java.util.Date(21703000L));
+        dcFechaFin.setMinimumSize(new java.awt.Dimension(120, 24));
+        dcFechaFin.setPreferredSize(new java.awt.Dimension(120, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
@@ -800,6 +827,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         pnlDatosArea.setLayout(new java.awt.GridBagLayout());
 
         panelTblA.setBorder(javax.swing.BorderFactory.createTitledBorder("Historial de Áreas"));
+        panelTblA.setMaximumSize(new java.awt.Dimension(380, 2147483647));
+        panelTblA.setMinimumSize(new java.awt.Dimension(380, 69));
         panelTblA.setLayout(new java.awt.GridBagLayout());
 
         tblAreas.setModel(new javax.swing.table.DefaultTableModel(
@@ -830,17 +859,15 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.weighty = 0.1;
         panelTblA.add(jScrollPane2, gridBagConstraints);
 
+        jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.LINE_AXIS));
+
         jButton10.setText("Nuevo");
         jButton10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton10ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        panelTblA.add(jButton10, gridBagConstraints);
+        jPanel8.add(jButton10);
 
         jButton11.setText("Editar");
         jButton11.addActionListener(new java.awt.event.ActionListener() {
@@ -848,11 +875,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 jButton11ActionPerformed(evt);
             }
         });
+        jPanel8.add(jButton11);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        panelTblA.add(jButton11, gridBagConstraints);
+        panelTblA.add(jPanel8, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -869,12 +897,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel21.setText("Area: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelDatosA.add(jLabel21, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.1;
@@ -888,21 +916,25 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelDatosA.add(jButton5, gridBagConstraints);
 
         jLabel22.setText("Fecha Inicio: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelDatosA.add(jLabel22, gridBagConstraints);
 
         dtFechaInicio.setDateFormatString("dd/MM/yyyy");
+        dtFechaInicio.setMaximumSize(new java.awt.Dimension(120, 24));
+        dtFechaInicio.setMinSelectableDate(new java.util.Date(21703000L));
+        dtFechaInicio.setMinimumSize(new java.awt.Dimension(120, 24));
+        dtFechaInicio.setPreferredSize(new java.awt.Dimension(120, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.1;
@@ -911,14 +943,18 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel30.setText("Fecha Fin: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelDatosA.add(jLabel30, gridBagConstraints);
 
         dtFechaFin.setDateFormatString("dd/MM/yyyy");
+        dtFechaFin.setMaximumSize(new java.awt.Dimension(120, 24));
+        dtFechaFin.setMinSelectableDate(new java.util.Date(21703000L));
+        dtFechaFin.setMinimumSize(new java.awt.Dimension(120, 24));
+        dtFechaFin.setPreferredSize(new java.awt.Dimension(120, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.1;
@@ -961,37 +997,21 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel33.setText("Gerencia: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelDatosA.add(jLabel33, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        panelDatosA.add(txtArea2, gridBagConstraints);
-
-        jButton16.setText("...");
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        panelDatosA.add(jButton16, gridBagConstraints);
 
         jLabel34.setText("Unidad Negocio: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelDatosA.add(jLabel34, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        panelDatosA.add(txtArea3, gridBagConstraints);
+        panelDatosA.add(txtUnidad, gridBagConstraints);
 
         jButton17.setText("...");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
@@ -1001,8 +1021,17 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 1;
         panelDatosA.add(jButton17, gridBagConstraints);
+
+        cboGerencia.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboGerencia.setMaximumSize(new java.awt.Dimension(200, 32767));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        panelDatosA.add(cboGerencia, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -1016,6 +1045,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         tabDatosLaborales.addTab("Datos de áreas", pnlDatosArea);
 
         panelTblP.setBorder(javax.swing.BorderFactory.createTitledBorder("Historial de Cargos"));
+        panelTblP.setMaximumSize(new java.awt.Dimension(380, 2147483647));
+        panelTblP.setMinimumSize(new java.awt.Dimension(380, 69));
         panelTblP.setLayout(new java.awt.GridBagLayout());
 
         tblCargos.setModel(new javax.swing.table.DefaultTableModel(
@@ -1046,17 +1077,15 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.weighty = 0.1;
         panelTblP.add(jScrollPane3, gridBagConstraints);
 
+        jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.LINE_AXIS));
+
         jButton12.setText("Nuevo");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton12ActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        panelTblP.add(jButton12, gridBagConstraints);
+        jPanel10.add(jButton12);
 
         jButton14.setText("Editar");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
@@ -1064,11 +1093,12 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                 jButton14ActionPerformed(evt);
             }
         });
+        jPanel10.add(jButton14);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        panelTblP.add(jButton14, gridBagConstraints);
+        panelTblP.add(jPanel10, gridBagConstraints);
 
         panelDatosP.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos"));
         panelDatosP.setLayout(new java.awt.GridBagLayout());
@@ -1077,15 +1107,15 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         panelDatosP.add(jLabel26, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.1;
-        panelDatosP.add(txtArea1, gridBagConstraints);
+        panelDatosP.add(txtCargo, gridBagConstraints);
 
         jButton8.setText("...");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
@@ -1094,69 +1124,51 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelDatosP.add(jButton8, gridBagConstraints);
 
         jLabel29.setText("Fecha Inicio: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelDatosP.add(jLabel29, gridBagConstraints);
 
         dtFechaInicioCargo.setDateFormatString("dd/MM/yyyy");
+        dtFechaInicioCargo.setMaximumSize(new java.awt.Dimension(120, 24));
+        dtFechaInicioCargo.setMinSelectableDate(new java.util.Date(21703000L));
+        dtFechaInicioCargo.setMinimumSize(new java.awt.Dimension(120, 24));
+        dtFechaInicioCargo.setPreferredSize(new java.awt.Dimension(120, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.1;
         panelDatosP.add(dtFechaInicioCargo, gridBagConstraints);
 
         jLabel32.setText("Fecha Fin: ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         panelDatosP.add(jLabel32, gridBagConstraints);
 
         dtFechaFinCargo.setDateFormatString("dd/MM/yyyy");
+        dtFechaFinCargo.setMaximumSize(new java.awt.Dimension(120, 24));
+        dtFechaFinCargo.setMinSelectableDate(new java.util.Date(21703000L));
+        dtFechaFinCargo.setMinimumSize(new java.awt.Dimension(120, 24));
+        dtFechaFinCargo.setPreferredSize(new java.awt.Dimension(120, 24));
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 0.1;
         panelDatosP.add(dtFechaFinCargo, gridBagConstraints);
 
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.LINE_AXIS));
-
-        btnAgregarA1.setText("Agregar");
-        btnAgregarA1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarA1ActionPerformed(evt);
-            }
-        });
-        jPanel9.add(btnAgregarA1);
-
-        jButton15.setText("Cancelar");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
-            }
-        });
-        jPanel9.add(jButton15);
-
-        btnModAreasA1.setText("Modificar");
-        btnModAreasA1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModAreasA1ActionPerformed(evt);
-            }
-        });
-        jPanel9.add(btnModAreasA1);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -1165,32 +1177,59 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.weighty = 0.1;
         panelDatosP.add(jPanel9, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 841, Short.MAX_VALUE)
-            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(panelTblP, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, 0)
-                    .addComponent(panelDatosP, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+        btnCancelarP.setText("Cancelar");
+        btnCancelarP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarPActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 9;
+        panelDatosP.add(btnCancelarP, gridBagConstraints);
+
+        btnModPuestos.setText("Modificar");
+        btnModPuestos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModPuestosActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 9;
+        panelDatosP.add(btnModPuestos, gridBagConstraints);
+
+        btnAgregarP.setText("Agregar");
+        btnAgregarP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarPActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 9;
+        panelDatosP.add(btnAgregarP, gridBagConstraints);
+
+        javax.swing.GroupLayout pnlDatosCargoLayout = new javax.swing.GroupLayout(pnlDatosCargo);
+        pnlDatosCargo.setLayout(pnlDatosCargoLayout);
+        pnlDatosCargoLayout.setHorizontalGroup(
+            pnlDatosCargoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosCargoLayout.createSequentialGroup()
+                .addComponent(panelTblP, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelDatosP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 369, Short.MAX_VALUE)
-            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel8Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(panelTblP, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(panelDatosP, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE)))
+        pnlDatosCargoLayout.setVerticalGroup(
+            pnlDatosCargoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlDatosCargoLayout.createSequentialGroup()
+                .addGroup(pnlDatosCargoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelTblP, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                    .addComponent(panelDatosP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 11, Short.MAX_VALUE))
         );
 
-        tabDatosLaborales.addTab("Datos de cargos", jPanel8);
+        tabDatosLaborales.addTab("Datos de cargos", pnlDatosCargo);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1245,6 +1284,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     Contrato contratosG;
+    PuestoEmpleado puestoE;
     List<Contrato> listaContratosG = new ArrayList();
 
     private void Agregar() {
@@ -1273,6 +1313,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         areaF.setEmpleado(empleado);
         areaF.setFechaInicio(dtFechaInicio.getDate());
         areaF.setFechaFin(dtFechaFin.getDate());
+        areaF.setGerencia((Gerencia)cboGerencia.getSelectedItem());
 
         listaAreaEmpleadoG.add(areaF);
         lista.add(areaF);
@@ -1461,46 +1502,80 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
+        puestoE = new PuestoEmpleado();
+        FormularioUtil.activarComponente(this.panelDatosP, true);
+        FormularioUtil.activarComponente(this.panelTblP, false);
+        btnModPuestos.setEnabled(false);
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
+        
+        accionT = Controlador.MODIFICAR;
+
+        int fila = this.tblCargos.getSelectedRow();
+        if (fila != -1) {
+            FormularioUtil.activarComponente(panelDatosP, true);
+            btnAgregarP.setEnabled(false);
+            FormularioUtil.activarComponente(panelTblP, false);
+
+            pec.setSeleccionado(lista3.get(fila));
+            PuestoEmpleado puestoEmpleados = pec.getSeleccionado();
+
+            txtCargo.setText(puestoEmpleados.getPuesto().getNombre());
+            dcFechaInicio.setDate(puestoEmpleados.getFechaInicio());
+            dcFechaFin.setDate(puestoEmpleados.getFechaFin());
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un elemento de la tabla", "Mensaje del Sistema", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
+        DlgCargos cargoBusqueda = new DlgCargos(this);        
+        
+        cargoBusqueda.setVisible(true);
+        
+//        System.out.println("VALIDACION DE CARGO: "+cargoBusqueda.getCargo().getNombre());
+        
+        puestoE.setPuesto(cargoBusqueda.getCargo());
+        if (puestoE.getPuesto()!= null) {
+            this.txtCargo.setText(this.puestoE.getPuesto().getNombre().toUpperCase());
+        }
+        
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void btnAgregarA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarA1ActionPerformed
+    private void btnAgregarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPActionPerformed
         // TODO add your handling code here:
         if (!hayErroresLaborales("Cargo")) {
             AgregarCargo();
         }
-    }//GEN-LAST:event_btnAgregarA1ActionPerformed
+    }//GEN-LAST:event_btnAgregarPActionPerformed
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+    private void btnCancelarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarPActionPerformed
         // TODO add your handling code here:
         FormularioUtil.limpiarComponente(panelDatosP);
         FormularioUtil.activarComponente(panelDatosP, false);
         FormularioUtil.activarComponente(panelTblP, true);
-    }//GEN-LAST:event_jButton15ActionPerformed
+    }//GEN-LAST:event_btnCancelarPActionPerformed
 
-    private void btnModAreasA1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModAreasA1ActionPerformed
+    private void btnModPuestosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModPuestosActionPerformed
         // TODO add your handling code here:
         if (!hayErroresLaborales("Cargo")) {
             ModificarCargo();
         }
         
-    }//GEN-LAST:event_btnModAreasA1ActionPerformed
-
-    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        // TODO add your handling code here:
-        
-        //GERENCIA
-    }//GEN-LAST:event_jButton16ActionPerformed
+    }//GEN-LAST:event_btnModPuestosActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
         // TODO add your handling code here:
+        DlgUnidadNegocio unidadBusqueda = new DlgUnidadNegocio(this);
+        unidadBusqueda.setVisible(true);
+        
+        areaF.setUnidad(unidadBusqueda.getUnidadNegocio());
+        if (areaF.getUnidad() != null) {
+            this.txtUnidad.setText(this.areaF.getUnidad().getNombre().toUpperCase());
+        }
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private Ubigeo ubigeoSeleccion;
@@ -1508,15 +1583,17 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private Empleado empleadoSeleccionado;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregarA;
-    private javax.swing.JButton btnAgregarA1;
     private javax.swing.JButton btnAgregarC;
+    private javax.swing.JButton btnAgregarP;
+    private javax.swing.JButton btnCancelarP;
     private javax.swing.JButton btnModAreasA;
-    private javax.swing.JButton btnModAreasA1;
     private javax.swing.JButton btnModDatosC;
+    private javax.swing.JButton btnModPuestos;
     private javax.swing.JButton btnNacionalidad;
     private javax.swing.JButton btnUbigeo;
     private javax.swing.JComboBox cboEstadoCivil;
     private javax.swing.JComboBox cboGenero;
+    private javax.swing.JComboBox cboGerencia;
     private javax.swing.JComboBox cboNivelEducativo;
     private javax.swing.JComboBox cboRegimenLaboral;
     private javax.swing.JComboBox cboTipoContrato;
@@ -1536,8 +1613,6 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
@@ -1576,6 +1651,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1594,6 +1670,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JPanel panelTblC;
     private javax.swing.JPanel panelTblP;
     private javax.swing.JPanel pnlDatosArea;
+    private javax.swing.JPanel pnlDatosCargo;
     private javax.swing.JPanel pnlDatosContrato;
     private javax.swing.JPanel pnlEmpleado;
     private javax.swing.JScrollPane pnlGenerales;
@@ -1604,9 +1681,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JTable tblContratos;
     private javax.swing.JTabbedPane tblPane;
     private javax.swing.JTextField txtArea;
-    private javax.swing.JTextField txtArea1;
-    private javax.swing.JTextField txtArea2;
-    private javax.swing.JTextField txtArea3;
+    private javax.swing.JTextField txtCargo;
     private javax.swing.JTextField txtCodigoTrabajador;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEmail;
@@ -1618,6 +1693,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JTextField txtTelefono1;
     private javax.swing.JTextField txtTelefono2;
     private javax.swing.JTextField txtUbigeo;
+    private javax.swing.JTextField txtUnidad;
     // End of variables declaration//GEN-END:variables
 
 //    private void buscar() {
@@ -1717,6 +1793,9 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 //                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus); //To change body of generated methods, choose Tools | Templates.
 //            }
 //        });
+        
+        cboGerencia.setModel(new DefaultComboBoxModel(gc.buscarTodos().toArray()));
+        
         if (this.accion == Controlador.MODIFICAR) {
             mostrarDatos(this.empleado);
         }
@@ -1791,6 +1870,15 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
                     for (Contrato listas2 : listaContratosG) {
                         cc.setSeleccionado(listas2);
                         cc.accion(accion);
+                    }
+                }
+                
+                if (!listaPuestoEmpleadoG.isEmpty()) {
+                    System.out.println("EL TAMAÑO DE CARGOS ES: " + listaPuestoEmpleadoG.size());
+                    for (PuestoEmpleado listas : listaPuestoEmpleadoG) {
+                        pec.setSeleccionado(listas);
+
+                        pec.accion(accion);
                     }
                 }
             }
@@ -1884,11 +1972,16 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         BeanProperty bFechaInicio = BeanProperty.create("fechaInicio");
         BeanProperty bFechaFin = BeanProperty.create("fechaFin");
         BeanProperty bArea = BeanProperty.create("departamento");
+        BeanProperty bGerencia = BeanProperty.create("gerencia");
+        BeanProperty bUnidad = BeanProperty.create("unidad");
 
         binding.addColumnBinding(bEmpleado).setColumnName("EMPLEADO").setEditable(false);
         binding.addColumnBinding(bFechaInicio).setColumnName("FECHA INICIO").setEditable(false);
         binding.addColumnBinding(bFechaFin).setColumnName("FECHA FIN").setEditable(false);
         binding.addColumnBinding(bArea).setColumnName("AREA").setEditable(false);
+        binding.addColumnBinding(bGerencia).setColumnName("GERENCIA").setEditable(false);
+        binding.addColumnBinding(bUnidad).setColumnName("UNIDAD").setEditable(false);
+        
 
         binding.bind();
     }
@@ -2034,14 +2127,14 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     }
 
     List<PuestoEmpleado> puestos = new ArrayList();
-    PuestoEmpleadoControlador pec = PuestoEmpleadoControlador.getInstance();
+//    PuestoEmpleadoControlador pec = PuestoEmpleadoControlador.getInstance();
     
     private void listarCargos() {
         if (accion != Controlador.NUEVO) {
-            puestos = this.pec.buscarXNombrexFechaASC(empleado);
+            lista3 = this.pec.buscarXNombrexFechaASC(empleado);
         }
-        puestos = ObservableCollections.observableList(puestos);
-        JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, puestos, tblCargos);
+        lista3 = ObservableCollections.observableList(lista3);
+        JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista3, tblCargos);
 
         BeanProperty bEmpleado = BeanProperty.create("empleado");
         BeanProperty bFechaInicio = BeanProperty.create("fechaInicio");
@@ -2056,7 +2149,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         binding.bind();
     }
 
-    PuestoEmpleado puestoE;
+//    PuestoEmpleado puestoE;
     List<PuestoEmpleado> listaPuestoEmpleadoG = new ArrayList();
     private void AgregarCargo() {
         puestoE.setEmpleado(empleado);

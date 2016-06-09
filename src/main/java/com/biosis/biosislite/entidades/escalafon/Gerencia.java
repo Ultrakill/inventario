@@ -28,7 +28,7 @@ import javax.persistence.TemporalType;
  * @author Documentos
  */
 @Entity
-@Table(schema = "personal")
+@Table(name ="Gerencia", schema = "personal")
 public class Gerencia implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,6 +64,11 @@ public class Gerencia implements Serializable{
 
     public void setAreaEmpleadoList(List<AreaEmpleado> areaEmpleadoList) {
         this.areaEmpleadoList = areaEmpleadoList;
+    }
+
+    @Override
+    public String toString() {
+        return nombre;
     }
 
     
