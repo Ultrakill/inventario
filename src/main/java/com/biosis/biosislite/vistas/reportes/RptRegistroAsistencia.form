@@ -546,15 +546,39 @@
             </Constraint>
           </Constraints>
 
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+            <Property name="alignment" type="int" value="0"/>
+            <Property name="horizontalGap" type="int" value="2"/>
+            <Property name="verticalGap" type="int" value="2"/>
+          </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Cerrar pesta&#xf1;a"/>
+                <Property name="text" type="java.lang.String" value="Filtrar resultados:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cboFiltro">
+              <Properties>
+                <Property name="editable" type="boolean" value="true"/>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="8">
+                    <StringItem index="0" value="TODOS"/>
+                    <StringItem index="1" value="ASISTENCIA REGULAR"/>
+                    <StringItem index="2" value="TARDANZAS"/>
+                    <StringItem index="3" value="FALTAS"/>
+                    <StringItem index="4" value="INCONSISTENCIAS"/>
+                    <StringItem index="5" value="VACACIONES"/>
+                    <StringItem index="6" value="FERIADOS"/>
+                    <StringItem index="7" value="PERMISOS"/>
+                  </StringArray>
+                </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboFiltroActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>

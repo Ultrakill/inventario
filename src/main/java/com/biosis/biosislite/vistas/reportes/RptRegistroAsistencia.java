@@ -54,6 +54,7 @@ import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import com.biosis.biosislite.Main;
+import com.biosis.biosislite.algoritmo.AnalisisAsistencia;
 import com.biosis.biosislite.utiles.Exportador;
 import com.biosis.biosislite.utiles.ButtonTabComponent;
 import com.biosis.biosislite.utiles.HerramientaGeneral;
@@ -90,7 +91,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pc = new PeriodoControlador();
         dfFecha = new SimpleDateFormat("dd/MM/yyyy");
         reporteador = new ReporteUtil();
-        jButton1.setVisible(false);
 
 //        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
 //        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
@@ -152,7 +152,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tblAsistenciaDetallado = new org.jdesktop.swingx.JXTable();
         pnlCerrarTab = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        cboFiltro = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         lblCargando = new org.jdesktop.swingx.JXBusyLabel();
         grpRango.add(radPorFecha);
@@ -234,7 +235,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlRango.add(cboPeriodo1, gridBagConstraints);
 
-        dcFechaInicio.setDateFormatString("dd/MM/yyyy");
         dcFechaInicio.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         dcFechaInicio.setMinSelectableDate(new java.util.Date(21667000L));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -245,7 +245,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints.weightx = 0.1;
         pnlRango.add(dcFechaInicio, gridBagConstraints);
 
-        dcFechaFin.setDateFormatString("dd/MM/yyyy");
         dcFechaFin.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         dcFechaFin.setMinSelectableDate(new java.util.Date(21667000L));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -496,15 +495,19 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
         pnlReporte.add(pnlTab, java.awt.BorderLayout.CENTER);
 
-        pnlCerrarTab.setLayout(new javax.swing.BoxLayout(pnlCerrarTab, javax.swing.BoxLayout.LINE_AXIS));
+        pnlCerrarTab.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 2, 2));
 
-        jButton1.setText("Cerrar pestaña");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setText("Filtrar resultados:");
+        pnlCerrarTab.add(jLabel2);
+
+        cboFiltro.setEditable(true);
+        cboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODOS", "ASISTENCIA REGULAR", "TARDANZAS", "FALTAS", "INCONSISTENCIAS", "VACACIONES", "FERIADOS", "PERMISOS" }));
+        cboFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                cboFiltroActionPerformed(evt);
             }
         });
-        pnlCerrarTab.add(jButton1);
+        pnlCerrarTab.add(cboFiltro);
 
         jLabel1.setText("    ");
         pnlCerrarTab.add(jLabel1);
@@ -538,7 +541,12 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     }
 
     RptRegistroAsistencia rpt = this;
+List<RptAsistenciaDetallado> registroAsistenciaPreList = new ArrayList<>();
 
+    private void filtrar(List<RptAsistenciaDetallado> registroAsistenciaPreList, int valorFiltro) {
+        this.asistenciaDetalleList.clear();
+        this.asistenciaDetalleList.addAll(registroAsistenciaPreList.stream().filter(ra -> ra.getTipo() == valorFiltro).collect(Collectors.toList()));
+    }
     private class GenerarReporte extends SwingWorker<Double, Void> {
 
 //        DlgEsperaTest test = new DlgEsperaTest(rpt);
@@ -696,11 +704,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 //        }
     }//GEN-LAST:event_btnImprimirActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        this.cerrarTabActivo();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         if (!this.asistenciaDetalleList.isEmpty()) {
@@ -789,6 +792,47 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnExceljButton5ActionPerformed
 
+    private void cboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFiltroActionPerformed
+        // TODO add your handling code here:
+        /**
+         * Procedemos a cambiar
+         */
+        int valorFiltro;
+        switch(cboFiltro.getSelectedIndex()){
+            case 0:
+                // TODOS
+                valorFiltro = -10;
+                break;
+            case 1:
+                //REGULAR
+                valorFiltro = AnalizadorAsistencia.REGULAR;
+                break;
+            case 2:
+                valorFiltro = AnalizadorAsistencia.TARDANZA;
+                break;
+            case 3:
+                valorFiltro = AnalizadorAsistencia.INASISTENCIA;
+                break;
+            case 4:
+                valorFiltro = AnalizadorAsistencia.INCONSISTENCIA;
+                break;
+            case 5:
+                valorFiltro = AnalizadorAsistencia.VACACION;
+                break;
+            case 6:
+                valorFiltro = AnalizadorAsistencia.FERIADO;
+                break;
+            case 7:
+                valorFiltro = AnalizadorAsistencia.PERMISO_FECHA;
+                break;
+            default:
+                valorFiltro = -10;
+                break;
+                        
+        }
+        filtrar(this.registroAsistenciaPreList, valorFiltro);
+    }//GEN-LAST:event_cboFiltroActionPerformed
+
     private Departamento oficinaSeleccionada;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -799,6 +843,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnMarcacionManual;
     private javax.swing.JButton btnOficina;
     private javax.swing.JButton btnQuitar;
+    private javax.swing.JComboBox<String> cboFiltro;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
@@ -807,10 +852,10 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.ButtonGroup grpRango;
     private javax.swing.ButtonGroup grpSeleccion;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
     private org.jdesktop.swingx.JXBusyLabel lblCargando;
@@ -1068,6 +1113,11 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
             }
             return comparacion;
         }).collect(Collectors.toList()));
+        
+        //Iniciamos la lista antes del filtro
+        registroAsistenciaPreList.addAll(this.asistenciaDetalleList);
+        //seleccion del primer registro existente en el combo que es TODOS
+        cboFiltro.setSelectedIndex(0);
 //        this.asistenciaDetalleList.stream().forEach(asistencia -> System.out.println("--MES: "+asistencia.getMes()+" --"));
         this.tblAsistenciaDetallado.packAll();
         band = true;
