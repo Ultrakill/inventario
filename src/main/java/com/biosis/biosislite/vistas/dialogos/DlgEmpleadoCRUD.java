@@ -2036,7 +2036,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
 //        }
         List<Contrato> listaContratos = cc.buscarXNombrexFechaASC(empleado);
         List<AreaEmpleado> listaAreas = ea.buscarXNombrexFechaASC(empleado);
-        List<PuestoEmpleado> listaCargos = pec.buscarXNombrexFechaASC(empleado);
+        List<PuestoEmpleado> listaCargos = pec.buscarXNombrexFechaDESC(empleado);
 
         int conteo = 0;
         int erroresContratos = 0;
@@ -2131,7 +2131,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     
     private void listarCargos() {
         if (accion != Controlador.NUEVO) {
-            lista3 = this.pec.buscarXNombrexFechaASC(empleado);
+            lista3 = this.pec.buscarXNombrexFechaDESC(empleado);
         }
         lista3 = ObservableCollections.observableList(lista3);
         JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista3, tblCargos);

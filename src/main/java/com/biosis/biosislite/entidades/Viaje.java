@@ -54,13 +54,16 @@ public class Viaje implements Serializable{
     @Column(name = "combustible")
     private double combustible;
     
+    @Column(name = "destino")
+    private String destino;
+    
     @OneToOne(targetEntity = Permiso.class)
     @JoinColumn(name="permiso_id",referencedColumnName="id", nullable = true)
     private Permiso permiso;
     
-    @OneToOne(targetEntity = Ubigeo.class)
-    @JoinColumn(name="ubigeo_viaje",referencedColumnName="codigo")
-    private Ubigeo ubigeo;
+//    @OneToOne(targetEntity = Ubigeo.class)
+//    @JoinColumn(name="ubigeo_viaje",referencedColumnName="codigo")
+//    private Ubigeo ubigeo;
 
     public Long getId() {
         return id;
@@ -150,16 +153,20 @@ public class Viaje implements Serializable{
         this.centroCosto = centroCosto;
     }
 
-    public Ubigeo getUbigeo() {
-        return ubigeo;
+//    public Ubigeo getUbigeo() {
+//        return ubigeo;
+//    }
+//
+//    public void setUbigeo(Ubigeo ubigeo) {
+//        this.ubigeo = ubigeo;
+//    }
+    public String getDestino() {
+        return destino;
     }
 
-    public void setUbigeo(Ubigeo ubigeo) {
-        this.ubigeo = ubigeo;
+    public void setDestino(String destino) {
+        this.destino = destino;
     }
     
-    
-    
-    
-    
+       
 }

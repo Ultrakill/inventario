@@ -5,28 +5,41 @@
  */
 package com.biosis.biosislite.vistas.reportes;
 
+import com.biosis.biosislite.Main;
+import com.biosis.biosislite.controladores.AreaEmpleadoControlador;
+import com.biosis.biosislite.controladores.CompraVacacionControlador;
 import com.biosis.biosislite.controladores.DetalleGrupoControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.GrupoHorarioControlador;
+import com.biosis.biosislite.controladores.InterrupcionControlador;
+import com.biosis.biosislite.controladores.InterrupcionVacacionControlador;
 import com.biosis.biosislite.controladores.PeriodoControlador;
 import com.biosis.biosislite.controladores.SaldoVacacionalControlador;
-import com.biosis.biosislite.entidades.DetalleGrupoHorario;
-import com.biosis.biosislite.entidades.GrupoHorario;
-import com.biosis.biosislite.entidades.Periodo;
-import com.biosis.biosislite.entidades.SaldoVacacional;
-import com.biosis.biosislite.vistas.modelos.MTEmpleado;
-import com.personal.utiles.FormularioUtil;
-import com.personal.utiles.ReporteUtil;
-import com.biosis.biosislite.controladores.CompraVacacionControlador;
 import com.biosis.biosislite.controladores.VacacionControlador;
 import com.biosis.biosislite.entidades.CompraVacacion;
+import com.biosis.biosislite.entidades.DetalleGrupoHorario;
+import com.biosis.biosislite.entidades.GrupoHorario;
 import com.biosis.biosislite.entidades.InterrupcionVacacion;
+import com.biosis.biosislite.entidades.Periodo;
+import com.biosis.biosislite.entidades.SaldoVacacional;
 import com.biosis.biosislite.entidades.Vacacion;
+import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.FichaLaboral;
+import com.biosis.biosislite.utiles.Exportador;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.dialogos.DlgOficina;
+import com.biosis.biosislite.vistas.modelos.MTAsignarVacacion;
+import com.biosis.biosislite.vistas.modelos.MTEmpleado;
+import com.biosis.biosislite.vistas.modelos.MTMostrarPeriodos;
+import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,17 +47,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.DefaultListCellRenderer;
+import javax.swing.JFileChooser;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.SwingWorker;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import net.sf.jasperreports.view.JasperViewer;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
-import com.biosis.biosislite.Main;
-import com.biosis.biosislite.utiles.UsuarioActivo;
-import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-import com.biosis.biosislite.vistas.dialogos.DlgOficina;
 
 /**
  *
@@ -57,12 +71,17 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
      */
     private final List<GrupoHorario> grupoList;
     private final GrupoHorarioControlador gc;
+    private final AreaEmpleadoControlador aec;
+
+    private VacacionControlador vc;
 
     public RptVacaciones() {
         initComponents();
         gc = new GrupoHorarioControlador();
         grupoList = gc.buscarTodos();
         pc = new PeriodoControlador();
+        vc = new VacacionControlador();
+        aec = new AreaEmpleadoControlador();
 
 //        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio, "dd/MM/yyyy");
 //        FormularioUtil.modeloSpinnerFechaHora(spFechaFin, "dd/MM/yyyy");
@@ -83,31 +102,55 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
         grpSeleccion = new javax.swing.ButtonGroup();
         grpTipo = new javax.swing.ButtonGroup();
+        grpRango = new javax.swing.ButtonGroup();
         pnlRango = new javax.swing.JPanel();
-        cboPeriodo = new javax.swing.JComboBox();
-        jLabel1 = new javax.swing.JLabel();
-        radDetalle = new javax.swing.JRadioButton();
-        radSaldo = new javax.swing.JRadioButton();
+        radInterrupciones = new javax.swing.JRadioButton();
+        radReprogramacion = new javax.swing.JRadioButton();
+        radTodo = new javax.swing.JRadioButton();
+        radSaldos = new javax.swing.JRadioButton();
+        pnlBotones = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
         pnlEmpleados = new javax.swing.JPanel();
         radGrupo = new javax.swing.JRadioButton();
         radPersonalizado = new javax.swing.JRadioButton();
         cboGrupoHorario = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTabla = new org.jdesktop.swingx.JXTable();
-        btnAgregar = new javax.swing.JButton();
-        btnQuitar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         radOficina = new javax.swing.JRadioButton();
         txtOficina = new javax.swing.JTextField();
         btnOficina = new javax.swing.JButton();
-        pnlBotones = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        pnlTab = new javax.swing.JTabbedPane();
+        radTodos = new javax.swing.JRadioButton();
+        jPanel2 = new javax.swing.JPanel();
+        lblCargando = new org.jdesktop.swingx.JXBusyLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblVacaciones = new org.jdesktop.swingx.JXTable();
+        pnlOpciones1 = new javax.swing.JPanel();
+        btnExcel = new javax.swing.JButton();
+        pnlRango1 = new javax.swing.JPanel();
+        radPorFecha = new javax.swing.JRadioButton();
+        radMes = new javax.swing.JRadioButton();
+        radAnio = new javax.swing.JRadioButton();
+        cboMes = new com.toedter.calendar.JMonthChooser();
+        cboPeriodo = new javax.swing.JComboBox();
+        cboPeriodo1 = new javax.swing.JComboBox();
+        dcFechaInicio = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####", '_');
+        dcFechaFin = new com.toedter.calendar.JDateChooser("dd/MM/yyyy","##/##/####", '_');
+        grpSeleccion.add(radTodos);
         grpSeleccion.add(radGrupo);
         grpSeleccion.add(radPersonalizado);
         grpSeleccion.add(radOficina);
 
-        grpTipo.add(radDetalle);
-        grpTipo.add(radSaldo);
+        grpTipo.add(radTodo);
+        grpTipo.add(radInterrupciones);
+        grpTipo.add(radReprogramacion);
+        grpTipo.add(radSaldos);
+
+        grpRango.add(radPorFecha);
+        grpRango.add(radMes);
+        grpRango.add(radAnio);
 
         setClosable(true);
         setMaximizable(true);
@@ -115,151 +158,74 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         setTitle("REPORTES DE VACACIONES");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        pnlRango.setBorder(javax.swing.BorderFactory.createTitledBorder("Rango"));
+        pnlRango.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de reporte"));
+        pnlRango.setMinimumSize(new java.awt.Dimension(248, 115));
         pnlRango.setLayout(new java.awt.GridBagLayout());
 
-        cboPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        pnlRango.add(cboPeriodo, gridBagConstraints);
-
-        jLabel1.setText("Período:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
-        pnlRango.add(jLabel1, gridBagConstraints);
-
-        radDetalle.setSelected(true);
-        radDetalle.setText("Detalle de vacaciones");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(radDetalle, gridBagConstraints);
-
-        radSaldo.setText("Saldos vacacionales");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlRango.add(radSaldo, gridBagConstraints);
-
+        radInterrupciones.setText("Vacaciones interrumpidas");
+        radInterrupciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radInterrupcionesActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 103);
+        pnlRango.add(radInterrupciones, gridBagConstraints);
+
+        radReprogramacion.setText("Vacaciones reprogramadas");
+        radReprogramacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radReprogramacionActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 103);
+        pnlRango.add(radReprogramacion, gridBagConstraints);
+
+        radTodo.setSelected(true);
+        radTodo.setText("Todo");
+        radTodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radTodoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 103);
+        pnlRango.add(radTodo, gridBagConstraints);
+
+        radSaldos.setText("Saldos vacacionales");
+        radSaldos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radSaldosActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 1, 0, 103);
+        pnlRango.add(radSaldos, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
         getContentPane().add(pnlRango, gridBagConstraints);
-
-        pnlEmpleados.setBorder(javax.swing.BorderFactory.createTitledBorder("Selección de empleados"));
-        pnlEmpleados.setLayout(new java.awt.GridBagLayout());
-
-        radGrupo.setText("Por grupo horario:");
-        radGrupo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radGrupoActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlEmpleados.add(radGrupo, gridBagConstraints);
-
-        radPersonalizado.setSelected(true);
-        radPersonalizado.setText("Personalizado:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlEmpleados.add(radPersonalizado, gridBagConstraints);
-
-        cboGrupoHorario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlEmpleados.add(cboGrupoHorario, gridBagConstraints);
-
-        jScrollPane1.setViewportView(tblTabla);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        pnlEmpleados.add(jScrollPane1, gridBagConstraints);
-
-        btnAgregar.setText("+");
-        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAgregarActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        pnlEmpleados.add(btnAgregar, gridBagConstraints);
-
-        btnQuitar.setText("-");
-        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuitarActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        pnlEmpleados.add(btnQuitar, gridBagConstraints);
-
-        radOficina.setText("Por oficina:");
-        radOficina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                radOficinaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlEmpleados.add(radOficina, gridBagConstraints);
-
-        txtOficina.setEditable(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        pnlEmpleados.add(txtOficina, gridBagConstraints);
-
-        btnOficina.setText("...");
-        btnOficina.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOficinaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 1;
-        pnlEmpleados.add(btnOficina, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridheight = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        getContentPane().add(pnlEmpleados, gridBagConstraints);
 
         pnlBotones.setLayout(new java.awt.GridBagLayout());
 
@@ -277,50 +243,320 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 9;
         getContentPane().add(pnlBotones, gridBagConstraints);
+
+        pnlEmpleados.setBorder(javax.swing.BorderFactory.createTitledBorder("Selección de empleados"));
+        pnlEmpleados.setLayout(new java.awt.GridBagLayout());
+
+        radGrupo.setText("Por grupo horario:");
+        radGrupo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radGrupoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radGrupo, gridBagConstraints);
+
+        radPersonalizado.setText("Personalizado:");
+        radPersonalizado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radPersonalizadoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radPersonalizado, gridBagConstraints);
+
+        cboGrupoHorario.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(cboGrupoHorario, gridBagConstraints);
+
+        jScrollPane1.setViewportView(tblTabla);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridheight = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        pnlEmpleados.add(jScrollPane1, gridBagConstraints);
+
+        jButton1.setText("+");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(jButton1, gridBagConstraints);
+
+        jButton3.setText("-");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(jButton3, gridBagConstraints);
+
+        radOficina.setText("Por oficina:");
+        radOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radOficinaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radOficina, gridBagConstraints);
+
+        txtOficina.setEditable(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(txtOficina, gridBagConstraints);
+
+        btnOficina.setText("...");
+        btnOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOficinaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        pnlEmpleados.add(btnOficina, gridBagConstraints);
+
+        radTodos.setSelected(true);
+        radTodos.setText("Todos");
+        radTodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radTodosActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radTodos, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        gridBagConstraints.weighty = 0.1;
+        getContentPane().add(pnlEmpleados, gridBagConstraints);
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        lblCargando.setText("Cargando resultados...");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel2.add(lblCargando, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 6;
+        gridBagConstraints.gridwidth = 12;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        getContentPane().add(jPanel2, gridBagConstraints);
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(900, 23));
+        jPanel1.setPreferredSize(new java.awt.Dimension(900, 100));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        tblVacaciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblVacaciones.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        tblVacaciones.setHorizontalScrollEnabled(true);
+        jScrollPane4.setViewportView(tblVacaciones);
+
+        jPanel1.add(jScrollPane4, java.awt.BorderLayout.CENTER);
+
+        pnlOpciones1.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
+
+        btnExcel.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnExcel.setText("Exportar Excel");
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExceljButton5ActionPerformed(evt);
+            }
+        });
+        pnlOpciones1.add(btnExcel);
+
+        jPanel1.add(pnlOpciones1, java.awt.BorderLayout.PAGE_END);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 12;
+        gridBagConstraints.gridheight = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.5;
-        gridBagConstraints.weighty = 0.1;
-        getContentPane().add(pnlTab, gridBagConstraints);
+        getContentPane().add(jPanel1, gridBagConstraints);
+
+        pnlRango1.setBorder(javax.swing.BorderFactory.createTitledBorder("Rango"));
+        pnlRango1.setLayout(new java.awt.GridBagLayout());
+
+        radPorFecha.setSelected(true);
+        radPorFecha.setText("Por fechas:");
+        radPorFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radPorFechaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango1.add(radPorFecha, gridBagConstraints);
+
+        radMes.setText("Por mes:");
+        radMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radMesActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango1.add(radMes, gridBagConstraints);
+
+        radAnio.setText("Por año:");
+        radAnio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radAnioActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.ipadx = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlRango1.add(radAnio, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
+        pnlRango1.add(cboMes, gridBagConstraints);
+
+        cboPeriodo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
+        pnlRango1.add(cboPeriodo, gridBagConstraints);
+
+        cboPeriodo1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 0, 0, 0);
+        pnlRango1.add(cboPeriodo1, gridBagConstraints);
+
+        dcFechaInicio.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        dcFechaInicio.setMinSelectableDate(new java.util.Date(21667000L));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        pnlRango1.add(dcFechaInicio, gridBagConstraints);
+
+        dcFechaFin.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        dcFechaFin.setMinSelectableDate(new java.util.Date(21667000L));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        pnlRango1.add(dcFechaFin, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        getContentPane().add(pnlRango1, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        generarReporte();
+        GenerarReporte reporte = new GenerarReporte();
+        reporte.execute();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+    private void radGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radGrupoActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radGrupoActionPerformed
+
+    private void radPersonalizadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPersonalizadoActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radPersonalizadoActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         DlgEmpleado dialogo = new DlgEmpleado(this);
         dialogo.setVisible(true);
-    }//GEN-LAST:event_btnAgregarActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         int fila;
         if ((fila = tblTabla.getSelectedRow()) != -1) {
             empleadoList.remove(fila);
         }
-    }//GEN-LAST:event_btnQuitarActionPerformed
-
-    private void radGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radGrupoActionPerformed
-        // TODO add your handling code here:
-        this.controles();
-    }//GEN-LAST:event_radGrupoActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void radOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radOficinaActionPerformed
         // TODO add your handling code here:
         controles();
     }//GEN-LAST:event_radOficinaActionPerformed
 
-    private Departamento oficinaSeleccionada;
     private void btnOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOficinaActionPerformed
         // TODO add your handling code here:
         DlgOficina oficinas = new DlgOficina(this);
@@ -331,28 +567,124 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnOficinaActionPerformed
 
+    private void radTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radTodosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_radTodosActionPerformed
+
+    private void btnExceljButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExceljButton5ActionPerformed
+        // TODO add your handling code here:
+        if (this.tblVacaciones.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.btnExcel.grabFocus();
+            return;
+        }
+        JFileChooser chooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Guardar archivo");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            List<JTable> tb = new ArrayList<>();
+            List<String> nom = new ArrayList<>();
+            tb.add(tblVacaciones);
+            nom.add("Detalle de Asistencia");
+            String excel = chooser.getSelectedFile().toString().concat(".xls");
+            try {
+                Date[] fechasLimite = this.obtenerFechasLimite();
+                Exportador e = new Exportador(new File(excel), tb, nom, fechasLimite[0], fechasLimite[1], true);
+                if (e.exportar()) {
+                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel.", "BCO",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnExceljButton5ActionPerformed
+
+    private void radPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPorFechaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radPorFechaActionPerformed
+
+    private void radMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radMesActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radMesActionPerformed
+
+    private void radAnioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radAnioActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radAnioActionPerformed
+
+    private void radTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radTodoActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radTodoActionPerformed
+
+    private void radReprogramacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radReprogramacionActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radReprogramacionActionPerformed
+
+    private void radSaldosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radSaldosActionPerformed
+        // TODO add your handling code here:
+//        controles();
+        radAnio.setSelected(false);
+        radMes.setSelected(false);
+        radPorFecha.setSelected(false);
+    }//GEN-LAST:event_radSaldosActionPerformed
+
+    private void radInterrupcionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radInterrupcionesActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radInterrupcionesActionPerformed
+
+    private Departamento oficinaSeleccionada;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnOficina;
-    private javax.swing.JButton btnQuitar;
     private javax.swing.JComboBox cboGrupoHorario;
+    private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
+    private javax.swing.JComboBox cboPeriodo1;
+    private com.toedter.calendar.JDateChooser dcFechaFin;
+    private com.toedter.calendar.JDateChooser dcFechaInicio;
+    private javax.swing.ButtonGroup grpRango;
     private javax.swing.ButtonGroup grpSeleccion;
     private javax.swing.ButtonGroup grpTipo;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane4;
+    private org.jdesktop.swingx.JXBusyLabel lblCargando;
     private javax.swing.JPanel pnlBotones;
     private javax.swing.JPanel pnlEmpleados;
+    private javax.swing.JPanel pnlOpciones1;
     private javax.swing.JPanel pnlRango;
-    private javax.swing.JTabbedPane pnlTab;
-    private javax.swing.JRadioButton radDetalle;
+    private javax.swing.JPanel pnlRango1;
+    private javax.swing.JRadioButton radAnio;
     private javax.swing.JRadioButton radGrupo;
+    private javax.swing.JRadioButton radInterrupciones;
+    private javax.swing.JRadioButton radMes;
     private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPersonalizado;
-    private javax.swing.JRadioButton radSaldo;
+    private javax.swing.JRadioButton radPorFecha;
+    private javax.swing.JRadioButton radReprogramacion;
+    private javax.swing.JRadioButton radSaldos;
+    private javax.swing.JRadioButton radTodo;
+    private javax.swing.JRadioButton radTodos;
     private org.jdesktop.swingx.JXTable tblTabla;
+    private org.jdesktop.swingx.JXTable tblVacaciones;
     private javax.swing.JTextField txtOficina;
     // End of variables declaration//GEN-END:variables
 
@@ -361,23 +693,26 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private final PeriodoControlador pc;
 
     private void inicializar() {
-        JasperViewer jv = new JasperViewer(null);
-        pnlTab.add("Vista previa", jv.getContentPane());
+//        JasperViewer jv = new JasperViewer(null);
+//        pnlTab.add("Vista previa", jv.getContentPane());
         empleadoList = ObservableCollections.observableList(new ArrayList<Empleado>());
         periodoList = pc.buscarTodosOrden();
     }
 
     private void controles() {
 
-//        FormularioUtil.activarComponente(spFechaInicio, radPorFecha.isSelected());
-//        FormularioUtil.activarComponente(spFechaFin, radPorFecha.isSelected());
-//        FormularioUtil.activarComponente(cboMes, radMes.isSelected());
-//        FormularioUtil.activarComponente(cboPeriodo1, radMes.isSelected());
-//        FormularioUtil.activarComponente(cboPeriodo, radAnio.isSelected());
+        FormularioUtil.activarComponente(dcFechaInicio, radPorFecha.isSelected());
+        FormularioUtil.activarComponente(dcFechaFin, radPorFecha.isSelected());
+        FormularioUtil.activarComponente(cboMes, radMes.isSelected());
+        FormularioUtil.activarComponente(cboPeriodo1, radMes.isSelected());
+        FormularioUtil.activarComponente(cboPeriodo, radAnio.isSelected());
+
         FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
-//        FormularioUtil.activarComponente(btnOficina, radGrupo.isSelected());
-        FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
+        FormularioUtil.activarComponente(txtOficina, radGrupo.isSelected());
         FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
+        FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
+        FormularioUtil.activarComponente(jButton1, radPersonalizado.isSelected());
+        FormularioUtil.activarComponente(jButton3, radPersonalizado.isSelected());
 
     }
 
@@ -385,9 +720,15 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         MTEmpleado mt = new MTEmpleado(empleadoList);
         tblTabla.setModel(mt);
 
+        listaFiltro = ObservableCollections.observableList(listaFiltro);
+        listaFiltroPeriodos = ObservableCollections.observableList(listaFiltroPeriodos);
+
         BindingGroup grupo = new BindingGroup();
         JComboBoxBinding bindPeriodo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo);
         JComboBoxBinding bindGrupo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, grupoList, cboGrupoHorario);
+        JComboBoxBinding bindPeriodo2 = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, periodoList, cboPeriodo1);
+
+        grupo.addBinding(bindPeriodo2);
         grupo.addBinding(bindGrupo);
         grupo.addBinding(bindPeriodo);
 
@@ -420,6 +761,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         };
 
         cboPeriodo.setRenderer(render);
+        cboPeriodo1.setRenderer(render);
         cboGrupoHorario.setRenderer(renderGrupo);
     }
 
@@ -432,80 +774,70 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
     private void generarReporte() {
         List<Empleado> empleados = obtenerDNI();
+        Date[] fechasLimite = this.obtenerFechasLimite();
 
-        if (radSaldo.isSelected()) {
-            List<SaldoVacacional> saldos = generarSaldos((Periodo) cboPeriodo.getSelectedItem(), empleados);
-            String ficheroReport = "reportes/ensa_reporte_saldo_vacacion.jasper";
-            Map<String, Object> parametros = new HashMap<>();
-            parametros.put("reporte_usuario", UsuarioActivo.getUsuario().getLogin());
-            parametros.put("reporte_institucion", Main.REPORTE_INSTITUCION);
-            parametros.put("periodo_anio", ((Periodo) cboPeriodo.getSelectedItem()).getAnio());
-            File reporteFile = new File(ficheroReport);
-            Component component = reporteUtil.obtenerReporte(saldos, reporteFile, parametros);
-            if (component != null) {
-                pnlTab.remove(0);
-                pnlTab.add("Vista previa", component);
+        ObtenerVacaciones(empleados, fechasLimite[0], fechasLimite[1]);
+
+        if (radSaldos.isSelected()) {
+
+            MTMostrarPeriodos mts = new MTMostrarPeriodos(listaFiltroPeriodos);
+            tblVacaciones.setModel(mts);
+            tblVacaciones.packAll();
+
+        } else {
+            if (!listaFiltro.isEmpty()) {
+                MTAsignarVacacion mt = new MTAsignarVacacion(listaFiltro);
+                tblVacaciones.setModel(mt);
+                tblVacaciones.packAll();
             }
-            return;
         }
 
-        List<String> dnis = new ArrayList<>();
-        Periodo periodo = obtenerPeriodo();
-        for (Empleado e : empleados) {
-            dnis.add(e.getNroDocumento());
-        }
-        String ficheroReporte = "reportes/ensa_reporte_vacacion.jasper";
-
-        File archivo = new File(ficheroReporte);
-        Map<String, Object> parametros = new HashMap<>();
-        parametros.put("reporte_usuario", UsuarioActivo.getUsuario().getLogin());
-        parametros.put("persona_lista", dnis);
-        parametros.put("periodo_anio", periodo.getAnio());
-        parametros.put("reporte_institucion", Main.REPORTE_INSTITUCION);
-        reporteUtil.setConn(svc.getDao().getConexion());
-        Component componente = reporteUtil.obtenerReporte(archivo, parametros);
-        if (componente != null) {
-            pnlTab.remove(0);
-            pnlTab.add("Vista previa", componente);
-        }
     }
+
     private final SaldoVacacionalControlador svc = new SaldoVacacionalControlador();
     private final Calendar calendar = Calendar.getInstance();
     private final EmpleadoControlador ec = new EmpleadoControlador();
     private final ReporteUtil reporteUtil = new ReporteUtil();
 
-    public void buscarCrear(Empleado empleado, Periodo periodo) {
-        SaldoVacacional sv = svc.buscarXPeriodo(empleado, periodo);
-        Date fechaContrato = empleado.getContratoList().get(0).getFechaInicio();
-        calendar.setTime(fechaContrato);
-        if (sv == null && periodo.getAnio() > calendar.get(Calendar.YEAR)) {
-            //CREAMOS
-            sv = new SaldoVacacional();
-            //OBTENEMOS SI LE CORRESPONDEN VACACIONES ACORDE A LEY
-
-            if (calendar.get(Calendar.YEAR) < periodo.getAnio()) {
-                sv.setDiasRestantes(30);
-            } else {
-                sv.setDiasRestantes(0);
-            }
-            calendar.set(Calendar.YEAR, periodo.getAnio());
-            sv.setFechaDesde(calendar.getTime());
-            calendar.add(Calendar.YEAR, 1);
-            calendar.add(Calendar.DATE, -1);
-            sv.setFechaHasta(calendar.getTime());
-            sv.setEmpleado(empleado);
-            sv.setLunesViernes(0);
-            sv.setSabado(0);
-            sv.setDomingo(0);
-            sv.setPeriodo(periodo);
-            svc.modificar(sv);
-        }
-    }
-
+//    public void buscarCrear(Empleado empleado, Periodo periodo) {
+//        SaldoVacacional sv = svc.buscarXPeriodo(empleado, periodo);
+//        Date fechaContrato = empleado.getContratoList().get(0).getFechaInicio();
+//        calendar.setTime(fechaContrato);
+//        if (sv == null && periodo.getAnio() > calendar.get(Calendar.YEAR)) {
+//            //CREAMOS
+//            sv = new SaldoVacacional();
+//            //OBTENEMOS SI LE CORRESPONDEN VACACIONES ACORDE A LEY
+//
+//            if (calendar.get(Calendar.YEAR) < periodo.getAnio()) {
+//                sv.setDiasRestantes(30);
+//            } else {
+//                sv.setDiasRestantes(0);
+//            }
+//            calendar.set(Calendar.YEAR, periodo.getAnio());
+//            sv.setFechaDesde(calendar.getTime());
+//            calendar.add(Calendar.YEAR, 1);
+//            calendar.add(Calendar.DATE, -1);
+//            sv.setFechaHasta(calendar.getTime());
+//            sv.setEmpleado(empleado);
+//            sv.setLunesViernes(0);
+//            sv.setSabado(0);
+//            sv.setDomingo(0);
+//            sv.setPeriodo(periodo);
+//            svc.modificar(sv);
+//        }
+//    }
     private List<Empleado> obtenerDNI() {
 
         List<Empleado> lista = new ArrayList<>();
-        if (radGrupo.isSelected()) {
+        Date fechas[] = this.obtenerFechasLimite();
+        if (radTodos.isSelected()) {
+            List<Empleado> listaPre = this.ec.buscarTodos();
+            for (Empleado empleadosPeriodos : listaPre) {
+                if (!empleadosPeriodos.getContratoList().isEmpty()) {
+                    lista.add(empleadosPeriodos);
+                }
+            }
+        } else if (radGrupo.isSelected()) {
             obtenerGrupo();
             List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
             for (DetalleGrupoHorario detalle : detalleGrupo) {
@@ -516,9 +848,9 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
                 lista.add(empleado);
             }
         } else if (radOficina.isSelected()) {
-            List<FichaLaboral> fichas = oficinaSeleccionada.getFichaLaboralList();
-            for (FichaLaboral f : fichas) {
-                lista.add(f.getEmpleado());
+            List<AreaEmpleado> areaEmpleadoList = aec.buscarXEmpleadoXFecha(oficinaSeleccionada, fechas[0], fechas[1]);
+            for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
+                lista.add(areaEmpleado.getEmpleado());
             }
         }
 
@@ -535,72 +867,354 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         }
     }
 
-    private Periodo obtenerPeriodo() {
-        int fila;
-        if ((fila = cboPeriodo.getSelectedIndex()) != -1) {
-            return periodoList.get(fila);
-        }
-        return null;
-    }
-
+//    private Periodo obtenerPeriodo() {
+//        int fila;
+//        if ((fila = cboPeriodo.getSelectedIndex()) != -1) {
+//            return periodoList.get(fila);
+//        }
+//        return null;
+//    }
     private VacacionControlador vacc = new VacacionControlador();
     private CompraVacacionControlador cmpvacc = CompraVacacionControlador.getInstance();
 
-    private List<SaldoVacacional> generarSaldos(Periodo periodo, List<Empleado> empleados) {
-        List<SaldoVacacional> saldoVacacionalList = new ArrayList<>();
-        for (Empleado empleado : empleados) {
-            SaldoVacacional saldoVacacional = new SaldoVacacional();
-
-            List<Vacacion> vacaciones = this.vacc.buscarXEmpleadoXPeriodoNoReprogramacion(empleado, periodo);
-            Calendar iterador = Calendar.getInstance();
-            int lunesViernes = 0;
-            int sab = 0;
-            int dom = 0;
-            int saldo = 30;
-            List<CompraVacacion> compras = cmpvacc.buscarXEmpleadoXPeriodo(empleado, periodo);
-            for (CompraVacacion compra : compras) {
-                saldo -= compra.getDiasCompra();
-            }
-            for (Vacacion vacacion : vacaciones) {
-                iterador.setTime(vacacion.getFechaInicio());
-                InterrupcionVacacion interrupcion = vacacion.getInterrupcionVacacion();
-                while (iterador.getTime().compareTo(vacacion.getFechaFin()) <= 0) {
-                    if (interrupcion != null) {
-                        if (interrupcion.getFechaInicio().compareTo(iterador.getTime()) <= 0
-                                && interrupcion.getFechaFin().compareTo(iterador.getTime()) >= 0) {
-                            //no pasa nada
-                        } else {
-                            if (iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
-                                    && iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-                                lunesViernes++;
-                            }
-                        }
-                    } else {
-                        if (iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
-                                && iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-                            lunesViernes++;
-                        }
-                    }
-                    iterador.add(Calendar.DATE, 1);
-                }
-            }
-
-            int division = lunesViernes / 5;
-            sab = division;
-            dom = division;
-
-            saldo = saldo - (lunesViernes + sab + dom);
-
-            saldoVacacional.setDiasRestantes(saldo);
-            saldoVacacional.setLunesViernes(lunesViernes);
-            saldoVacacional.setSabado(sab);
-            saldoVacacional.setDomingo(dom);
-            saldoVacacional.setEmpleado(empleado);
-            saldoVacacional.setPeriodo(periodo);
-
-            saldoVacacionalList.add(saldoVacacional);
+//    private List<SaldoVacacional> generarSaldos(Periodo periodo, List<Empleado> empleados) {
+//        List<SaldoVacacional> saldoVacacionalList = new ArrayList<>();
+//        for (Empleado empleado : empleados) {
+//            SaldoVacacional saldoVacacional = new SaldoVacacional();
+//
+//            List<Vacacion> vacaciones = this.vacc.buscarXEmpleadoXPeriodoNoReprogramacion(empleado, periodo);
+//            Calendar iterador = Calendar.getInstance();
+//            int lunesViernes = 0;
+//            int sab = 0;
+//            int dom = 0;
+//            int saldo = 30;
+//            List<CompraVacacion> compras = cmpvacc.buscarXEmpleadoXPeriodo(empleado, periodo);
+//            for (CompraVacacion compra : compras) {
+//                saldo -= compra.getDiasCompra();
+//            }
+//            for (Vacacion vacacion : vacaciones) {
+//                iterador.setTime(vacacion.getFechaInicio());
+//                InterrupcionVacacion interrupcion = vacacion.getInterrupcionVacacion();
+//                while (iterador.getTime().compareTo(vacacion.getFechaFin()) <= 0) {
+//                    if (interrupcion != null) {
+//                        if (interrupcion.getFechaInicio().compareTo(iterador.getTime()) <= 0
+//                                && interrupcion.getFechaFin().compareTo(iterador.getTime()) >= 0) {
+//                            //no pasa nada
+//                        } else {
+//                            if (iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+//                                    && iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+//                                lunesViernes++;
+//                            }
+//                        }
+//                    } else {
+//                        if (iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
+//                                && iterador.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
+//                            lunesViernes++;
+//                        }
+//                    }
+//                    iterador.add(Calendar.DATE, 1);
+//                }
+//            }
+//
+//            int division = lunesViernes / 5;
+//            sab = division;
+//            dom = division;
+//
+//            saldo = saldo - (lunesViernes + sab + dom);
+//
+//            saldoVacacional.setDiasRestantes(saldo);
+//            saldoVacacional.setLunesViernes(lunesViernes);
+//            saldoVacacional.setSabado(sab);
+//            saldoVacacional.setDomingo(dom);
+//            saldoVacacional.setEmpleado(empleado);
+//            saldoVacacional.setPeriodo(periodo);
+//
+//            saldoVacacionalList.add(saldoVacacional);
+//        }
+//
+//        return saldoVacacionalList;
+//    }
+    private Date[] obtenerFechasLimite() {
+        Calendar cal = Calendar.getInstance();
+        Date[] fechas = new Date[2];
+        int anio;
+        int mes;
+        Date fechaInicio = new Date();
+        Date fechaFin = new Date();
+        if (radPorFecha.isSelected()) {
+            fechaInicio = dcFechaInicio.getDate();
+            fechaFin = dcFechaFin.getDate();
+        } else if (radMes.isSelected()) {
+            anio = periodoList.get(cboPeriodo1.getSelectedIndex()).getAnio();
+            mes = cboMes.getMonth();
+            cal.set(anio, mes, 1);
+            fechaInicio = cal.getTime();
+            cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+            fechaFin = cal.getTime();
+        } else if (radAnio.isSelected()) {
+            anio = periodoList.get(cboPeriodo.getSelectedIndex()).getAnio();
+            cal.set(anio, 0, 1);
+            fechaInicio = cal.getTime();
+            cal.set(anio, 11, 31);
+            fechaFin = cal.getTime();
         }
 
-        return saldoVacacionalList;
+        fechas[0] = fechaInicio;
+        fechas[1] = fechaFin;
+
+        return fechas;
+    }
+
+    List<Vacacion> listaFiltro = new ArrayList();
+    List<String[]> listaFiltroPeriodos = new ArrayList();
+
+    private void ObtenerVacaciones(List<Empleado> empleados, Date date, Date date0) {
+
+        listaFiltro.clear();
+        listaFiltroPeriodos.clear();
+
+        if (radInterrupciones.isSelected()) {
+            for (Empleado emp : empleados) {
+                listaFiltro.addAll(vc.buscarXInterrupcion(emp, date, date0));
+            }
+        } else if (radReprogramacion.isSelected()) {
+            for (Empleado emp : empleados) {
+                listaFiltro.addAll(vc.buscarXReprogramacion(emp, date, date0));
+            }
+        } else if (radSaldos.isSelected()) {
+            for (Empleado emp : empleados) {
+
+                crearPeriodos(emp, false);
+            }
+        } else {
+            for (Empleado emp : empleados) {
+                listaFiltro.addAll(vc.buscarXVacacion(emp, date, date0));
+            }
+        }
+    }
+
+    InterrupcionControlador ic = new InterrupcionControlador();
+
+    private void crearPeriodos(Empleado empleado, boolean banderaPeriodo) {
+
+        //Creamos la lista que tendrá los datos de los periodos del empleado
+        String[] fila;
+        Date inicio = empleado.getContratoList().get(0).getFechaInicio();
+
+        //Guardamos la fecha pivot, que es la fecha de inicio de contrato.
+        Calendar inicioPeriodo = Calendar.getInstance();
+        inicioPeriodo.setTime(inicio);
+
+        Calendar inicioContrato = Calendar.getInstance();
+        inicioContrato.setTime(inicio);
+
+        //Fecha a comparar para obetener las listas de vacaciones entre rangos.
+        Calendar suma = Calendar.getInstance();
+        suma.setTime(inicio);
+//                suma.add(Calendar.YEAR, 1);
+
+        //Fecha actual hasta la que realizamos la consulta.
+        Date fechaActual = new Date();
+        Calendar actual = Calendar.getInstance();
+        actual.setTime(fechaActual);
+
+        VacacionControlador vacaciones = new VacacionControlador();
+
+        //Variables para las consultas de rangos.
+        Calendar fechaInicio = Calendar.getInstance();
+        fechaInicio.setTime(inicio);
+
+//        Date fInicio = inicioPeriodo.getTime();
+//        Date fFin;
+        Calendar parametro1 = Calendar.getInstance();
+        Calendar parametro2 = Calendar.getInstance();
+        boolean flag = false;
+
+        //Loop principal para analizar periodo por periodo todas las vacaciones.
+        for (int i = inicioPeriodo.get(Calendar.YEAR); i <= actual.get(Calendar.YEAR); i++) {
+            fila = new String[6];
+
+            //Obetenemos los primeros datos que son repetitivos en las filas.
+            fila[0] = empleado.getFichaLaboral().getCodigoTrabajador();
+            fila[1] = empleado.getNombreCompleto();
+
+            //Se suma 1 al año para calcular el primer periodo y asi sucesivamente.
+            if (i != actual.get(Calendar.YEAR)) {
+                suma.set(Calendar.YEAR, i + 1);
+                if (i == fechaInicio.get(Calendar.YEAR)) {
+////                    i = i + 1;
+                }
+                if ((i + 1 == actual.get(Calendar.YEAR)) && (inicioContrato.get(Calendar.DAY_OF_YEAR) >= actual.get(Calendar.DAY_OF_YEAR))) {
+                    flag = true;
+                }
+
+            } else if (inicioContrato.get(Calendar.DAY_OF_YEAR) > actual.get(Calendar.DAY_OF_YEAR)) {
+                break;
+//                    menor = true;
+            } else {
+                flag = true;
+            }
+//            fFin = suma.getTime();
+
+            System.out.println("Inicio analisis: " + i + " - Fin analisis: " + suma.get(Calendar.YEAR));
+
+            System.out.println("periodo analizado: " + i + " - Periodo Actual: " + actual.get(Calendar.YEAR) + " - Dia del año del contrato: " + inicioPeriodo.get(Calendar.DAY_OF_YEAR) + " - Dia del año Actual: " + actual.get(Calendar.DAY_OF_YEAR));
+            //Preguntamos si esta en e ultimo año del calculo para saber si la fecha es posterior a la de su contrato (en mes - dia)
+//            if (i == actual.get(Calendar.YEAR) && actual.get(Calendar.DAY_OF_YEAR) > inicioPeriodo.get(Calendar.DAY_OF_YEAR)) {
+//
+//                long saldo = 30;
+//                inicioPeriodo.set(Calendar.YEAR, i);
+//
+//                //Obtenemos todas las vacaciones del rango de fechas
+//                List<Vacacion> vac = vacaciones.buscarXEmpleadoEntreFecha(empleado, inicioPeriodo.getTime(), actual.getTime());
+//                long saldoARestar = 0;
+//
+//                //Si es que hay vacaciones para analizar, obtenemos cuanto representan en dias.
+//                if (vac != null) {
+//
+//                    for (Vacacion listaDias : vac) {
+//                        long diferencia = listaDias.getFechaFin().getTime() - listaDias.getFechaInicio().getTime();
+//                        long dias = diferencia / (1000 * 60 * 60 * 24);
+//                        saldoARestar = saldoARestar + dias;
+//
+//                    }
+//                    saldo = saldo - saldoARestar;
+//                }
+//
+//                fila[2] = (i + 1) + " - " + (i + 2);
+//                fila[3] = saldoARestar + "";
+//                fila[4] = saldo + "";
+//                lista.add(fila);
+//
+//                //Esta es la parte del algoritmo que mas se repite, de la misma forma calcula en dias las vacaciones gozadas.
+//            } else 
+//                if (i != actual.get(Calendar.YEAR)) {
+
+            parametro1.setTime(inicioPeriodo.getTime());
+            parametro2.setTime(suma.getTime());
+
+            long saldo = 30;
+
+            //CALCULAMOS LOS DIAS DISPONIBLES EN EL ULTIMO AÑO.
+            if (flag) {
+                System.out.println("ENTRO ULTIMO AÑO");
+                int diasTranscurridos = 0;
+                if (inicioContrato.get(Calendar.DAY_OF_YEAR) > actual.get(Calendar.DAY_OF_YEAR)) {
+                    diasTranscurridos = (365 - inicioContrato.get(Calendar.DAY_OF_YEAR)) + actual.get(Calendar.DAY_OF_YEAR);
+                } else {
+                    diasTranscurridos = actual.get(Calendar.DAY_OF_YEAR) - inicioContrato.get(Calendar.DAY_OF_YEAR);
+                }
+                int operacion = (diasTranscurridos * 30) / 365;
+                saldo = operacion;
+                flag = false;
+            }
+            Periodo periodoObtenido = pc.buscarPeriodoxAnio(inicioPeriodo.get(Calendar.YEAR)).get(0);
+            System.out.println("Vacaciones a buscar de: " + empleado.getNombreCompleto() + " En el año: " + periodoObtenido.getAnio());
+            List<Vacacion> vac = vacaciones.buscarXPeriodoxEmpleado(periodoObtenido, empleado);
+            long saldoARestar = 0;
+            long interrupcionRestar = 0;
+            if (vac != null) {
+
+                for (Vacacion listaDias : vac) {
+                    if (listaDias.isHayInterrupcion()) {
+//                        long diasInterrupcionSuma = 0;
+
+                        List<InterrupcionVacacion> interrupciones = ic.buscarInterrupcion(listaDias);
+
+                        for (InterrupcionVacacion interrupcion : interrupciones) {
+
+                            long diferencia = interrupcion.getFechaFin().getTime() - interrupcion.getFechaInicio().getTime();
+                            long diasInterrupcion = (diferencia) / (1000 * 60 * 60 * 24);
+                            diasInterrupcion = diasInterrupcion + 1;
+                            interrupcionRestar = interrupcionRestar + diasInterrupcion;
+                            System.out.println("Dias a restar por interrupcion: " + interrupcionRestar);
+                        }
+                    } else {
+
+                    }
+                    long diferencia = listaDias.getFechaFin().getTime() - listaDias.getFechaInicio().getTime();
+                    long dias = (diferencia) / (1000 * 60 * 60 * 24);
+                    dias = dias + 1;
+                    System.out.println("En esta vacacion hay: " + dias + " dias");
+                    saldoARestar = saldoARestar + (dias);
+
+                }
+
+                List<InterrupcionVacacion> interrupciones = ic.buscarInterrupcionXEmpleadoXPeriodo(empleado, periodoObtenido);
+                if (interrupciones != null) {
+                    for (InterrupcionVacacion interrupcion : interrupciones) {
+                        if (interrupcion.getVacacion() == null) {
+                            long diferencia = interrupcion.getFechaFin().getTime() - interrupcion.getFechaInicio().getTime();
+                            long diasInterrupcionN = (diferencia) / (1000 * 60 * 60 * 24);
+                            diasInterrupcionN = diasInterrupcionN + 1;
+                            interrupcionRestar = interrupcionRestar + diasInterrupcionN;
+                            System.out.println("De la lista Glicerio se restan: " + interrupcionRestar);
+                        }
+                    }
+                }
+                saldo = saldo - saldoARestar + interrupcionRestar;
+            }
+
+            DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+
+            fila[2] = formato.format(inicioPeriodo.getTime());
+            fila[3] = i + " - " + (i + 1);
+            fila[4] = (saldoARestar - interrupcionRestar) + "";
+            fila[5] = saldo + "";
+
+            if (saldo > 0) {
+                listaFiltroPeriodos.add(fila);
+            }
+//            }
+            //Añadimos anuestra lista la fila con la informacion trabajada.
+            //La fecha inicial toma los valores del año +1 para calcular el siguiente periodo y asi sucesivamente.
+            inicioPeriodo.set(Calendar.YEAR, i + 1);
+//            fInicio = inicioPeriodo.getTime();
+
+        }
+
+    }
+
+    private class GenerarReporte extends SwingWorker<Double, Void> {
+
+//        DlgEsperaTest test = new DlgEsperaTest(rpt);
+        @Override
+        protected Double doInBackground() throws Exception {
+//            FormularioUtil.activarComponente(pnlTab, false);
+            FormularioUtil.activarComponente(pnlEmpleados, false);
+            FormularioUtil.activarComponente(pnlRango, false);
+            FormularioUtil.activarComponente(pnlRango1, false);
+            FormularioUtil.activarComponente(jPanel1, false);
+//            FormularioUtil.activarComponente(pnlCerrarTab, false);
+//            FormularioUtil.activarComponente(btnGenerarReporte, false);
+            lblCargando.setEnabled(true);
+            lblCargando.setVisible(true);
+            lblCargando.setBusy(true);
+
+//            test.setVisible(true);
+//            test.setEnabled(true);
+            generarReporte();
+            return 0.0;
+        }
+
+        @Override
+        protected void done() {
+//            FormularioUtil.activarComponente(pnlTab, true);
+            FormularioUtil.activarComponente(pnlEmpleados, true);
+            FormularioUtil.activarComponente(pnlRango, true);
+            FormularioUtil.activarComponente(pnlRango1, true);
+//            FormularioUtil.activarComponente(jPanel2, true);
+            FormularioUtil.activarComponente(jPanel1, true);
+//            FormularioUtil.activarComponente(pnlCerrarTab, true);
+//            FormularioUtil.activarComponente(btnGenerarReporte, true);
+//            FormularioUtil.activarComponente(btnMarcacionManual, false);
+            lblCargando.setBusy(false);
+            lblCargando.setVisible(false);
+//            test.setVisible(false);
+//            test.setEnabled(false);
+//            test.dispose();
+
+        }
+
     }
 }

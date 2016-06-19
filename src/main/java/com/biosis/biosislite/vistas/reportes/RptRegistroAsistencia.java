@@ -541,16 +541,23 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     }
 
     RptRegistroAsistencia rpt = this;
-List<RptAsistenciaDetallado> registroAsistenciaPreList = new ArrayList<>();
+    List<RptAsistenciaDetallado> registroAsistenciaPreList = new ArrayList<>();
 
     private void filtrar(List<RptAsistenciaDetallado> registroAsistenciaPreList, int valorFiltro) {
-        this.asistenciaDetalleList.clear();
-        this.asistenciaDetalleList.addAll(registroAsistenciaPreList.stream().filter(ra -> ra.getTipo() == valorFiltro).collect(Collectors.toList()));
+
+        if (valorFiltro == -10) {
+            this.asistenciaDetalleList.clear();
+            this.asistenciaDetalleList.addAll(registroAsistenciaPreList);
+        } else {
+            this.asistenciaDetalleList.clear();
+            this.asistenciaDetalleList.addAll(registroAsistenciaPreList.stream().filter(ra -> ra.getTipo() == valorFiltro).collect(Collectors.toList()));
+
+        }
     }
+
     private class GenerarReporte extends SwingWorker<Double, Void> {
 
 //        DlgEsperaTest test = new DlgEsperaTest(rpt);
-
         @Override
         protected Double doInBackground() throws Exception {
             FormularioUtil.activarComponente(pnlTab, false);
@@ -564,7 +571,6 @@ List<RptAsistenciaDetallado> registroAsistenciaPreList = new ArrayList<>();
 
 //            test.setVisible(true);
 //            test.setEnabled(true);
-
             generarReporte();
             return 0.0;
         }
@@ -590,6 +596,7 @@ List<RptAsistenciaDetallado> registroAsistenciaPreList = new ArrayList<>();
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
         // TODO add your handling code here:       
 
+        asistenciaDetalleList.clear();
         Date hoy = new Date();
         boolean flag = false;
         if (!radMes.isSelected()) {
@@ -798,7 +805,7 @@ List<RptAsistenciaDetallado> registroAsistenciaPreList = new ArrayList<>();
          * Procedemos a cambiar
          */
         int valorFiltro;
-        switch(cboFiltro.getSelectedIndex()){
+        switch (cboFiltro.getSelectedIndex()) {
             case 0:
                 // TODOS
                 valorFiltro = -10;
@@ -828,7 +835,7 @@ List<RptAsistenciaDetallado> registroAsistenciaPreList = new ArrayList<>();
             default:
                 valorFiltro = -10;
                 break;
-                        
+
         }
         filtrar(this.registroAsistenciaPreList, valorFiltro);
     }//GEN-LAST:event_cboFiltroActionPerformed
@@ -1113,7 +1120,7 @@ List<RptAsistenciaDetallado> registroAsistenciaPreList = new ArrayList<>();
             }
             return comparacion;
         }).collect(Collectors.toList()));
-        
+
         //Iniciamos la lista antes del filtro
         registroAsistenciaPreList.addAll(this.asistenciaDetalleList);
         //seleccion del primer registro existente en el combo que es TODOS

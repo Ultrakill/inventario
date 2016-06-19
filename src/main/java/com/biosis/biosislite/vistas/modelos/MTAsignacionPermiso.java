@@ -23,7 +23,7 @@ public class MTAsignacionPermiso extends ModeloTabla<AsignacionPermiso> {
 
     public MTAsignacionPermiso(List<AsignacionPermiso> datos) {
         super(datos);
-        this.nombreColumnas = new String[]{"DNI / C.E.", "Documento", "Tipo de permiso", "Inicio", "Fin", "Motivo", ""};
+        this.nombreColumnas = new String[]{"SAP", "Empleado", "Documento", "Tipo de permiso", "Inicio", "Fin", "Motivo", ""};
         dfFecha = new SimpleDateFormat("dd.MM.yyyy");
         dfHora = new SimpleDateFormat("HH:mm:ss");
 
@@ -34,27 +34,30 @@ public class MTAsignacionPermiso extends ModeloTabla<AsignacionPermiso> {
         AsignacionPermiso asignacion = this.datos.get(rowIndex);
         switch (columnIndex) {
             case 0:
-                return asignacion.getEmpleado();
+                return asignacion.getEmpleado().getFichaLaboral().getCodigoTrabajador();
+
             case 1:
+                return asignacion.getEmpleado().getNombreCompleto();
+            case 2:
 
                 return asignacion.getPermiso().getDocumento();
-            case 2:
-                return clase(asignacion.getPermiso().getTipoPermiso().getClase());
             case 3:
+                return (asignacion.getPermiso().getTipoPermiso().getNombre());
+            case 4:
                 if (asignacion.getPermiso().isPorFecha()) {
                     return dfFecha.format(asignacion.getPermiso().getFechaInicio());
                 } else {
                     return dfFecha.format(asignacion.getPermiso().getFechaInicio()) + " " + dfHora.format(asignacion.getPermiso().getHoraInicio());
                 }
-            case 4:
+            case 5:
                 if (asignacion.getPermiso().isPorFecha()) {
                     return dfFecha.format(asignacion.getPermiso().getFechaFin());
                 } else {
                     return dfFecha.format(asignacion.getPermiso().getFechaInicio()) + " " + dfHora.format(asignacion.getPermiso().getHoraFin());
                 }
-            case 5:
-                return asignacion.getPermiso().getMotivo();
             case 6:
+                return asignacion.getPermiso().getMotivo();
+            case 7:
                 return tipoDescuento(asignacion.getPermiso().getTipoPermiso().getTipoDescuento());
             default:
                 return null;

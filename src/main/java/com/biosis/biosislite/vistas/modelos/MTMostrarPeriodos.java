@@ -27,7 +27,7 @@ public class MTMostrarPeriodos extends ModeloTabla<String[]> {
     public MTMostrarPeriodos(List<String[]> datos) {
         super(datos);
         dfFecha = new SimpleDateFormat("dd.MM.yyyy");
-        this.nombreColumnas = new String[]{"Código", "Nombre Completo", "Periodo", "Dias utilizados", "Dias disponibles"};
+        this.nombreColumnas = new String[]{"Código", "Nombre Completo", "Fecha referencia", "Periodo", "Dias utilizados", "Dias disponibles"};
     }
 
     @Override
@@ -44,6 +44,8 @@ public class MTMostrarPeriodos extends ModeloTabla<String[]> {
                 return lista[3];
             case 4:
                 return lista[4];
+            case 5:
+                return lista[5];
 //            case 5:
 
 //            case 6:

@@ -333,6 +333,9 @@ public class DlgVerDetallePeriodosVacacion extends javax.swing.JDialog {
             if (fila != -1) {
                 listadoVacacionesInterrumpidas.clear();
                 listadoVacacionesReprogramadas.clear();
+                
+//                tblTablaInterrupciones.packAll();
+//                tblTablaReprogramaciones.packAll();
 
                 Vacacion filaSeleccionada = listadoVacaciones.get(fila);
 
@@ -369,7 +372,7 @@ public class DlgVerDetallePeriodosVacacion extends javax.swing.JDialog {
         // TODO add your handling code here:
         Calendar cal = Calendar.getInstance();
         cal.setTime(empleado.getContratoList().get(0).getFechaInicio());
-        int numPeriodo = Integer.parseInt(datos[2].substring(0, 4));
+        int numPeriodo = Integer.parseInt(datos[3].substring(0, 4));
         cal.set(Calendar.YEAR, numPeriodo);
         Date inicio = cal.getTime();
         cal.set(Calendar.YEAR, numPeriodo + 1);
@@ -533,7 +536,7 @@ public class DlgVerDetallePeriodosVacacion extends javax.swing.JDialog {
         listadoVacacionesReprogramadas = ObservableCollections.observableList(listadoVacacionesReprogramadas);
 
         
-        int numPeriodo = Integer.parseInt(datos[2].substring(0, 4));
+        int numPeriodo = Integer.parseInt(datos[3].substring(0, 4));
         Periodo periodoObtenido = pc.buscarPeriodoxAnio(numPeriodo).get(0);
         Empleado empleadoObtenido = ec.buscarPorCodigoSAP(datos[0]);
         empleado = empleadoObtenido;
@@ -558,10 +561,10 @@ public class DlgVerDetallePeriodosVacacion extends javax.swing.JDialog {
 
     private void llenarLabels() {        
         this.lblEmpleado.setText(empleadoBusqueda.getNombreCompleto());
-        this.lblPeriodo.setText(datos[2]);
+        this.lblPeriodo.setText(datos[3]);
         this.lblSAP.setText(empleadoBusqueda.getFichaLaboral().getCodigoTrabajador());
-        this.lblDiasD.setText(datos[4]);
-        this.lblDiasU.setText(datos[3]);
+        this.lblDiasD.setText(datos[5]);
+        this.lblDiasU.setText(datos[4]);
         
     }
 }

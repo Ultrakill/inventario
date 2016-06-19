@@ -62,7 +62,7 @@ public class Empleado implements Serializable {
     private List<AreaEmpleado> areaEmpleadoList;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = PuestoEmpleado.class,mappedBy = "empleado")
-    private List<Puesto> puestoList;
+    private List<PuestoEmpleado> puestoList;
     
     public List<AreaEmpleado> getAreaEmpleadoList() {
         return areaEmpleadoList;
@@ -191,11 +191,11 @@ public class Empleado implements Serializable {
         return nombre +" " +paterno+" " + materno+" ("+nroDocumento + ")";
     }
 
-    public List<Puesto> getPuestoList() {
+    public List<PuestoEmpleado> getPuestoList() {
         return puestoList;
     }
 
-    public void setPuestoList(List<Puesto> puestoList) {
+    public void setPuestoList(List<PuestoEmpleado> puestoList) {
         this.puestoList = puestoList;
     }
     

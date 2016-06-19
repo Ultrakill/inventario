@@ -35,14 +35,11 @@ public class DlgLogin extends javax.swing.JDialog {
 //        this.getContentPane().setBackground(Color.decode("#4c66a4"));
 //        AWTUtilities.setWindowOpacity(this, Float.valueOf("0.95f"));
 
-        
         uc = new UsuarioControlador();
         initComponents();
-        
-        
+
 //        pnlLogin.setOpaque(false);
 //        pnlLogin.setBackground(new Color(31, 65, 64, 20));
-
 //        lblDatos.setBackground(Color.BLACK);
         btnCancelar.setOpaque(false);
         btnIngresar.setOpaque(false);
@@ -100,7 +97,6 @@ public class DlgLogin extends javax.swing.JDialog {
                 super.paintComponent(g);
             }
         };
-        txtUsuario = new org.edisoncor.gui.textField.TextFieldRoundIcon();
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         lblDatos = new javax.swing.JLabel(){
@@ -115,7 +111,8 @@ public class DlgLogin extends javax.swing.JDialog {
         btnIngresar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
-        txtPassword = new org.edisoncor.gui.passwordField.PasswordFieldRoundIcon();
+        txtUsuario = new org.edisoncor.gui.textField.TextFieldRectIcon();
+        txtPassword = new org.edisoncor.gui.passwordField.PasswordFieldRectIcon();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -154,12 +151,6 @@ public class DlgLogin extends javax.swing.JDialog {
 
         pnlLogin.setOpaque(false);
         pnlLogin.setBackground(new Color(96,152,255, 150));
-
-        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtUsuarioKeyReleased(evt);
-            }
-        });
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 0, 14)); // NOI18N
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/usuarioLx32.png"))); // NOI18N
@@ -237,6 +228,13 @@ public class DlgLogin extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         jPanel3.add(jLabel10, gridBagConstraints);
 
+        txtUsuario.setMinimumSize(new java.awt.Dimension(7, 20));
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyReleased(evt);
+            }
+        });
+
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPasswordKeyReleased(evt);
@@ -252,11 +250,11 @@ public class DlgLogin extends javax.swing.JDialog {
                 .addGroup(pnlLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnlLoginLayout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(10, 10, 10)
-                        .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlLoginLayout.createSequentialGroup()
                         .addComponent(jLabel8)
-                        .addGap(10, 10, 10)
+                        .addGap(18, 18, 18)
                         .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(19, Short.MAX_VALUE))
             .addComponent(lblDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -270,7 +268,7 @@ public class DlgLogin extends javax.swing.JDialog {
                 .addGroup(pnlLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnlLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -372,14 +370,6 @@ public class DlgLogin extends javax.swing.JDialog {
         System.exit(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
-        // TODO add your handling code here:
-        int code = evt.getKeyCode();
-        if (code == KeyEvent.VK_ENTER) {
-            login();
-        }
-    }//GEN-LAST:event_txtPasswordKeyReleased
-
     private void txtUsuarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyReleased
         // TODO add your handling code here:
         int code = evt.getKeyCode();
@@ -387,6 +377,14 @@ public class DlgLogin extends javax.swing.JDialog {
             login();
         }
     }//GEN-LAST:event_txtUsuarioKeyReleased
+
+    private void txtPasswordKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyReleased
+        // TODO add your handling code here:
+        int code = evt.getKeyCode();
+        if (code == KeyEvent.VK_ENTER) {
+            login();
+        }
+    }//GEN-LAST:event_txtPasswordKeyReleased
 
     /**
      * @param args the command line arguments
@@ -445,8 +443,8 @@ public class DlgLogin extends javax.swing.JDialog {
     private javax.swing.JLabel lblSubtitulo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel pnlLogin;
-    private org.edisoncor.gui.passwordField.PasswordFieldRoundIcon txtPassword;
-    private org.edisoncor.gui.textField.TextFieldRoundIcon txtUsuario;
+    private org.edisoncor.gui.passwordField.PasswordFieldRectIcon txtPassword;
+    private org.edisoncor.gui.textField.TextFieldRectIcon txtUsuario;
     // End of variables declaration//GEN-END:variables
 
     private void login() {

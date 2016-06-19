@@ -33,9 +33,9 @@ public class PuestoEmpleadoControlador extends Controlador<PuestoEmpleado> {
     }
 
 
-    public List<PuestoEmpleado> buscarXNombrexFechaASC(Empleado empleado) {
+    public List<PuestoEmpleado> buscarXNombrexFechaDESC(Empleado empleado) {
         String jpql = "SELECT c FROM PuestoEmpleado c WHERE c.empleado = :empleado "
-                + " ORDER BY c.fechaInicio ASC";
+                + " ORDER BY c.fechaInicio DESC";
 
         Map<String, Object> param = new HashMap<>();
         param.put("empleado", empleado);

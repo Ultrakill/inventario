@@ -199,4 +199,34 @@ public class VacacionControlador extends Controlador<Vacacion> {
         mapa.put("referencia", referencia);
         return this.getDao().buscar(jpql, mapa).get(0);
     }
+    
+    public List<Vacacion> buscarXReprogramacion(Empleado empleado, Date fechaInicio, Date fechaFin){
+        String jpql = "SELECT v FROM Vacacion v WHERE v.empleado = :dni AND ((v.fechaInicio BETWEEN :fechaInicio AND :fechaFin) OR (v.fechaFin BETWEEN :fechaInicio AND :fechaFin)) "
+                + " AND v.hayReprogramacion = 1 ORDER BY v.fechaInicio";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", empleado);
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
+    public List<Vacacion> buscarXInterrupcion(Empleado empleado, Date fechaInicio, Date fechaFin){
+        String jpql = "SELECT v FROM Vacacion v WHERE v.empleado = :dni AND ((v.fechaInicio BETWEEN :fechaInicio AND :fechaFin) OR (v.fechaFin BETWEEN :fechaInicio AND :fechaFin)) "
+                + " AND v.hayInterrupcion = 1 ORDER BY v.fechaInicio";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", empleado);
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
+    public List<Vacacion> buscarXVacacion(Empleado empleado, Date fechaInicio, Date fechaFin){
+        String jpql = "SELECT v FROM Vacacion v WHERE v.empleado = :dni AND ((v.fechaInicio BETWEEN :fechaInicio AND :fechaFin) OR (v.fechaFin BETWEEN :fechaInicio AND :fechaFin)) "
+                + "  ORDER BY v.fechaInicio";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", empleado);
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
+        return this.getDao().buscar(jpql, mapa);
+    }
 }

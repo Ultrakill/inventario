@@ -72,7 +72,7 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private ViajeControlador vsc;
     private AreaEmpleadoControlador aec;
 
-    private Ubigeo ubigeoSeleccion;
+    private String ubigeoSeleccion;
     private String gerencia;
     private String centroCosto;
     private long diasAlimentacion;
@@ -784,28 +784,42 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             if (controlador.accion(accion)) {
 
                 //Agregar Viaje
-                Viaje viaje = new Viaje();
+                if (seleccionada.getTipoPermiso().getCodigo().equals("VCS")) {
+                    Viaje viaje = new Viaje();
 
-                viaje.setAlimentacion(this.alimentacion);
-                viaje.setAlojamiento(this.alojamiento);
-                viaje.setMovilidad(this.movilidad);
-                viaje.setCombustible(this.combustible);
+//                    viaje.setAlimentacion(this.alimentacion);
+//                    viaje.setAlojamiento(this.alojamiento);
+//                    viaje.setMovilidad(this.movilidad);
+//                    viaje.setCombustible(this.combustible);
+//
+//                    viaje.setGerencia(this.gerencia);
+//                    viaje.setCentroCosto(this.centroCosto);
+//
+//                    viaje.setDiasAlimentacion(this.diasAlimentacion);
+//                    viaje.setDiasAlojamiento(this.diasAlojamiento);
+//                    viaje.setDiasMovLocal(this.diasMovLocal);
+//
+//                    viaje.setDestino(this.ubigeoSeleccion);
+                    viaje.setAlimentacion(vsc.getSeleccionado().getAlimentacion());
+                    viaje.setAlojamiento(vsc.getSeleccionado().getAlojamiento());
+                    viaje.setMovilidad(vsc.getSeleccionado().getMovilidad());
+                    viaje.setCombustible(vsc.getSeleccionado().getCombustible());
 
-                viaje.setGerencia(this.gerencia);
-                viaje.setCentroCosto(this.centroCosto);
+                    viaje.setGerencia(vsc.getSeleccionado().getGerencia());
+                    viaje.setCentroCosto(vsc.getSeleccionado().getCentroCosto());
 
-                viaje.setDiasAlimentacion(this.diasAlimentacion);
-                viaje.setDiasAlojamiento(this.diasAlojamiento);
-                viaje.setDiasMovLocal(this.diasMovLocal);
+                    viaje.setDiasAlimentacion(vsc.getSeleccionado().getDiasAlimentacion());
+                    viaje.setDiasAlojamiento(vsc.getSeleccionado().getDiasAlojamiento());
+                    viaje.setDiasMovLocal(vsc.getSeleccionado().getDiasMovLocal());
 
-                viaje.setUbigeo(this.ubigeoSeleccion);
+                    viaje.setDestino(vsc.getSeleccionado().getDestino());
 
-                viaje.setPermiso(seleccionada);
+                    viaje.setPermiso(seleccionada);
 
-                vsc.setSeleccionado(viaje);
+                    vsc.setSeleccionado(viaje);
 
-                vsc.accion(accion);
-
+                    vsc.accion(accion);
+                }
                 //
                 FormularioUtil.mensajeExito(this, accion);
                 this.accion = 0;
@@ -817,9 +831,9 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
                 this.busqueda();
 
                 if (FormularioUtil.dialogoConfirmar(this, 4)) {
-                    this.imprimirBoleta(seleccionada);
+//                    this.imprimirBoleta(seleccionada);
                     if (seleccionada.getTipoPermiso().getCodigo().equals("VCS")) {
-//                imprimirBoletaViaje(seleccionada);
+                        imprimirBoletaViaje(seleccionada.getAsignacionPermisoList().get(0));
                     } else {
                         imprimirBoleta(seleccionada);
                     }
@@ -949,6 +963,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             } else {
                 imprimirBoleta(asignacion);
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un Item", "Mensaje del Sistema", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -1006,29 +1022,60 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
     private void btnComisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnComisionActionPerformed
         // TODO add your handling code here:
         if (accion == Controlador.MODIFICAR) {
-            
+
             DlgDatosComision viaje = new DlgDatosComision(this, vsc.buscarPorPermiso(controlador.getSeleccionado()), Controlador.MODIFICAR);
             viaje.setVisible(true);
 
         } else {
 
-            DlgDatosComision viaje = new DlgDatosComision(this, null, accion);
+            if (vsc.getSeleccionado() == null) {
+                DlgDatosComision viaje = new DlgDatosComision(this, null, accion);
+                viaje.setVisible(true);
 
-            viaje.setVisible(true);
+//                this.alimentacion = viaje.getAlimentacion();
+//                this.alojamiento = viaje.getAlojamiento();
+//                this.movilidad = viaje.getMovilidad();
+//                this.combustible = viaje.getCombustible();
+//
+////            this.gerencia = viaje.getGerencia();
+//                this.centroCosto = viaje.getCosto();
+//
+//                this.diasAlimentacion = viaje.getDiasAlimentacion();
+//                this.diasAlojamiento = viaje.getDiasAlojamiento();
+//                this.diasMovLocal = viaje.getDiasMovilidad();
+//
+//                this.ubigeoSeleccion = viaje.getUbigeo();
+                Viaje nuevoViaje = new Viaje();
+                vsc.setSeleccionado(nuevoViaje);
 
-            this.alimentacion = viaje.getAlimentacion();
-            this.alojamiento = viaje.getAlojamiento();
-            this.movilidad = viaje.getMovilidad();
-            this.combustible = viaje.getCombustible();
+                vsc.getSeleccionado().setAlimentacion(viaje.getAlimentacion());
+                vsc.getSeleccionado().setAlojamiento(viaje.getAlojamiento());
+                vsc.getSeleccionado().setMovilidad(viaje.getMovilidad());
+                vsc.getSeleccionado().setCombustible(viaje.getCombustible());
+                vsc.getSeleccionado().setCentroCosto(viaje.getCosto());
+                vsc.getSeleccionado().setDiasAlimentacion(viaje.getDiasAlimentacion());
+                vsc.getSeleccionado().setDiasAlojamiento(viaje.getDiasAlojamiento());
+                vsc.getSeleccionado().setDiasMovLocal(viaje.getDiasMovilidad());
+                vsc.getSeleccionado().setDestino(viaje.getUbigeo());
 
-//            this.gerencia = viaje.getGerencia();
-            this.centroCosto = viaje.getCosto();
+            } else {
+                DlgDatosComision viaje = new DlgDatosComision(this, vsc.getSeleccionado(), 2);
+                viaje.setVisible(true);
 
-            this.diasAlimentacion = viaje.getDiasAlimentacion();
-            this.diasAlojamiento = viaje.getDiasAlojamiento();
-            this.diasMovLocal = viaje.getDiasMovilidad();
+                Viaje nuevoViaje = new Viaje();
+                vsc.setSeleccionado(nuevoViaje);
 
-            this.ubigeoSeleccion = viaje.getUbigeo();
+                vsc.getSeleccionado().setAlimentacion(viaje.getAlimentacion());
+                vsc.getSeleccionado().setAlojamiento(viaje.getAlojamiento());
+                vsc.getSeleccionado().setMovilidad(viaje.getMovilidad());
+                vsc.getSeleccionado().setCombustible(viaje.getCombustible());
+                vsc.getSeleccionado().setCentroCosto(viaje.getCosto());
+                vsc.getSeleccionado().setDiasAlimentacion(viaje.getDiasAlimentacion());
+                vsc.getSeleccionado().setDiasAlojamiento(viaje.getDiasAlojamiento());
+                vsc.getSeleccionado().setDiasMovLocal(viaje.getDiasMovilidad());
+                vsc.getSeleccionado().setDestino(viaje.getUbigeo());
+            }
+
         }
     }//GEN-LAST:event_btnComisionActionPerformed
 
@@ -1362,10 +1409,11 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
 //            if (asignacion.getEmpleado().getAreaEmpleadoList().get(0).getDepartamento().getDepartamento().getNombre() != null) {
 //                parametros.put("gerencia", asignacion.getEmpleado().getAreaEmpleadoList().get(0).getDepartamento().getDepartamento().getNombre());
 //            } else {
-            parametros.put("gerencia", asignacion.getEmpleado().getAreaEmpleadoList().get(0).getGerencia());
+            parametros.put("gerencia", asignacion.getEmpleado().getAreaEmpleadoList().get(0).getGerencia().getNombre());
 //            }
             parametros.put("centro_costo", viaje.getCentroCosto());
-            parametros.put("ubigeo", viaje.getUbigeo().getProvincia());
+            parametros.put("ubigeo", viaje.getDestino());
+            parametros.put("cargo", asignacion.getEmpleado().getPuestoList().get(0).getPuesto().getNombre());
 
             double total = (viaje.getAlimentacion() * viaje.getDiasAlimentacion()) + (viaje.getAlojamiento() * viaje.getDiasAlojamiento()) + (viaje.getMovilidad() * viaje.getDiasMovLocal()) + viaje.getCombustible();
 
@@ -1416,8 +1464,15 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         }
 
         if (dcFechaInicio.getDate() == null || dcFechaFin.getDate() == null) {
-            errores++;
-            mensaje += "Una o más fechas ingresadas incorrectamente \n";
+
+            if (!radHora.isSelected()) {
+                errores++;
+                mensaje += "Una o más fechas ingresadas incorrectamente \n";
+            } else if (radFecha.isSelected()) {
+                errores++;
+                mensaje += "Una o más fechas ingresadas incorrectamente \n";
+            }
+
         } else {
             if (radFecha.isSelected()) {
                 Date fechaFin = dcFechaFin.getDate();

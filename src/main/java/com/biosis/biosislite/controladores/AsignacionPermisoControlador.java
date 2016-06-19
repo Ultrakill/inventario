@@ -6,6 +6,7 @@
 package com.biosis.biosislite.controladores;
 
 import com.biosis.biosislite.entidades.AsignacionPermiso;
+import com.biosis.biosislite.entidades.TipoPermiso;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.util.Date;
 import java.util.HashMap;
@@ -124,6 +125,37 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
         mapa.put("fecha", fecha);
         mapa.put("horaI", horaI);
         mapa.put("horaF", horaF);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
+    public List<AsignacionPermiso> buscarXEmpleadoXFechaxTipo(Empleado dni, Date fechaInicio, Date fechaFin, TipoPermiso tipo) {
+        String jpql = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND a.permiso.fechaInicio BETWEEN :fechaInicio AND :fechaFin "
+                + " AND a.permiso.tipoPermiso = :tipo  ORDER BY a.permiso.fechaInicio";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", dni);
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
+        mapa.put("tipo", tipo);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
+    public List<AsignacionPermiso> buscarXEmpleadoXFechaxDescuento(Empleado dni, Date fechaInicio, Date fechaFin, char tipo) {
+        String jpql = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND a.permiso.fechaInicio BETWEEN :fechaInicio AND :fechaFin  "
+                + " AND a.permiso.tipoPermiso.tipoDescuento = :tipo ORDER BY a.permiso.fechaInicio";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", dni);
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
+        mapa.put("tipo", tipo);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
+    public List<AsignacionPermiso> buscarXEmpleadoXFecha(Empleado dni, Date fechaInicio, Date fechaFin) {
+        String jpql = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND a.permiso.fechaInicio BETWEEN :fechaInicio AND :fechaFin ORDER BY a.permiso.fechaInicio";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", dni);
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
         return this.getDao().buscar(jpql, mapa);
     }
 }

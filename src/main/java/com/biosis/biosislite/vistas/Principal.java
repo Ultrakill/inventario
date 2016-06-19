@@ -64,6 +64,7 @@ import javax.mail.MessagingException;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import java.awt.Toolkit;
 
 /**
  *
@@ -83,6 +84,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icon/iconosLogin/Biosis.png")));
         this.setTitle(Main.APLICACION_TITULO);
 //        this.jMenuItem6.setVisible(false);
 //        setIconImage(new ImageIcon(getClass().getResource("iconos/logo.png")).getImage());
@@ -406,7 +408,7 @@ public class Principal extends javax.swing.JFrame {
         mnuReportes.add(jMenuItem2);
 
         jMenuItem6.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        jMenuItem6.setText("Reporte de tardanza mensual");
+        jMenuItem6.setText("Reporte de vacaciones");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem6ActionPerformed(evt);
@@ -527,8 +529,11 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        RptTardanzasMes tardanzasMes = new RptTardanzasMes();
-        agregarAPanel(tardanzasMes, true);
+//        RptTardanzasMes tardanzasMes = new RptTardanzasMes();
+//        agregarAPanel(tardanzasMes, true);
+        
+        RptVacaciones vacaciones = new RptVacaciones();
+        agregarAPanel(vacaciones, true);
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
