@@ -6,6 +6,7 @@
 package com.biosis.biosislite.controladores;
 
 import com.biosis.biosislite.entidades.escalafon.Departamento;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,5 +40,13 @@ public class DepartamentoControlador extends Controlador<Departamento>{
     private static class DepartamentoControladorHolder {
 
         private static final DepartamentoControlador INSTANCE = new DepartamentoControlador();
+    }
+    
+    public Departamento buscarXJefe(Empleado empleado){
+        String jpql = "SELECT d FROM Departamento d WHERE d.empleado = :empleado";                
+        Map<String,Object> param = new HashMap<>();
+        param.put("empleado", empleado);
+        
+        return this.getDao().buscar(jpql, param).get(0);
     }
 }

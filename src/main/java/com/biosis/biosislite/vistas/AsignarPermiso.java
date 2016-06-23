@@ -1376,6 +1376,12 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
         reporteador.generarReporte(reporte, parametros, JOptionPane.getFrameForComponent(this));
 
     }
+    public long fechasAlong(Date inicio, Date fin) {
+
+        long restaLog = (fin.getTime() - inicio.getTime());
+        long resta = (restaLog / (1000 * 60 * 60 * 24)) + 1;
+        return resta;
+    }
 
     private void imprimirBoletaViaje(AsignacionPermiso asignacion) {
         File reporte = new File("reportes/permiso_comision-servicios.jasper");
@@ -1391,8 +1397,8 @@ public class AsignarPermiso extends javax.swing.JInternalFrame {
             parametros.put("area", area.getNombre());
         }
 
-        AsignarVacacion vac = new AsignarVacacion();
-        long dias = vac.fechasAlong(asignacion.getPermiso().getFechaInicio(), asignacion.getPermiso().getFechaFin());
+//        AsignarVacacion vac = new AsignarVacacion();
+        long dias = this.fechasAlong(asignacion.getPermiso().getFechaInicio(), asignacion.getPermiso().getFechaFin());
         parametros.put("dias", dias);
 
         //Parametros del viaje

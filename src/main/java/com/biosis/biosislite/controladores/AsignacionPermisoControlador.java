@@ -150,6 +150,16 @@ public class AsignacionPermisoControlador extends Controlador<AsignacionPermiso>
         return this.getDao().buscar(jpql, mapa);
     }
     
+    public List<AsignacionPermiso> buscarXEmpleadoXFechaxViaje(Empleado dni, Date fechaInicio, Date fechaFin) {
+        String jpql = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND a.permiso.fechaInicio BETWEEN :fechaInicio AND :fechaFin  "
+                + " AND a.permiso.tipoPermiso.codigo = 'VCS' ORDER BY a.permiso.fechaInicio";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("dni", dni);
+        mapa.put("fechaInicio", fechaInicio);
+        mapa.put("fechaFin", fechaFin);
+        return this.getDao().buscar(jpql, mapa);
+    }
+    
     public List<AsignacionPermiso> buscarXEmpleadoXFecha(Empleado dni, Date fechaInicio, Date fechaFin) {
         String jpql = "SELECT a FROM AsignacionPermiso a WHERE a.empleado = :dni AND a.permiso.fechaInicio BETWEEN :fechaInicio AND :fechaFin ORDER BY a.permiso.fechaInicio";
         Map<String, Object> mapa = new HashMap<>();

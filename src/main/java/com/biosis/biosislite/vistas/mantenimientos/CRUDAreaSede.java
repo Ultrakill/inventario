@@ -5,10 +5,14 @@
  */
 package com.biosis.biosislite.vistas.mantenimientos;
 
-import com.personal.utiles.FormularioUtil;
 import com.biosis.biosislite.controladores.Controlador;
 import com.biosis.biosislite.controladores.DepartamentoControlador;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
+import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.dialogos.DlgOficina;
+import com.biosis.biosislite.vistas.renders.RenderArea;
+import com.personal.utiles.FormularioUtil;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -16,8 +20,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
-import com.biosis.biosislite.vistas.dialogos.DlgOficina;
-import com.biosis.biosislite.vistas.renders.RenderArea;
 
 /**
  *
@@ -28,6 +30,8 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
     /**
      * Creates new form CRUDAreaSede
      */
+    Empleado empleado;
+
     public CRUDAreaSede() {
         initComponents();
         inicializar();
@@ -65,6 +69,9 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         txtCodigo = new javax.swing.JTextField();
         chkSede = new javax.swing.JCheckBox();
         btnLimpiarSuperior = new javax.swing.JButton();
+        txtJefe = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("REGISTRO DE SEDES Y ÁREAS DE LA INSTITUCIÓN");
@@ -138,7 +145,7 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         pnlInformación.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Información", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 14))); // NOI18N
         java.awt.GridBagLayout pnlInformaciónLayout = new java.awt.GridBagLayout();
         pnlInformaciónLayout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0};
-        pnlInformaciónLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
+        pnlInformaciónLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         pnlInformación.setLayout(pnlInformaciónLayout);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -146,13 +153,15 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlInformación.add(jLabel1, gridBagConstraints);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Descripción:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlInformación.add(jLabel2, gridBagConstraints);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -160,13 +169,14 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlInformación.add(jLabel4, gridBagConstraints);
 
         txtNivelSuperior.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnlInformación.add(txtNivelSuperior, gridBagConstraints);
 
         txtDescripcion.setColumns(20);
@@ -176,7 +186,7 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
@@ -186,7 +196,7 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         pnlInformación.add(txtNombre, gridBagConstraints);
 
         jButton1.setText("...");
@@ -204,13 +214,14 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         jLabel5.setText("Código:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlInformación.add(jLabel5, gridBagConstraints);
 
         txtCodigo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlInformación.add(txtCodigo, gridBagConstraints);
@@ -220,6 +231,7 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlInformación.add(chkSede, gridBagConstraints);
 
         btnLimpiarSuperior.setText("X");
@@ -232,6 +244,30 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
         pnlInformación.add(btnLimpiarSuperior, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        pnlInformación.add(txtJefe, gridBagConstraints);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Jefe/Encagardo:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlInformación.add(jLabel3, gridBagConstraints);
+
+        jButton2.setText("...");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
+        pnlInformación.add(jButton2, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -264,6 +300,7 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
     private void trAreasMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_trAreasMouseReleased
         // TODO add your handling code here:
         DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) trAreas.getLastSelectedPathComponent();
+        FormularioUtil.limpiarComponente(pnlInformación);
         if (nodo != null) {
             Object elemento = nodo.getUserObject();
             if (elemento instanceof Departamento) {
@@ -305,7 +342,7 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        if(hayErrores()){
+        if (hayErrores()) {
             return;
         }
         if (FormularioUtil.dialogoConfirmar(this, accion)) {
@@ -315,6 +352,7 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
             dep.setDepartamento(this.departamentoSeleccionado);
             dep.setCodigo(txtCodigo.getText());
             dep.setSede(chkSede.isSelected());
+            dep.setEmpleado(this.empleado);
 
             if (depc.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
@@ -333,6 +371,20 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         activarControles(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    public void agregarEmpleado(Empleado empleado) {
+        this.empleado = empleado;
+    }
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        DlgEmpleado dialogo = new DlgEmpleado(this);
+        dialogo.setVisible(true);
+
+        if (this.empleado != null) {
+            txtJefe.setText(this.empleado.getNombreCompleto().toUpperCase());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -342,8 +394,10 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnNuevo;
     private javax.swing.JCheckBox chkSede;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
@@ -354,6 +408,7 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
     private javax.swing.JTree trAreas;
     private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextField txtJefe;
     private javax.swing.JTextField txtNivelSuperior;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
@@ -413,6 +468,11 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         this.txtDescripcion.setText(departamento.getDescripcion());
         this.txtCodigo.setText(departamento.getCodigo());
         mostrarSuperior(departamento.getDepartamento());
+
+        if (departamento.getEmpleado() != null) {
+            this.txtJefe.setText(departamento.getEmpleado().getNombreCompleto());
+            this.empleado = departamento.getEmpleado();
+        }
     }
 
     private void mostrarSuperior(Departamento departamento) {
@@ -438,15 +498,15 @@ public class CRUDAreaSede extends javax.swing.JInternalFrame {
         String mensajeError = "Se encontraron los siguientes errores:\n";
         int errores = 0;
 
-        if (this.txtNombre.getText().trim().isEmpty()){
+        if (this.txtNombre.getText().trim().isEmpty()) {
             errores++;
-            mensajeError+="Debe especificar un nombre al área\n";
+            mensajeError += "Debe especificar un nombre al área\n";
         }
-        
-        if(errores > 0){
+
+        if (errores > 0) {
             JOptionPane.showMessageDialog(this, mensajeError, "Mensaje del sistema", JOptionPane.WARNING_MESSAGE);
         }
-        
+
         return errores > 0;
     }
 }

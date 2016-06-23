@@ -7,6 +7,9 @@ package com.biosis.biosislite.controladores;
 
 
 import com.biosis.biosislite.entidades.escalafon.Gerencia;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -40,4 +43,11 @@ public class GerenciaControlador extends Controlador<Gerencia>{
 //            return viaje.get(0);
 //        }
 //    }
+    
+    public List<Gerencia> buscarXDescripcion(String patron){
+        String jpql = "SELECT n FROM Gerencia n WHERE n.nombre LIKE CONCAT('%',:patron,'%')";
+        Map<String, Object> map = new HashMap();
+        map.put("patron", patron.trim().toUpperCase());
+        return this.getDao().buscar(jpql, map);
+    }
 }

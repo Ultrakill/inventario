@@ -21,13 +21,19 @@ import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.FichaLaboral;
+import com.biosis.biosislite.entidades.escalafon.Gerencia;
+import com.biosis.biosislite.entidades.escalafon.UnidadNegocio;
 import com.biosis.biosislite.utiles.Exportador;
+import com.biosis.biosislite.utiles.ExportadorTXT;
 import com.biosis.biosislite.utiles.UsuarioActivo;
 import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.dialogos.DlgGerencia;
 import com.biosis.biosislite.vistas.dialogos.DlgOficina;
 import com.biosis.biosislite.vistas.dialogos.DlgTipoPermiso;
+import com.biosis.biosislite.vistas.dialogos.DlgUnidadNegocio;
 import com.biosis.biosislite.vistas.modelos.MTAsignacionPermiso;
 import com.biosis.biosislite.vistas.modelos.MTEmpleado;
+import com.biosis.biosislite.vistas.modelos.MTViaje;
 import com.personal.utiles.FormularioUtil;
 import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
@@ -114,7 +120,9 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tblPermisos = new org.jdesktop.swingx.JXTable();
         pnlOpciones1 = new javax.swing.JPanel();
-        btnExcel = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        cmbFormatos = new javax.swing.JComboBox();
+        btnExportar = new javax.swing.JButton();
         pnlOpciones = new javax.swing.JPanel();
         radTodo = new javax.swing.JRadioButton();
         jButton4 = new javax.swing.JButton();
@@ -122,6 +130,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         rdnTipoPermiso = new javax.swing.JRadioButton();
         rdnDescuento = new javax.swing.JRadioButton();
         cboCuenta = new javax.swing.JComboBox();
+        radViaje = new javax.swing.JRadioButton();
         pnlRango = new javax.swing.JPanel();
         radPorFecha = new javax.swing.JRadioButton();
         radMes = new javax.swing.JRadioButton();
@@ -143,11 +152,18 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         txtOficina = new javax.swing.JTextField();
         btnOficina = new javax.swing.JButton();
         radTodos = new javax.swing.JRadioButton();
+        radGerencia = new javax.swing.JRadioButton();
+        txtGerencia = new javax.swing.JTextField();
+        btnGerencia = new javax.swing.JButton();
+        radUnidad = new javax.swing.JRadioButton();
+        txtUnidad = new javax.swing.JTextField();
+        btnUnidad = new javax.swing.JButton();
         pnlBotones = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         grpTipoReporte.add(rdnTipoPermiso);
         grpTipoReporte.add(rdnDescuento);
         grpTipoReporte.add(radTodo);
+        grpTipoReporte.add(radViaje);
 
         grpRango.add(radPorFecha);
         grpRango.add(radMes);
@@ -157,6 +173,8 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         grpSeleccion.add(radGrupo);
         grpSeleccion.add(radPersonalizado);
         grpSeleccion.add(radOficina);
+        grpSeleccion.add(radGerencia);
+        grpSeleccion.add(radUnidad);
 
         setClosable(true);
         setMaximizable(true);
@@ -201,16 +219,24 @@ public class RptPermisos extends javax.swing.JInternalFrame {
 
         jPanel1.add(jScrollPane4, java.awt.BorderLayout.CENTER);
 
-        pnlOpciones1.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
+        pnlOpciones1.setLayout(new java.awt.GridBagLayout());
 
-        btnExcel.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        btnExcel.setText("Exportar Excel");
-        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setText("Elegir formato:");
+        pnlOpciones1.add(jLabel1, new java.awt.GridBagConstraints());
+
+        cmbFormatos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cmbFormatos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Excel (*.xls)", "Texto (*.txt)" }));
+        pnlOpciones1.add(cmbFormatos, new java.awt.GridBagConstraints());
+
+        btnExportar.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnExportar.setText("Exportar");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExceljButton5ActionPerformed(evt);
+                btnExportarjButton5ActionPerformed(evt);
             }
         });
-        pnlOpciones1.add(btnExcel);
+        pnlOpciones1.add(btnExportar, new java.awt.GridBagConstraints());
 
         jPanel1.add(pnlOpciones1, java.awt.BorderLayout.PAGE_END);
 
@@ -295,6 +321,14 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         pnlOpciones.add(cboCuenta, gridBagConstraints);
+
+        radViaje.setText("Viajes de comisión de servicio");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlOpciones.add(radViaje, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -423,7 +457,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radPersonalizado, gridBagConstraints);
 
@@ -438,7 +472,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -454,7 +488,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(jButton1, gridBagConstraints);
 
@@ -466,7 +500,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 11;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(jButton3, gridBagConstraints);
 
@@ -478,14 +512,14 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radOficina, gridBagConstraints);
 
         txtOficina.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(txtOficina, gridBagConstraints);
 
@@ -497,7 +531,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 6;
         pnlEmpleados.add(btnOficina, gridBagConstraints);
 
         radTodos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
@@ -511,6 +545,70 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radTodos, gridBagConstraints);
+
+        radGerencia.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        radGerencia.setText("Por gerencia:");
+        radGerencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radGerenciaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radGerencia, gridBagConstraints);
+
+        txtGerencia.setEditable(false);
+        txtGerencia.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(txtGerencia, gridBagConstraints);
+
+        btnGerencia.setText("...");
+        btnGerencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGerenciaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        pnlEmpleados.add(btnGerencia, gridBagConstraints);
+
+        radUnidad.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        radUnidad.setText("Por UUNN:");
+        radUnidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radUnidadActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radUnidad, gridBagConstraints);
+
+        txtUnidad.setEditable(false);
+        txtUnidad.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(txtUnidad, gridBagConstraints);
+
+        btnUnidad.setText("...");
+        btnUnidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUnidadActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        pnlEmpleados.add(btnUnidad, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -573,6 +671,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
 //        imprimir();
+        
         GenerarReporte reporte = new GenerarReporte();
         reporte.execute();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -627,42 +726,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_radTodosActionPerformed
 
-    private void btnExceljButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExceljButton5ActionPerformed
-        // TODO add your handling code here:
-        if (this.tblPermisos.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
-                    JOptionPane.INFORMATION_MESSAGE);
-            this.btnExcel.grabFocus();
-            return;
-        }
-        JFileChooser chooser = new JFileChooser();
-
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Guardar archivo");
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setAcceptAllFileFilterUsed(false);
-
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            List<JTable> tb = new ArrayList<>();
-            List<String> nom = new ArrayList<>();
-            tb.add(tblPermisos);
-            nom.add("Detalle de Asistencia");
-            String excel = chooser.getSelectedFile().toString().concat(".xls");
-            try {
-                Date[] fechasLimite = this.obtenerFechasLimite();
-                Exportador e = new Exportador(new File(excel), tb, nom, fechasLimite[0], fechasLimite[1], true);
-                if (e.exportar()) {
-                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel.", "BCO",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_btnExceljButton5ActionPerformed
-
     private void rdnTipoPermisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdnTipoPermisoActionPerformed
         // TODO add your handling code here:
         controles();
@@ -678,15 +741,64 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radTodoActionPerformed
 
+    private void radGerenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radGerenciaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radGerenciaActionPerformed
+
+    Gerencia gerenciaSeleccionada = new Gerencia();
+    private void btnGerenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerenciaActionPerformed
+        // TODO add your handling code here:
+        DlgGerencia gerenciaB = new DlgGerencia(this);
+        gerenciaB.setVisible(true);
+        gerenciaSeleccionada = gerenciaB.getGerencia();
+
+        if (gerenciaSeleccionada != null) {
+            txtGerencia.setText(gerenciaSeleccionada.getNombre());
+
+        }
+    }//GEN-LAST:event_btnGerenciaActionPerformed
+
+    private void radUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radUnidadActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radUnidadActionPerformed
+
+    UnidadNegocio unidadSeleccionada = new UnidadNegocio();
+    private void btnUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnidadActionPerformed
+        // TODO add your handling code here:
+        DlgUnidadNegocio unidad = new DlgUnidadNegocio(this);
+        unidad.setVisible(true);
+        unidadSeleccionada = unidad.getUnidadNegocio();
+        
+        if(unidadSeleccionada != null){
+            txtUnidad.setText(unidadSeleccionada.getNombre());
+        }
+        
+    }//GEN-LAST:event_btnUnidadActionPerformed
+
+    private void btnExportarjButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarjButton5ActionPerformed
+        // TODO add your handling code here:
+        
+        if(cmbFormatos.getSelectedIndex()==0){
+            ExportarXLS();
+        }else if(cmbFormatos.getSelectedIndex()==1){
+            ExportarTXT();
+        }
+    }//GEN-LAST:event_btnExportarjButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExcel;
+    private javax.swing.JButton btnExportar;
+    private javax.swing.JButton btnGerencia;
     private javax.swing.JButton btnOficina;
+    private javax.swing.JButton btnUnidad;
     private javax.swing.JComboBox cboCuenta;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
     private javax.swing.JComboBox cboPeriodo1;
+    private javax.swing.JComboBox cmbFormatos;
     private com.toedter.calendar.JDateChooser dcFechaFin;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.ButtonGroup grpRango;
@@ -696,6 +808,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -707,6 +820,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlOpciones1;
     private javax.swing.JPanel pnlRango;
     private javax.swing.JRadioButton radAnio;
+    private javax.swing.JRadioButton radGerencia;
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radMes;
     private javax.swing.JRadioButton radOficina;
@@ -714,12 +828,16 @@ public class RptPermisos extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton radPorFecha;
     private javax.swing.JRadioButton radTodo;
     private javax.swing.JRadioButton radTodos;
+    private javax.swing.JRadioButton radUnidad;
+    private javax.swing.JRadioButton radViaje;
     private javax.swing.JRadioButton rdnDescuento;
     private javax.swing.JRadioButton rdnTipoPermiso;
     private org.jdesktop.swingx.JXTable tblPermisos;
     private org.jdesktop.swingx.JXTable tblTabla;
+    private javax.swing.JTextField txtGerencia;
     private javax.swing.JTextField txtOficina;
     private javax.swing.JTextField txtTipoPermiso;
+    private javax.swing.JTextField txtUnidad;
     // End of variables declaration//GEN-END:variables
 
     private void inicializar() {
@@ -744,6 +862,9 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(cboGrupoHorario, radGrupo.isSelected());
         FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
         FormularioUtil.activarComponente(tblTabla, radPersonalizado.isSelected());
+        
+        FormularioUtil.activarComponente(btnGerencia, radGerencia.isSelected());
+        FormularioUtil.activarComponente(btnUnidad, radUnidad.isSelected());
 
     }
 
@@ -795,7 +916,7 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         cboPeriodo1.setRenderer(renderPeriodo);
         cboGrupoHorario.setRenderer(renderGrupo);
     }
-    
+
     private void bindeoSalvaje2() {
         listaPermisos = new ArrayList<>();
         listaPermisos = ObservableCollections.observableList(listaPermisos);
@@ -936,21 +1057,41 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         List<Empleado> lista = new ArrayList<>();
         Date fechas[] = this.obtenerFechasLimite();
         if (radTodos.isSelected()) {
-            lista = this.ec.buscarTodos();
+            lista = this.ec.buscarPorBaja();
         } else if (radGrupo.isSelected()) {
             obtenerGrupo();
             List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
             for (DetalleGrupoHorario detalle : detalleGrupo) {
-                lista.add(detalle.getEmpleado());
+                if (detalle.getEmpleado().getBaja() == false) {
+                    lista.add(detalle.getEmpleado());
+                }
             }
         } else if (radPersonalizado.isSelected()) {
             for (Empleado empleado : empleadoList) {
-                lista.add(empleado);
+                if (empleado.getBaja() == false) {
+                    lista.add(empleado);
+                }
+            }
+        }else if (radGerencia.isSelected()) {
+            List<AreaEmpleado> areaEmpleadoList = aec.buscarXEmpleadoXFechaXGerencia(fechas[0], fechas[1],gerenciaSeleccionada);
+            for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
+                if (areaEmpleado.getEmpleado().getBaja() == false) {
+                    lista.add(areaEmpleado.getEmpleado());
+                }
+            }
+        }else if (radUnidad.isSelected()) {
+            List<AreaEmpleado> areaEmpleadoList = aec.buscarXEmpleadoXFechaXUnidad(fechas[0], fechas[1],unidadSeleccionada);
+            for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
+                if (areaEmpleado.getEmpleado().getBaja() == false) {
+                    lista.add(areaEmpleado.getEmpleado());
+                }
             }
         } else if (radOficina.isSelected()) {
             List<AreaEmpleado> areaEmpleadoList = aec.buscarXEmpleadoXFecha(oficinaSeleccionada, fechas[0], fechas[1]);
             for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
-                lista.add(areaEmpleado.getEmpleado());
+                if (areaEmpleado.getEmpleado().getBaja() == false) {
+                    lista.add(areaEmpleado.getEmpleado());
+                }
             }
         }
 
@@ -961,43 +1102,62 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         empleadoList.add(empleado);
     }
 
-    private List<AsignacionPermiso> ObtenerPermisos(List<Empleado> empleados, Date date, Date date0) {
+//    List<String[]> listaFiltroViajes = new ArrayList();
+    List<AsignacionPermiso> lista = new ArrayList();
 
-        List<AsignacionPermiso> lista = new ArrayList();
+    private void ObtenerPermisos(List<Empleado> empleados, Date date, Date date0) {
 
+//        List<AsignacionPermiso> lista = new ArrayList();
         if (rdnTipoPermiso.isSelected()) {
             for (Empleado emp : empleados) {
                 lista.addAll(ac.buscarXEmpleadoXFechaxTipo(emp, date, date0, tipoSeleccionado));
             }
-        }else if(rdnDescuento.isSelected()){
+        } else if (rdnDescuento.isSelected()) {
             for (Empleado emp : empleados) {
                 lista.addAll(ac.buscarXEmpleadoXFechaxDescuento(emp, date, date0, getDescuento()));
             }
-        }else{
+        } else if (radViaje.isSelected()) {
+            for (Empleado emp : empleados) {
+                lista.addAll(ac.buscarXEmpleadoXFechaxViaje(emp, date, date0));
+            }
+        } else {
             for (Empleado emp : empleados) {
                 lista.addAll(ac.buscarXEmpleadoXFecha(emp, date, date0));
             }
         }
 
-        return lista;
+//        return lista;
     }
-    
+
     private char getDescuento() {
         String valor = cboCuenta.getSelectedItem().toString();
         return valor.charAt(0);
     }
 
     List<AsignacionPermiso> listaPermisos;
-    
+
     private void generarReporte() {
         List<Empleado> empleados = obtenerDNI();
         Date[] fechasLimite = this.obtenerFechasLimite();
-
-        listaPermisos.clear();
-        listaPermisos.addAll(ObtenerPermisos(empleados, fechasLimite[0], fechasLimite[1]));
         
-        tblPermisos.packAll();
+        lista.clear();
+//        tblPermisos.packAll();
 
+        ObtenerPermisos(empleados, fechasLimite[0], fechasLimite[1]);
+//                
+//        listaPermisos.clear();
+//        listaPermisos.addAll();
+        if (radViaje.isSelected()) {
+            MTViaje mtViaje = new MTViaje(lista);
+            tblPermisos.setModel(mtViaje);
+            tblPermisos.packAll();
+        } else {
+            MTAsignacionPermiso mt = new MTAsignacionPermiso(lista);
+            tblPermisos.setModel(mt);
+            tblPermisos.packAll();
+        }
+
+//        tblPermisos.packAll();
     }
 
     private Date[] obtenerFechasLimite() {
@@ -1029,6 +1189,76 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         fechas[1] = fechaFin;
 
         return fechas;
+    }
+    
+    private void ExportarTXT(){
+        if (this.tblPermisos.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.btnExportar.grabFocus();
+            return;
+        }
+        JFileChooser chooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Guardar archivo");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            List<JTable> tb = new ArrayList<>();
+            List<String> nom = new ArrayList<>();
+            tb.add(tblPermisos);
+            nom.add("Detalle de Asistencia");
+            String texto = chooser.getSelectedFile().toString().concat(".txt");
+            try {
+                Date[] fechasLimite = this.obtenerFechasLimite();
+                ExportadorTXT e = new ExportadorTXT(new File(texto), tb, nom, fechasLimite[0], fechasLimite[1], false);
+                if (e.exportarTXT()) {
+                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a texto.", "BCO",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    private void ExportarXLS(){
+        if (this.tblPermisos.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.btnExportar.grabFocus();
+            return;
+        }
+        JFileChooser chooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Guardar archivo");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            List<JTable> tb = new ArrayList<>();
+            List<String> nom = new ArrayList<>();
+            tb.add(tblPermisos);
+            nom.add("Detalle de Asistencia");
+            String excel = chooser.getSelectedFile().toString().concat(".xls");
+            try {
+                Date[] fechasLimite = this.obtenerFechasLimite();
+                Exportador e = new Exportador(new File(excel), tb, nom, fechasLimite[0], fechasLimite[1], false);
+                if (e.exportar()) {
+                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel.", "BCO",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private class GenerarReporte extends SwingWorker<Double, Void> {
@@ -1068,4 +1298,6 @@ public class RptPermisos extends javax.swing.JInternalFrame {
         }
 
     }
+    
+    
 }

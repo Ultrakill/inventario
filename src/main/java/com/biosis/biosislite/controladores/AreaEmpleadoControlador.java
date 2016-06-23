@@ -5,9 +5,11 @@
  */
 package com.biosis.biosislite.controladores;
 
-import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
+import com.biosis.biosislite.entidades.escalafon.Empleado;
+import com.biosis.biosislite.entidades.escalafon.Gerencia;
+import com.biosis.biosislite.entidades.escalafon.UnidadNegocio;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -69,6 +71,32 @@ public class AreaEmpleadoControlador extends Controlador<AreaEmpleado> {
         param.put("departamento", departamento);
         param.put("fechaInicio", fechaInicio);
         param.put("fechaFin", fechaFin);
+        return this.getDao().buscar(jpql, param);
+    }
+    
+    public List<AreaEmpleado> buscarXEmpleadoXFechaXGerencia(Date fechaInicio, Date fechaFin, Gerencia gerencia){
+        String jpql = "SELECT ae FROM AreaEmpleado ae WHERE "
+                + "ae.gerencia = :gerencia AND "
+                + "((ae.fechaInicio <= :fechaInicio AND :fechaFin >= ae.fechaInicio) OR (ae.fechaInicio >= :fechaInicio AND ae.fechaFin >= :fechaInicio)) ";
+//                + "AND ae.gerencia = :gerencia";
+        Map<String, Object> param = new HashMap<>();
+//        param.put("departamento", departamento);
+        param.put("fechaInicio", fechaInicio);
+        param.put("fechaFin", fechaFin);
+        param.put("gerencia", gerencia);
+        return this.getDao().buscar(jpql, param);
+    }
+    
+    public List<AreaEmpleado> buscarXEmpleadoXFechaXUnidad(Date fechaInicio, Date fechaFin, UnidadNegocio unidad){
+        String jpql = "SELECT ae FROM AreaEmpleado ae WHERE "
+                + "ae.unidad = :unidad AND "
+                + "((ae.fechaInicio <= :fechaInicio AND :fechaFin >= ae.fechaInicio) OR (ae.fechaInicio >= :fechaInicio AND ae.fechaFin >= :fechaInicio)) ";
+//                + "AND ae.gerencia = :gerencia";
+        Map<String, Object> param = new HashMap<>();
+//        param.put("departamento", departamento);
+        param.put("fechaInicio", fechaInicio);
+        param.put("fechaFin", fechaFin);
+        param.put("unidad", unidad);
         return this.getDao().buscar(jpql, param);
     }
 }

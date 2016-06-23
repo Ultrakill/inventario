@@ -6,6 +6,7 @@
 package com.biosis.biosislite.controladores;
 
 import com.biosis.biosislite.entidades.escalafon.Contrato;
+import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.FichaGeneral;
 import com.biosis.biosislite.entidades.escalafon.FichaLaboral;
@@ -52,12 +53,31 @@ public class EmpleadoControlador extends Controlador<Empleado> {
     
     public List<Empleado> buscarXPatron(String patron, int desde, int tamanio) {
         String jpql = "SELECT e FROM Empleado e WHERE "
-                + "UPPER(CONCAT(nombre,paterno,materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) OR e.fichaLaboral.codigoTrabajador = UPPER(:patron)"
-                + "ORDER BY e.paterno,e.materno,e.nombre";
+                + "(UPPER(CONCAT(nombre,paterno,materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) OR e.fichaLaboral.codigoTrabajador = UPPER(:patron))"
+                + "  ORDER BY e.paterno,e.materno,e.nombre";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("patron", patron);
         return this.getDao().buscar(jpql, mapa, desde, tamanio);
     }
+    
+    public List<Empleado> buscarXPatronBaja(String patron, int desde, int tamanio) {
+        String jpql = "SELECT e FROM Empleado e WHERE "
+                + "(UPPER(CONCAT(nombre,paterno,materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) OR e.fichaLaboral.codigoTrabajador = UPPER(:patron))"
+                + " AND e.baja = 0 ORDER BY e.paterno,e.materno,e.nombre";
+        Map<String, Object> mapa = new HashMap<>();
+        mapa.put("patron", patron);
+        return this.getDao().buscar(jpql, mapa, desde, tamanio);
+    }
+    
+//    public List<Empleado> buscarXPatronBajaArea(String patron, int desde, int tamanio, Departamento area) {
+//        String jpql = "SELECT e FROM Empleado e WHERE "
+//                + "(UPPER(CONCAT(nombre,paterno,materno)) LIKE CONCAT('%',UPPER(:patron),'%') OR e.nroDocumento = UPPER(:patron) OR e.fichaLaboral.codigoTrabajador = UPPER(:patron))"
+//                + " AND e.baja = 0  ORDER BY e.paterno,e.materno,e.nombre";
+//        Map<String, Object> mapa = new HashMap<>();
+//        mapa.put("patron", patron);
+//        mapa.put("area", area);
+//        return this.getDao().buscar(jpql, mapa, desde, tamanio);
+//    }
     
     public int totalXPatron(String patron){
         String jpql = "SELECT COUNT(e.nroDocumento) FROM Empleado e WHERE "
@@ -103,6 +123,13 @@ public class EmpleadoControlador extends Controlador<Empleado> {
         } else {
             return empleados.get(0);
         }
+    }
+    
+    public List<Empleado> buscarPorBaja() {
+        String jpql = "SELECT e FROM Empleado e WHERE "
+                + "e.baja = 0";
+        Map<String, Object> mapa = new HashMap<>();
+        return this.getDao().buscar(jpql, mapa);
     }
 
 }

@@ -24,7 +24,7 @@ import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
- * @author RyuujiMD
+ * @author Documentos
  */
 public class DlgCargos extends javax.swing.JDialog {
 
@@ -68,7 +68,7 @@ public class DlgCargos extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Buscar nacionalidad");
+        setTitle("Buscar puestos");
         setMinimumSize(new java.awt.Dimension(606, 400));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 

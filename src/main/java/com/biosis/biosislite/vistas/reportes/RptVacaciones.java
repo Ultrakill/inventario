@@ -27,10 +27,15 @@ import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
 import com.biosis.biosislite.entidades.escalafon.FichaLaboral;
+import com.biosis.biosislite.entidades.escalafon.Gerencia;
+import com.biosis.biosislite.entidades.escalafon.UnidadNegocio;
 import com.biosis.biosislite.utiles.Exportador;
+import com.biosis.biosislite.utiles.ExportadorTXT;
 import com.biosis.biosislite.utiles.UsuarioActivo;
 import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.dialogos.DlgGerencia;
 import com.biosis.biosislite.vistas.dialogos.DlgOficina;
+import com.biosis.biosislite.vistas.dialogos.DlgUnidadNegocio;
 import com.biosis.biosislite.vistas.modelos.MTAsignarVacacion;
 import com.biosis.biosislite.vistas.modelos.MTEmpleado;
 import com.biosis.biosislite.vistas.modelos.MTMostrarPeriodos;
@@ -122,13 +127,21 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         txtOficina = new javax.swing.JTextField();
         btnOficina = new javax.swing.JButton();
         radTodos = new javax.swing.JRadioButton();
+        radGerencia = new javax.swing.JRadioButton();
+        txtGerencia = new javax.swing.JTextField();
+        btnGerencia = new javax.swing.JButton();
+        radUnidad = new javax.swing.JRadioButton();
+        txtUnidad = new javax.swing.JTextField();
+        btnUnidad = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         lblCargando = new org.jdesktop.swingx.JXBusyLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblVacaciones = new org.jdesktop.swingx.JXTable();
         pnlOpciones1 = new javax.swing.JPanel();
-        btnExcel = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        cmbFormatos = new javax.swing.JComboBox();
+        btnExportar = new javax.swing.JButton();
         pnlRango1 = new javax.swing.JPanel();
         radPorFecha = new javax.swing.JRadioButton();
         radMes = new javax.swing.JRadioButton();
@@ -142,6 +155,8 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         grpSeleccion.add(radGrupo);
         grpSeleccion.add(radPersonalizado);
         grpSeleccion.add(radOficina);
+        grpSeleccion.add(radGerencia);
+        grpSeleccion.add(radUnidad);
 
         grpTipo.add(radTodo);
         grpTipo.add(radInterrupciones);
@@ -159,7 +174,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         pnlRango.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de reporte"));
-        pnlRango.setMinimumSize(new java.awt.Dimension(248, 115));
+        pnlRango.setMinimumSize(new java.awt.Dimension(271, 115));
         pnlRango.setLayout(new java.awt.GridBagLayout());
 
         radInterrupciones.setText("Vacaciones interrumpidas");
@@ -222,7 +237,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
         getContentPane().add(pnlRango, gridBagConstraints);
@@ -269,7 +284,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radPersonalizado, gridBagConstraints);
 
@@ -284,7 +299,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -300,7 +315,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(jButton1, gridBagConstraints);
 
@@ -312,7 +327,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 9;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(jButton3, gridBagConstraints);
 
@@ -324,14 +339,14 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radOficina, gridBagConstraints);
 
         txtOficina.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(txtOficina, gridBagConstraints);
 
@@ -343,7 +358,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         pnlEmpleados.add(btnOficina, gridBagConstraints);
 
         radTodos.setSelected(true);
@@ -356,6 +371,70 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radTodos, gridBagConstraints);
+
+        radGerencia.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        radGerencia.setText("Por gerencia:");
+        radGerencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radGerenciaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radGerencia, gridBagConstraints);
+
+        txtGerencia.setEditable(false);
+        txtGerencia.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(txtGerencia, gridBagConstraints);
+
+        btnGerencia.setText("...");
+        btnGerencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGerenciaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        pnlEmpleados.add(btnGerencia, gridBagConstraints);
+
+        radUnidad.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        radUnidad.setText("Por UUNN:");
+        radUnidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radUnidadActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radUnidad, gridBagConstraints);
+
+        txtUnidad.setEditable(false);
+        txtUnidad.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(txtUnidad, gridBagConstraints);
+
+        btnUnidad.setText("...");
+        btnUnidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUnidadActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        pnlEmpleados.add(btnUnidad, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -403,16 +482,24 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
         jPanel1.add(jScrollPane4, java.awt.BorderLayout.CENTER);
 
-        pnlOpciones1.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
+        pnlOpciones1.setLayout(new java.awt.GridBagLayout());
 
-        btnExcel.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        btnExcel.setText("Exportar Excel");
-        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setText("Elegir formato:");
+        pnlOpciones1.add(jLabel1, new java.awt.GridBagConstraints());
+
+        cmbFormatos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cmbFormatos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Excel (*.xls)", "Texto (*.txt)" }));
+        pnlOpciones1.add(cmbFormatos, new java.awt.GridBagConstraints());
+
+        btnExportar.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnExportar.setText("Exportar");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExceljButton5ActionPerformed(evt);
+                btnExportarjButton5ActionPerformed(evt);
             }
         });
-        pnlOpciones1.add(btnExcel);
+        pnlOpciones1.add(btnExportar, new java.awt.GridBagConstraints());
 
         jPanel1.add(pnlOpciones1, java.awt.BorderLayout.PAGE_END);
 
@@ -571,42 +658,6 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_radTodosActionPerformed
 
-    private void btnExceljButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExceljButton5ActionPerformed
-        // TODO add your handling code here:
-        if (this.tblVacaciones.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
-                    JOptionPane.INFORMATION_MESSAGE);
-            this.btnExcel.grabFocus();
-            return;
-        }
-        JFileChooser chooser = new JFileChooser();
-
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Guardar archivo");
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setAcceptAllFileFilterUsed(false);
-
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            List<JTable> tb = new ArrayList<>();
-            List<String> nom = new ArrayList<>();
-            tb.add(tblVacaciones);
-            nom.add("Detalle de Asistencia");
-            String excel = chooser.getSelectedFile().toString().concat(".xls");
-            try {
-                Date[] fechasLimite = this.obtenerFechasLimite();
-                Exportador e = new Exportador(new File(excel), tb, nom, fechasLimite[0], fechasLimite[1], true);
-                if (e.exportar()) {
-                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel.", "BCO",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_btnExceljButton5ActionPerformed
-
     private void radPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radPorFechaActionPerformed
         // TODO add your handling code here:
         controles();
@@ -645,15 +696,65 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         controles();
     }//GEN-LAST:event_radInterrupcionesActionPerformed
 
+    private void radGerenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radGerenciaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radGerenciaActionPerformed
+
+    private void btnGerenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerenciaActionPerformed
+        // TODO add your handling code here:
+        DlgGerencia gerenciaB = new DlgGerencia(this);
+        gerenciaB.setVisible(true);
+        gerenciaSeleccionada = gerenciaB.getGerencia();
+
+        if (gerenciaSeleccionada != null) {
+            txtGerencia.setText(gerenciaSeleccionada.getNombre());
+
+        }
+    }//GEN-LAST:event_btnGerenciaActionPerformed
+
+    private void radUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radUnidadActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radUnidadActionPerformed
+
+    UnidadNegocio unidadSeleccionada = new UnidadNegocio();
+    private void btnUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnidadActionPerformed
+        // TODO add your handling code here:
+        DlgUnidadNegocio unidad = new DlgUnidadNegocio(this);
+        unidad.setVisible(true);
+        unidadSeleccionada = unidad.getUnidadNegocio();
+
+        if(unidadSeleccionada != null){
+            txtUnidad.setText(unidadSeleccionada.getNombre());
+        }
+
+    }//GEN-LAST:event_btnUnidadActionPerformed
+
+    private void btnExportarjButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarjButton5ActionPerformed
+        // TODO add your handling code here:
+
+        if(cmbFormatos.getSelectedIndex()==0){
+            ExportarXLS();
+        }else if(cmbFormatos.getSelectedIndex()==1){
+            ExportarTXT();
+        }
+    }//GEN-LAST:event_btnExportarjButton5ActionPerformed
+
     private Departamento oficinaSeleccionada;
+    
+    private Gerencia gerenciaSeleccionada = new Gerencia();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExcel;
+    private javax.swing.JButton btnExportar;
+    private javax.swing.JButton btnGerencia;
     private javax.swing.JButton btnOficina;
+    private javax.swing.JButton btnUnidad;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
     private javax.swing.JComboBox cboPeriodo1;
+    private javax.swing.JComboBox cmbFormatos;
     private com.toedter.calendar.JDateChooser dcFechaFin;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.ButtonGroup grpRango;
@@ -662,6 +763,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -673,6 +775,7 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlRango;
     private javax.swing.JPanel pnlRango1;
     private javax.swing.JRadioButton radAnio;
+    private javax.swing.JRadioButton radGerencia;
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radInterrupciones;
     private javax.swing.JRadioButton radMes;
@@ -683,9 +786,12 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton radSaldos;
     private javax.swing.JRadioButton radTodo;
     private javax.swing.JRadioButton radTodos;
+    private javax.swing.JRadioButton radUnidad;
     private org.jdesktop.swingx.JXTable tblTabla;
     private org.jdesktop.swingx.JXTable tblVacaciones;
+    private javax.swing.JTextField txtGerencia;
     private javax.swing.JTextField txtOficina;
+    private javax.swing.JTextField txtUnidad;
     // End of variables declaration//GEN-END:variables
 
     private List<Empleado> empleadoList;
@@ -714,6 +820,9 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(jButton1, radPersonalizado.isSelected());
         FormularioUtil.activarComponente(jButton3, radPersonalizado.isSelected());
 
+        
+        FormularioUtil.activarComponente(btnGerencia, radGerencia.isSelected());
+        FormularioUtil.activarComponente(btnUnidad, radUnidad.isSelected());
     }
 
     private void bindeoSalvaje() {
@@ -775,6 +884,9 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
     private void generarReporte() {
         List<Empleado> empleados = obtenerDNI();
         Date[] fechasLimite = this.obtenerFechasLimite();
+        
+        listaFiltroPeriodos.clear();
+        listaFiltro.clear();
 
         ObtenerVacaciones(empleados, fechasLimite[0], fechasLimite[1]);
 
@@ -831,26 +943,48 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
         List<Empleado> lista = new ArrayList<>();
         Date fechas[] = this.obtenerFechasLimite();
         if (radTodos.isSelected()) {
-            List<Empleado> listaPre = this.ec.buscarTodos();
+            List<Empleado> listaPre = this.ec.buscarPorBaja();
             for (Empleado empleadosPeriodos : listaPre) {
                 if (!empleadosPeriodos.getContratoList().isEmpty()) {
-                    lista.add(empleadosPeriodos);
+                    if (empleadosPeriodos.getBaja() == false) {
+                        lista.add(empleadosPeriodos);
+                    }
                 }
             }
         } else if (radGrupo.isSelected()) {
             obtenerGrupo();
             List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
             for (DetalleGrupoHorario detalle : detalleGrupo) {
-                lista.add(detalle.getEmpleado());
+                if (detalle.getEmpleado().getBaja() == false) {
+                    lista.add(detalle.getEmpleado());
+                }
             }
         } else if (radPersonalizado.isSelected()) {
             for (Empleado empleado : empleadoList) {
-                lista.add(empleado);
+                if (empleado.getBaja() == false) {
+                    lista.add(empleado);
+                }
             }
-        } else if (radOficina.isSelected()) {
+        } else if (radGerencia.isSelected()) {
+            List<AreaEmpleado> areaEmpleadoList = aec.buscarXEmpleadoXFechaXGerencia(fechas[0], fechas[1],gerenciaSeleccionada);
+            for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
+                if (areaEmpleado.getEmpleado().getBaja() == false) {
+                    lista.add(areaEmpleado.getEmpleado());
+                }
+            }
+        } else if (radUnidad.isSelected()) {
+            List<AreaEmpleado> areaEmpleadoList = aec.buscarXEmpleadoXFechaXUnidad(fechas[0], fechas[1],unidadSeleccionada);
+            for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
+                if (areaEmpleado.getEmpleado().getBaja() == false) {
+                    lista.add(areaEmpleado.getEmpleado());
+                }
+            }
+        }else if (radOficina.isSelected()) {
             List<AreaEmpleado> areaEmpleadoList = aec.buscarXEmpleadoXFecha(oficinaSeleccionada, fechas[0], fechas[1]);
             for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
-                lista.add(areaEmpleado.getEmpleado());
+                if (areaEmpleado.getEmpleado().getBaja() == false) {
+                    lista.add(areaEmpleado.getEmpleado());
+                }
             }
         }
 
@@ -1173,6 +1307,75 @@ public class RptVacaciones extends javax.swing.JInternalFrame {
 
         }
 
+    }
+    private void ExportarTXT(){
+        if (this.tblVacaciones.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.btnExportar.grabFocus();
+            return;
+        }
+        JFileChooser chooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Guardar archivo");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            List<JTable> tb = new ArrayList<>();
+            List<String> nom = new ArrayList<>();
+            tb.add(tblVacaciones);
+            nom.add("Detalle de Asistencia");
+            String texto = chooser.getSelectedFile().toString().concat(".txt");
+            try {
+                Date[] fechasLimite = this.obtenerFechasLimite();
+                ExportadorTXT e = new ExportadorTXT(new File(texto), tb, nom, fechasLimite[0], fechasLimite[1], false);
+                if (e.exportarTXT()) {
+                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a texto.", "BCO",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    private void ExportarXLS(){
+        if (this.tblVacaciones.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.btnExportar.grabFocus();
+            return;
+        }
+        JFileChooser chooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Guardar archivo");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            List<JTable> tb = new ArrayList<>();
+            List<String> nom = new ArrayList<>();
+            tb.add(tblVacaciones);
+            nom.add("Detalle de Asistencia");
+            String excel = chooser.getSelectedFile().toString().concat(".xls");
+            try {
+                Date[] fechasLimite = this.obtenerFechasLimite();
+                Exportador e = new Exportador(new File(excel), tb, nom, fechasLimite[0], fechasLimite[1], false);
+                if (e.exportar()) {
+                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel.", "BCO",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     private class GenerarReporte extends SwingWorker<Double, Void> {

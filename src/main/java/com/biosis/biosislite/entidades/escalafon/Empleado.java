@@ -45,6 +45,10 @@ public class Empleado implements Serializable {
     @Column(name = "paterno", nullable = false)
     @Basic
     private String paterno;
+    
+    @Column(name = "baja")
+    private boolean baja;
+    
     @OneToOne(fetch = FetchType.EAGER, targetEntity = FichaLaboral.class, mappedBy = "empleado",cascade = CascadeType.ALL)
     private FichaLaboral fichaLaboral;
     @OneToOne(fetch = FetchType.LAZY, targetEntity = FichaGeneral.class, mappedBy = "empleado",cascade = CascadeType.ALL)
@@ -197,6 +201,14 @@ public class Empleado implements Serializable {
 
     public void setPuestoList(List<PuestoEmpleado> puestoList) {
         this.puestoList = puestoList;
+    }
+
+    public boolean getBaja() {
+        return baja;
+    }
+
+    public void setBaja(boolean baja) {
+        this.baja = baja;
     }
     
     

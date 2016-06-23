@@ -25,6 +25,7 @@ import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import com.biosis.biosislite.utiles.UsuarioActivo;
 import com.biosis.biosislite.vistas.dialogos.DlgEmpleadoCRUD;
+import com.biosis.biosislite.vistas.modelos.MTEmpleadoVista;
 
 /**
  *
@@ -352,23 +353,26 @@ public class VistaEmpleado extends javax.swing.JInternalFrame {
 
     private void bindeoSalvaje() {
         lista = ObservableCollections.observableList(new ArrayList<Empleado>());
-        JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista, tblEmpleado);
-
-        BeanProperty pNroDocumento = BeanProperty.create("nroDocumento");
-        BeanProperty pCodigoModular = BeanProperty.create("fichaLaboral.codigoTrabajador");
-        BeanProperty pTipoDocumento = BeanProperty.create("tipoDocumento.abreviatura");
-        BeanProperty pNombre = BeanProperty.create("nombre");
-        BeanProperty pApellidoPaterno = BeanProperty.create("paterno");
-        BeanProperty pApellidoMaterno = BeanProperty.create("materno");
-
-        binding.addColumnBinding(pCodigoModular).setColumnName("Código modular").setEditable(false);
-        binding.addColumnBinding(pNroDocumento).setColumnName("Nro. Documento").setEditable(false);
-        binding.addColumnBinding(pTipoDocumento).setColumnName("Tipo de documento").setEditable(false);
-        binding.addColumnBinding(pNombre).setColumnName("Nombre").setEditable(false);
-        binding.addColumnBinding(pApellidoPaterno).setColumnName("Apellido paterno").setEditable(false);
-        binding.addColumnBinding(pApellidoMaterno).setColumnName("Apellido materno").setEditable(false);
-
-        binding.bind();
+//        JTableBinding binding = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, lista, tblEmpleado);
+//
+//        BeanProperty pNroDocumento = BeanProperty.create("nroDocumento");
+//        BeanProperty pCodigoModular = BeanProperty.create("fichaLaboral.codigoTrabajador");
+//        BeanProperty pTipoDocumento = BeanProperty.create("tipoDocumento.abreviatura");
+//        BeanProperty pNombre = BeanProperty.create("nombre");
+//        BeanProperty pApellidoPaterno = BeanProperty.create("paterno");
+//        BeanProperty pApellidoMaterno = BeanProperty.create("materno");
+//
+//        binding.addColumnBinding(pCodigoModular).setColumnName("Código modular").setEditable(false);
+//        binding.addColumnBinding(pNroDocumento).setColumnName("Nro. Documento").setEditable(false);
+//        binding.addColumnBinding(pTipoDocumento).setColumnName("Tipo de documento").setEditable(false);
+//        binding.addColumnBinding(pNombre).setColumnName("Nombre").setEditable(false);
+//        binding.addColumnBinding(pApellidoPaterno).setColumnName("Apellido paterno").setEditable(false);
+//        binding.addColumnBinding(pApellidoMaterno).setColumnName("Apellido materno").setEditable(false);
+//
+//        binding.bind();
+        MTEmpleadoVista mt = new MTEmpleadoVista(lista);
+        tblEmpleado.setModel(mt);
+        tblEmpleado.packAll();
     }
 
 //    private void buscar() {

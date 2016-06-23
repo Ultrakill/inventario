@@ -1,11 +1,9 @@
 package com.biosis.biosislite.vistas.reportes;
 
+import com.biosis.biosislite.Main;
+import com.biosis.biosislite.algoritmo.AnalisisAsistencia;
 import com.biosis.biosislite.algoritmo.AnalizadorAsistencia;
 import com.biosis.biosislite.algoritmo.Interprete;
-import com.personal.utiles.FechaUtil;
-import com.personal.utiles.FormularioUtil;
-import com.personal.utiles.ReporteUtil;
-import com.personal.utiles.ReporteUtil.Formato;
 import com.biosis.biosislite.controladores.AreaEmpleadoControlador;
 import com.biosis.biosislite.controladores.DetalleGrupoControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
@@ -20,10 +18,29 @@ import com.biosis.biosislite.entidades.asistencia.DetalleAsistencia;
 import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
+import com.biosis.biosislite.entidades.escalafon.Gerencia;
+import com.biosis.biosislite.entidades.escalafon.UnidadNegocio;
 import com.biosis.biosislite.entidades.reportes.RptAsistenciaDetallado;
 import com.biosis.biosislite.entidades.reportes.RptMarcacion;
 import com.biosis.biosislite.interpretes.InterpreteDetalleGRP;
 import com.biosis.biosislite.interpretes.InterpreteResumenGRP;
+import com.biosis.biosislite.utiles.ButtonTabComponent;
+import com.biosis.biosislite.utiles.Exportador;
+import com.biosis.biosislite.utiles.ExportadorTXT;
+import com.biosis.biosislite.utiles.HerramientaGeneral;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgAgregarMarcacion;
+import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.dialogos.DlgGerencia;
+import com.biosis.biosislite.vistas.dialogos.DlgMarcacionesDiarias;
+import com.biosis.biosislite.vistas.dialogos.DlgOficina;
+import com.biosis.biosislite.vistas.dialogos.DlgUnidadNegocio;
+import com.biosis.biosislite.vistas.modelos.MTAsistencia;
+import com.biosis.biosislite.vistas.modelos.MTEmpleado;
+import com.personal.utiles.FechaUtil;
+import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
+import com.personal.utiles.ReporteUtil.Formato;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Font;
@@ -53,19 +70,6 @@ import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
-import com.biosis.biosislite.Main;
-import com.biosis.biosislite.algoritmo.AnalisisAsistencia;
-import com.biosis.biosislite.utiles.Exportador;
-import com.biosis.biosislite.utiles.ButtonTabComponent;
-import com.biosis.biosislite.utiles.HerramientaGeneral;
-import com.biosis.biosislite.utiles.UsuarioActivo;
-import com.biosis.biosislite.vistas.dialogos.DlgAgregarMarcacion;
-import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-//import com.biosis.biosislite.vistas.dialogos.DlgEsperaTest;
-import com.biosis.biosislite.vistas.dialogos.DlgMarcacionesDiarias;
-import com.biosis.biosislite.vistas.dialogos.DlgOficina;
-import com.biosis.biosislite.vistas.modelos.MTAsistencia;
-import com.biosis.biosislite.vistas.modelos.MTEmpleado;
 
 /**
  *
@@ -100,8 +104,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         bindeoSalvaje();
         controles();
         lblCargando.setVisible(false);
-        btnMarcacionManual.setVisible(false);
-        this.btnMarcacionManual.setEnabled(false);
+//        btnMarcacionManual.setVisible(false);
+//        this.btnMarcacionManual.setEnabled(false);
         fuente = new Font(Font.SANS_SERIF, 0, 14);
     }
 
@@ -138,6 +142,12 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         txtOficina = new javax.swing.JTextField();
         btnOficina = new javax.swing.JButton();
         radTodos = new javax.swing.JRadioButton();
+        radGerencia = new javax.swing.JRadioButton();
+        txtGerencia = new javax.swing.JTextField();
+        btnGerencia = new javax.swing.JButton();
+        radUnidad = new javax.swing.JRadioButton();
+        txtUnidad = new javax.swing.JTextField();
+        btnUnidad = new javax.swing.JButton();
         pnlBotones = new javax.swing.JPanel();
         btnGenerarReporte = new javax.swing.JButton();
         pnlReporte = new javax.swing.JPanel();
@@ -145,15 +155,16 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         tabDetallado = new javax.swing.JPanel();
         pnlOpciones = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
-        btnMarcacionManual = new javax.swing.JButton();
-        btnExcel = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        cmbFormatos = new javax.swing.JComboBox();
+        btnExportar = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblAsistenciaDetallado = new org.jdesktop.swingx.JXTable();
         pnlCerrarTab = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        cboFiltro = new javax.swing.JComboBox<>();
+        cboFiltro = new javax.swing.JComboBox<String>();
         jLabel1 = new javax.swing.JLabel();
         lblCargando = new org.jdesktop.swingx.JXBusyLabel();
         grpRango.add(radPorFecha);
@@ -164,6 +175,8 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         grpSeleccion.add(radPersonalizado);
         grpSeleccion.add(radOficina);
         grpSeleccion.add(radTodos);
+        grpSeleccion.add(radGerencia);
+        grpSeleccion.add(radUnidad);
 
         setClosable(true);
         setMaximizable(true);
@@ -288,7 +301,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radPersonalizado, gridBagConstraints);
 
@@ -310,7 +323,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.gridheight = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -327,7 +340,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(btnAgregar, gridBagConstraints);
 
@@ -340,7 +353,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridy = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(btnQuitar, gridBagConstraints);
 
@@ -353,7 +366,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radOficina, gridBagConstraints);
 
@@ -361,7 +374,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         txtOficina.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlEmpleados.add(txtOficina, gridBagConstraints);
 
@@ -374,7 +387,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         pnlEmpleados.add(btnOficina, gridBagConstraints);
 
         radTodos.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
@@ -388,6 +401,72 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlEmpleados.add(radTodos, gridBagConstraints);
+
+        radGerencia.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        radGerencia.setText("Por gerencia:");
+        radGerencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radGerenciaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radGerencia, gridBagConstraints);
+
+        txtGerencia.setEditable(false);
+        txtGerencia.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(txtGerencia, gridBagConstraints);
+
+        btnGerencia.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        btnGerencia.setText("...");
+        btnGerencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGerenciaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 3;
+        pnlEmpleados.add(btnGerencia, gridBagConstraints);
+
+        radUnidad.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        radUnidad.setText("Por UUNN:");
+        radUnidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radUnidadActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEmpleados.add(radUnidad, gridBagConstraints);
+
+        txtUnidad.setEditable(false);
+        txtUnidad.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlEmpleados.add(txtUnidad, gridBagConstraints);
+
+        btnUnidad.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        btnUnidad.setText("...");
+        btnUnidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUnidadActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        pnlEmpleados.add(btnUnidad, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -422,10 +501,13 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlReporte.setLayout(new java.awt.BorderLayout());
 
         pnlTab.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        pnlTab.setMinimumSize(new java.awt.Dimension(800, 74));
+        pnlTab.setPreferredSize(new java.awt.Dimension(800, 413));
 
         tabDetallado.setLayout(new java.awt.BorderLayout());
 
-        pnlOpciones.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
+        pnlOpciones.setPreferredSize(new java.awt.Dimension(1215, 23));
+        pnlOpciones.setLayout(new java.awt.GridLayout());
 
         jButton4.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         jButton4.setText("Ver marcaciones en el día");
@@ -435,24 +517,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
             }
         });
         pnlOpciones.add(jButton4);
-
-        btnMarcacionManual.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        btnMarcacionManual.setText("Marcación manual");
-        btnMarcacionManual.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-        pnlOpciones.add(btnMarcacionManual);
-
-        btnExcel.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
-        btnExcel.setText("Exportar Excel");
-        btnExcel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExceljButton5ActionPerformed(evt);
-            }
-        });
-        pnlOpciones.add(btnExcel);
 
         btnImprimir.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
         btnImprimir.setText("Imprimir");
@@ -471,6 +535,24 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
             }
         });
         pnlOpciones.add(jButton3);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Elegir formato:");
+        pnlOpciones.add(jLabel3);
+
+        cmbFormatos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cmbFormatos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Excel (*.xls)", "Texto (*.txt)" }));
+        pnlOpciones.add(cmbFormatos);
+
+        btnExportar.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnExportar.setText("Exportar");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarjButton5ActionPerformed(evt);
+            }
+        });
+        pnlOpciones.add(btnExportar);
 
         tabDetallado.add(pnlOpciones, java.awt.BorderLayout.PAGE_END);
 
@@ -501,7 +583,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         pnlCerrarTab.add(jLabel2);
 
         cboFiltro.setEditable(true);
-        cboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "TODOS", "ASISTENCIA REGULAR", "TARDANZAS", "FALTAS", "INCONSISTENCIAS", "VACACIONES", "FERIADOS", "PERMISOS" }));
+        cboFiltro.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TODOS", "ASISTENCIA REGULAR", "TARDANZAS", "FALTAS", "INCONSISTENCIAS", "VACACIONES", "FERIADOS", "PERMISOS" }));
         cboFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboFiltroActionPerformed(evt);
@@ -582,7 +664,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
             FormularioUtil.activarComponente(pnlRango, true);
             FormularioUtil.activarComponente(pnlCerrarTab, true);
             FormularioUtil.activarComponente(btnGenerarReporte, true);
-            FormularioUtil.activarComponente(btnMarcacionManual, false);
+//            FormularioUtil.activarComponente(btnMarcacionManual, false);
             lblCargando.setBusy(false);
             lblCargando.setVisible(false);
 //            test.setVisible(false);
@@ -730,75 +812,6 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        int fila = this.tblAsistenciaDetallado.getSelectedRow();
-        if (fila != -1) {
-            RptAsistenciaDetallado rptAsistenciaDetallado = this.asistenciaDetalleList.get(fila);
-            List<RptMarcacion> marcacionList = new ArrayList<>();
-            this.asistenciaList.stream()
-                    .filter(a -> FechaUtil.soloFecha(a.getFecha()).equals(FechaUtil.soloFecha(rptAsistenciaDetallado.getFecha())))
-                    .forEach(a -> {
-                        List<DetalleAsistencia> detalleXAsistencia = a.getDetalleAsistenciaList();
-                        detalleXAsistencia.stream().filter((detalle) -> (detalle.getHoraEvento() == null && !detalle.isPermiso())).map((detalle) -> {
-                            RptMarcacion rptMarcacion = new RptMarcacion();
-                            rptMarcacion.setEmpleado(a.getEmpleado());
-                            rptMarcacion.setFecha(a.getFecha());
-                            rptMarcacion.setReferencia(detalle.getHoraReferencia());
-                            rptMarcacion.setTolerancia(detalle.getHoraReferenciaTolerancia());
-                            return rptMarcacion;
-                        }).forEach((rptMarcacion) -> {
-                            marcacionList.add(rptMarcacion);
-                        });
-                    });
-            if (!marcacionList.isEmpty()) {
-                System.out.println("MARCACION LIST: " + marcacionList.size());
-                DlgAgregarMarcacion agregarMarcacion = new DlgAgregarMarcacion(marcacionList, this, true);
-                agregarMarcacion.setVisible(true);
-                this.generarReporte();
-            } else {
-                JOptionPane.showMessageDialog(this, "No existen eventos por subsanar", "Mensaje del sistema", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-        }
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void btnExceljButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExceljButton5ActionPerformed
-        // TODO add your handling code here:
-        if (this.tblAsistenciaDetallado.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
-                    JOptionPane.INFORMATION_MESSAGE);
-            this.btnExcel.grabFocus();
-            return;
-        }
-        JFileChooser chooser = new JFileChooser();
-
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Guardar archivo");
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setAcceptAllFileFilterUsed(false);
-
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            List<JTable> tb = new ArrayList<>();
-            List<String> nom = new ArrayList<>();
-            tb.add(tblAsistenciaDetallado);
-            nom.add("Detalle de Asistencia");
-            String excel = chooser.getSelectedFile().toString().concat(".xls");
-            try {
-                Date[] fechasLimite = this.obtenerFechasLimite();
-                Exportador e = new Exportador(new File(excel), tb, nom, fechasLimite[0], fechasLimite[1], true);
-                if (e.exportar()) {
-                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel.", "BCO",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_btnExceljButton5ActionPerformed
-
     private void cboFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboFiltroActionPerformed
         // TODO add your handling code here:
         /**
@@ -840,21 +853,69 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         filtrar(this.registroAsistenciaPreList, valorFiltro);
     }//GEN-LAST:event_cboFiltroActionPerformed
 
+    private void radGerenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radGerenciaActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radGerenciaActionPerformed
+
+    private void btnGerenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGerenciaActionPerformed
+        // TODO add your handling code here:
+        DlgGerencia gerenciaB = new DlgGerencia(this);
+        gerenciaB.setVisible(true);
+        gerenciaSeleccionada = gerenciaB.getGerencia();
+        
+        if (gerenciaSeleccionada != null) {
+            txtGerencia.setText(gerenciaSeleccionada.getNombre());
+
+        }
+    }//GEN-LAST:event_btnGerenciaActionPerformed
+
+    private void radUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radUnidadActionPerformed
+        // TODO add your handling code here:
+        controles();
+    }//GEN-LAST:event_radUnidadActionPerformed
+
+    UnidadNegocio unidadSeleccionada = new UnidadNegocio();
+    private void btnUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUnidadActionPerformed
+        // TODO add your handling code here:
+        DlgUnidadNegocio unidad = new DlgUnidadNegocio(this);
+        unidad.setVisible(true);
+        unidadSeleccionada = unidad.getUnidadNegocio();
+
+        if(unidadSeleccionada != null){
+            txtUnidad.setText(unidadSeleccionada.getNombre());
+        }
+    }//GEN-LAST:event_btnUnidadActionPerformed
+
+    private void btnExportarjButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarjButton5ActionPerformed
+        // TODO add your handling code here:
+
+        if(cmbFormatos.getSelectedIndex()==0){
+            ExportarXLS();
+        }else if(cmbFormatos.getSelectedIndex()==1){
+            ExportarTXT();
+        }
+    }//GEN-LAST:event_btnExportarjButton5ActionPerformed
+
     private Departamento oficinaSeleccionada;
+    
+    private Gerencia gerenciaSeleccionada;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnExcel;
+    private javax.swing.JButton btnExportar;
     private javax.swing.JButton btnGenerarReporte;
+    private javax.swing.JButton btnGerencia;
     private javax.swing.JButton btnImprimir;
-    private javax.swing.JButton btnMarcacionManual;
     private javax.swing.JButton btnOficina;
     private javax.swing.JButton btnQuitar;
+    private javax.swing.JButton btnUnidad;
     private javax.swing.JComboBox<String> cboFiltro;
     private javax.swing.JComboBox cboGrupoHorario;
     private com.toedter.calendar.JMonthChooser cboMes;
     private javax.swing.JComboBox cboPeriodo;
     private javax.swing.JComboBox cboPeriodo1;
+    private javax.swing.JComboBox cmbFormatos;
     private com.toedter.calendar.JDateChooser dcFechaFin;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private javax.swing.ButtonGroup grpRango;
@@ -863,6 +924,7 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane4;
     private org.jdesktop.swingx.JXBusyLabel lblCargando;
@@ -874,16 +936,20 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
     private javax.swing.JPanel pnlReporte;
     private javax.swing.JTabbedPane pnlTab;
     private javax.swing.JRadioButton radAnio;
+    private javax.swing.JRadioButton radGerencia;
     private javax.swing.JRadioButton radGrupo;
     private javax.swing.JRadioButton radMes;
     private javax.swing.JRadioButton radOficina;
     private javax.swing.JRadioButton radPersonalizado;
     private javax.swing.JRadioButton radPorFecha;
     private javax.swing.JRadioButton radTodos;
+    private javax.swing.JRadioButton radUnidad;
     private javax.swing.JPanel tabDetallado;
     private org.jdesktop.swingx.JXTable tblAsistenciaDetallado;
     private org.jdesktop.swingx.JXTable tblTabla;
+    private javax.swing.JTextField txtGerencia;
     private javax.swing.JTextField txtOficina;
+    private javax.swing.JTextField txtUnidad;
     // End of variables declaration//GEN-END:variables
 
     private List<Empleado> empleadoList;
@@ -915,6 +981,9 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         FormularioUtil.activarComponente(btnQuitar, radPersonalizado.isSelected());
 
         FormularioUtil.activarComponente(btnOficina, radOficina.isSelected());
+        
+        FormularioUtil.activarComponente(btnGerencia, radGerencia.isSelected());
+        FormularioUtil.activarComponente(btnUnidad, radUnidad.isSelected());
     }
 
     private List<GrupoHorario> grupoList;
@@ -1024,21 +1093,41 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         List<Empleado> lista = new ArrayList<>();
         Date fechas[] = this.obtenerFechasLimite();
         if (radTodos.isSelected()) {
-            lista = this.ec.buscarTodos();
+            lista = this.ec.buscarPorBaja();
         } else if (radGrupo.isSelected()) {
             obtenerGrupo();
             List<DetalleGrupoHorario> detalleGrupo = dgc.buscarXGrupo(grupoSeleccionado);
             for (DetalleGrupoHorario detalle : detalleGrupo) {
-                lista.add(detalle.getEmpleado());
+                if (detalle.getEmpleado().getBaja() == false) {
+                    lista.add(detalle.getEmpleado());
+                }
             }
         } else if (radPersonalizado.isSelected()) {
             for (Empleado empleado : empleadoList) {
-                lista.add(empleado);
+                if (empleado.getBaja() == false) {
+                    lista.add(empleado);
+                }
             }
-        } else if (radOficina.isSelected()) {
+        }else if (radGerencia.isSelected()) {
+            List<AreaEmpleado> areaEmpleadoList = aempc.buscarXEmpleadoXFechaXGerencia(fechas[0], fechas[1],gerenciaSeleccionada);
+            for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
+                if (areaEmpleado.getEmpleado().getBaja() == false) {
+                    lista.add(areaEmpleado.getEmpleado());
+                }
+            }
+        }else if (radUnidad.isSelected()) {
+            List<AreaEmpleado> areaEmpleadoList = aempc.buscarXEmpleadoXFechaXUnidad(fechas[0], fechas[1],unidadSeleccionada);
+            for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
+                if (areaEmpleado.getEmpleado().getBaja() == false) {
+                    lista.add(areaEmpleado.getEmpleado());
+                }
+            }
+        }else if (radOficina.isSelected()) {
             List<AreaEmpleado> areaEmpleadoList = aempc.buscarXEmpleadoXFecha(oficinaSeleccionada, fechas[0], fechas[1]);
             for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
-                lista.add(areaEmpleado.getEmpleado());
+                if (areaEmpleado.getEmpleado().getBaja() == false) {
+                    lista.add(areaEmpleado.getEmpleado());
+                }
             }
 //            List<FichaLaboral> fichas = oficinaSeleccionada.getFichaLaboralList();
 //            for (FichaLaboral f : fichas) {
@@ -1191,7 +1280,76 @@ public class RptRegistroAsistencia extends javax.swing.JInternalFrame {
         }
 
     }
+    
+    private void ExportarTXT(){
+        if (this.tblAsistenciaDetallado.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.btnExportar.grabFocus();
+            return;
+        }
+        JFileChooser chooser = new JFileChooser();
 
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Guardar archivo");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            List<JTable> tb = new ArrayList<>();
+            List<String> nom = new ArrayList<>();
+            tb.add(tblAsistenciaDetallado);
+            nom.add("Detalle de Asistencia");
+            String texto = chooser.getSelectedFile().toString().concat(".txt");
+            try {
+                Date[] fechasLimite = this.obtenerFechasLimite();
+                ExportadorTXT e = new ExportadorTXT(new File(texto), tb, nom, fechasLimite[0], fechasLimite[1], false);
+                if (e.exportarTXT()) {
+                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a texto.", "BCO",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    private void ExportarXLS(){
+        if (this.tblAsistenciaDetallado.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.btnExportar.grabFocus();
+            return;
+        }
+        JFileChooser chooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Guardar archivo");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            List<JTable> tb = new ArrayList<>();
+            List<String> nom = new ArrayList<>();
+            tb.add(tblAsistenciaDetallado);
+            nom.add("Detalle de Asistencia");
+            String excel = chooser.getSelectedFile().toString().concat(".xls");
+            try {
+                Date[] fechasLimite = this.obtenerFechasLimite();
+                Exportador e = new Exportador(new File(excel), tb, nom, fechasLimite[0], fechasLimite[1], true);
+                if (e.exportar()) {
+                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel.", "BCO",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
     private void imprimirResumen() {
         File resumenFile = new File("reportes/reporte_asistencia_resumen.jasper");
 

@@ -39,9 +39,9 @@ public class MTInterrupcionVacacion extends ModeloTabla<InterrupcionVacacion> {
                 return dfFecha.format(interrupcionVacacion.getFechaFin());
             
             case 2:
-                AsignarVacacion metodo = new AsignarVacacion();
+//                AsignarVacacion metodo = new AsignarVacacion();
                 
-                return metodo.fechasAlong(interrupcionVacacion.getFechaInicio(), interrupcionVacacion.getFechaFin())+"";
+                return this.fechasAlong(interrupcionVacacion.getFechaInicio(), interrupcionVacacion.getFechaFin())+"";
                 
             case 3:
                 return interrupcionVacacion.getMotivo();
@@ -49,6 +49,13 @@ public class MTInterrupcionVacacion extends ModeloTabla<InterrupcionVacacion> {
             default:
                 return null;
         }
+    }
+    
+    public long fechasAlong(Date inicio, Date fin) {
+
+        long restaLog = (fin.getTime() - inicio.getTime());
+        long resta = (restaLog / (1000 * 60 * 60 * 24)) + 1;
+        return resta;
     }
 
     @Override

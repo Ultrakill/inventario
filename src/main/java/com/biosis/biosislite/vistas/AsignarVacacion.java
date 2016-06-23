@@ -5,10 +5,10 @@
  */
 package com.biosis.biosislite.vistas;
 
-import com.personal.utiles.FormularioUtil;
-import com.personal.utiles.ReporteUtil;
+import com.biosis.biosislite.Main;
 import com.biosis.biosislite.controladores.CompraVacacionControlador;
 import com.biosis.biosislite.controladores.Controlador;
+import com.biosis.biosislite.controladores.DepartamentoControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 import com.biosis.biosislite.controladores.InterrupcionControlador;
 import com.biosis.biosislite.controladores.PeriodoControlador;
@@ -20,11 +20,28 @@ import com.biosis.biosislite.entidades.Periodo;
 import com.biosis.biosislite.entidades.SaldoVacacional;
 import com.biosis.biosislite.entidades.TipoPermiso;
 import com.biosis.biosislite.entidades.Vacacion;
+import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
+import com.biosis.biosislite.utiles.Exportador;
+import com.biosis.biosislite.utiles.ExportadorTXT;
+import com.biosis.biosislite.utiles.UsuarioActivo;
+import com.biosis.biosislite.vistas.dialogos.DlgDatosMemo;
+import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
+import com.biosis.biosislite.vistas.dialogos.DlgInterrupcionVacacion;
+import com.biosis.biosislite.vistas.dialogos.DlgOficina;
+import com.biosis.biosislite.vistas.dialogos.DlgReprogramarVacacion;
+import com.biosis.biosislite.vistas.dialogos.DlgVerDetallePeriodosVacacion;
+import com.biosis.biosislite.vistas.modelos.MTAsignarVacacion;
+import com.biosis.biosislite.vistas.modelos.MTMostrarPeriodos;
+import com.biosis.biosislite.vistas.modelos.MTVacacion;
+import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -46,19 +63,6 @@ import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import org.jdesktop.swingx.JXTable;
-import com.biosis.biosislite.Main;
-import com.biosis.biosislite.utiles.Exportador;
-import com.biosis.biosislite.utiles.UsuarioActivo;
-import com.biosis.biosislite.vistas.dialogos.DlgDatosMemo;
-import com.biosis.biosislite.vistas.dialogos.DlgEmpleado;
-import com.biosis.biosislite.vistas.dialogos.DlgInterrupcionVacacion;
-import com.biosis.biosislite.vistas.dialogos.DlgReprogramarVacacion;
-import com.biosis.biosislite.vistas.dialogos.DlgVerDetallePeriodosVacacion;
-import com.biosis.biosislite.vistas.modelos.MTAsignarVacacion;
-import com.biosis.biosislite.vistas.modelos.MTMostrarPeriodos;
-import com.biosis.biosislite.vistas.modelos.MTVacacion;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 /**
  *
@@ -89,6 +93,9 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private String empleado;
     private Date referencia;
     private static final Logger LOG = Logger.getLogger(AsignarVacacion.class.getName());
+    
+    private Departamento area;
+    private DepartamentoControlador dc =  DepartamentoControlador.getInstance();
 
     public AsignarVacacion() {
         initComponents();
@@ -123,7 +130,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        btnExcelVacaciones = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         btnExcelTodosPeriodos = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -176,8 +182,16 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblPeriodos = new org.jdesktop.swingx.JXTable();
         jLabel12 = new javax.swing.JLabel();
-        btnExcelPeriodos = new javax.swing.JButton();
         ckbEspecial = new javax.swing.JCheckBox();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        cmbFormatos = new javax.swing.JComboBox();
+        btnExportar = new javax.swing.JButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        chckArea = new javax.swing.JCheckBox();
+        btnOficina = new javax.swing.JButton();
+        txtOficina = new javax.swing.JTextField();
+        lblArea = new javax.swing.JLabel();
 
         setClosable(true);
         setMaximizable(true);
@@ -243,15 +257,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             }
         });
         jPanel3.add(jButton5);
-
-        btnExcelVacaciones.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        btnExcelVacaciones.setText("Exportar a Excel");
-        btnExcelVacaciones.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcelVacacionesActionPerformed(evt);
-            }
-        });
-        jPanel3.add(btnExcelVacaciones);
 
         jButton7.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jButton7.setText("Memorando");
@@ -474,8 +479,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         jLabel1.setText("Empleado:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel1, gridBagConstraints);
 
@@ -487,9 +492,9 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 12;
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
@@ -499,7 +504,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jLabel4.setText("Fecha de fin:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 46;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel4, gridBagConstraints);
 
@@ -518,7 +523,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 22;
+        gridBagConstraints.gridy = 46;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -539,7 +544,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridy = 44;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
@@ -549,7 +554,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jLabel7.setText("Fecha de inicio:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 20;
+        gridBagConstraints.gridy = 44;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel7, gridBagConstraints);
 
@@ -561,8 +566,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 14;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridx = 15;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         jPanel4.add(jButton1, gridBagConstraints);
 
@@ -570,7 +575,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jLabel2.setText("Período:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridy = 42;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel2, gridBagConstraints);
 
@@ -583,7 +588,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 18;
+        gridBagConstraints.gridy = 42;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(cboPeriodo, gridBagConstraints);
@@ -591,23 +596,24 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         txtDocumento.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 27;
+        gridBagConstraints.gridy = 51;
         gridBagConstraints.gridwidth = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(txtDocumento, gridBagConstraints);
 
         jLabel5.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel5.setText("Documento de vacación:");
+        jLabel5.setText("Documento:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 27;
+        gridBagConstraints.gridy = 51;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel5, gridBagConstraints);
 
         jLabel6.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel6.setText("Vacaciones pedidas:");
+        jLabel6.setText("Vacaciones ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 26;
+        gridBagConstraints.gridy = 50;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel6, gridBagConstraints);
         jLabel6.setVisible(false);
@@ -643,17 +649,17 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 26;
+        gridBagConstraints.gridy = 50;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(pnlVacacionesPedidas, gridBagConstraints);
         pnlVacacionesPedidas.setVisible(false);
 
         jLabel11.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        jLabel11.setText("Saldo Vacacional:");
+        jLabel11.setText("Saldo:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 28;
+        gridBagConstraints.gridy = 52;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(jLabel11, gridBagConstraints);
         jLabel11.setVisible(false);
@@ -663,7 +669,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         txtSaldo.setText("30");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 28;
+        gridBagConstraints.gridy = 52;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel4.add(txtSaldo, gridBagConstraints);
@@ -691,7 +697,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 30;
+        gridBagConstraints.gridy = 54;
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.weighty = 0.1;
@@ -714,8 +720,8 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.gridwidth = 15;
+        gridBagConstraints.gridy = 29;
+        gridBagConstraints.gridwidth = 16;
         gridBagConstraints.gridheight = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
@@ -726,30 +732,86 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jLabel12.setText("Seleccionar Periodo:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 28;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         jPanel4.add(jLabel12, gridBagConstraints);
 
-        btnExcelPeriodos.setText("Exportar a Excel");
-        btnExcelPeriodos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExcelPeriodosActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 14;
-        gridBagConstraints.gridy = 17;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        jPanel4.add(btnExcelPeriodos, gridBagConstraints);
-
         ckbEspecial.setText("Ignorar Disponibilidad (Caso Especial.)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 24;
+        gridBagConstraints.gridy = 48;
         gridBagConstraints.gridwidth = 7;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel4.add(ckbEspecial, gridBagConstraints);
+
+        jPanel6.setLayout(new java.awt.GridLayout(1, 0));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel13.setText("Elegir formato:");
+        jPanel6.add(jLabel13);
+
+        cmbFormatos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        cmbFormatos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Excel (*.xls)", "Texto (*.txt)" }));
+        jPanel6.add(cmbFormatos);
+
+        btnExportar.setFont(new java.awt.Font("SansSerif", 1, 11)); // NOI18N
+        btnExportar.setText("Exportar");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarjButton5ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnExportar);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 15;
+        gridBagConstraints.gridy = 41;
+        jPanel4.add(jPanel6, gridBagConstraints);
+
+        jRadioButton2.setText("Por área");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(jRadioButton2, gridBagConstraints);
+
+        chckArea.setText("Filtrar por");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(chckArea, gridBagConstraints);
+
+        btnOficina.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        btnOficina.setText("...");
+        btnOficina.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOficinaActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 15;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        jPanel4.add(btnOficina, gridBagConstraints);
+
+        txtOficina.setEditable(false);
+        txtOficina.setFont(new java.awt.Font("SansSerif", 0, 11)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        jPanel4.add(txtOficina, gridBagConstraints);
+
+        lblArea.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lblArea.setText("Área:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        jPanel4.add(lblArea, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -777,7 +839,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tbList)
+            .addComponent(tbList, javax.swing.GroupLayout.DEFAULT_SIZE, 1739, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -970,7 +1032,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtEmpleadoSeleccionadoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        DlgEmpleado dialogo = new DlgEmpleado(this);
+        DlgEmpleado dialogo = new DlgEmpleado(this, this.area);
         empleadoSeleccionado = dialogo.getSeleccionado();
         if (empleadoSeleccionado != null) {
             txtEmpleadoSeleccionado.setText(
@@ -1234,80 +1296,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         actualizarResumenVacaciones(empleadoSeleccionado);
     }//GEN-LAST:event_cboPeriodoActionPerformed
 
-    private void btnExcelPeriodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelPeriodosActionPerformed
-        // TODO add your handling code here:
-
-        if (this.tblPeriodos.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
-                    JOptionPane.INFORMATION_MESSAGE);
-            this.btnExcelPeriodos.grabFocus();
-            return;
-        }
-        JFileChooser chooser = new JFileChooser();
-
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Guardar archivo");
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setAcceptAllFileFilterUsed(false);
-
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            List<JTable> tb = new ArrayList<>();
-            List<String> nom = new ArrayList<>();
-            tb.add(tblPeriodos);
-            nom.add("Periodos vacacionales");
-            String excel = chooser.getSelectedFile().toString().concat(".xls");
-            try {
-//                Date[] fechasLimite = this.obtenerFechasLimite();
-                Exportador e = new Exportador(new File(excel), tb, nom, empleadoSeleccionado.getContratoList().get(0).getFechaInicio(), new Date(), false);
-                if (e.exportar()) {
-                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel.", "EXPORTAR EXCEL",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_btnExcelPeriodosActionPerformed
-
-    private void btnExcelVacacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelVacacionesActionPerformed
-        // TODO add your handling code here:
-
-        if (this.tblTabla.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
-                    JOptionPane.INFORMATION_MESSAGE);
-            this.btnExcelVacaciones.grabFocus();
-            return;
-        }
-        JFileChooser chooser = new JFileChooser();
-
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
-        chooser.setFileFilter(filter);
-        chooser.setDialogTitle("Guardar archivo");
-        chooser.setMultiSelectionEnabled(false);
-        chooser.setAcceptAllFileFilterUsed(false);
-
-        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            List<JTable> tb = new ArrayList<>();
-            List<String> nom = new ArrayList<>();
-            tb.add(tblTabla);
-            nom.add("Registros de vacaciones");
-            String excel = chooser.getSelectedFile().toString().concat(".xls");
-            try {
-//                Date[] fechasLimite = this.obtenerFechasLimite();
-                Exportador e = new Exportador(new File(excel), tb, nom, dcFechaInicio1.getDate(), dcFechaFin1.getDate(), false);
-                if (e.exportar()) {
-                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel.", "EXPORTAR EXCEL",
-                            JOptionPane.INFORMATION_MESSAGE);
-
-                }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }//GEN-LAST:event_btnExcelVacacionesActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         int fila = tblTabla.getSelectedRow();
@@ -1340,6 +1328,27 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnExcelTodosPeriodosActionPerformed
 
+    private void btnExportarjButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarjButton5ActionPerformed
+        // TODO add your handling code here:
+
+        if(cmbFormatos.getSelectedIndex()==0){
+            ExportarXLS();
+        }else if(cmbFormatos.getSelectedIndex()==1){
+            ExportarTXT();
+        }
+    }//GEN-LAST:event_btnExportarjButton5ActionPerformed
+
+    private Departamento oficinaSeleccionada;
+    private void btnOficinaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOficinaActionPerformed
+        // TODO add your handling code here:
+        DlgOficina oficinas = new DlgOficina(this);
+        oficinaSeleccionada = oficinas.getSeleccionado();
+        if (oficinaSeleccionada != null) {
+            txtOficina.setText(oficinaSeleccionada.getNombre());
+
+        }
+    }//GEN-LAST:event_btnOficinaActionPerformed
+
     private final TCAnalisisControlador tcac = new TCAnalisisControlador();
 
     private void retrocederTiempo(List<String> dnis, Date fechaInicio) {
@@ -1350,19 +1359,21 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JButton btnExcelPeriodos;
     private javax.swing.JButton btnExcelTodosPeriodos;
-    private javax.swing.JButton btnExcelVacaciones;
+    private javax.swing.JButton btnExportar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnOficina;
     private javax.swing.JButton btnPrimero;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboPeriodo;
     private javax.swing.JComboBox cboTamanio;
+    private javax.swing.JCheckBox chckArea;
     private javax.swing.JCheckBox ckbEspecial;
+    private javax.swing.JComboBox cmbFormatos;
     private com.toedter.calendar.JDateChooser dcFechaFin;
     private com.toedter.calendar.JDateChooser dcFechaFin1;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
@@ -1378,6 +1389,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1391,8 +1403,11 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lblArea;
     private org.jdesktop.swingx.JXBusyLabel lblBusqueda;
     private javax.swing.JPanel pnlDatos;
     private javax.swing.JPanel pnlFHInicio;
@@ -1409,6 +1424,7 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtEmpleado;
     private javax.swing.JTextField txtEmpleadoSeleccionado;
     private javax.swing.JTextField txtLV;
+    private javax.swing.JTextField txtOficina;
     private javax.swing.JTextField txtSab;
     private javax.swing.JTextField txtSaldo;
     private javax.swing.JTextField txtTotal;
@@ -1703,6 +1719,15 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
 //        FormularioUtil.modeloSpinnerFechaHora(spFechaInicio1, "dd/MM/yyyy");
 //        FormularioUtil.modeloSpinnerFechaHora(spFechaFin1, "dd/MM/yyyy");
         this.controles(accion);
+        if(UsuarioActivo.getUsuario().getRol().getCodigo().equals("JEA")){
+            this.chckArea.setVisible(false);
+            this.lblArea.setVisible(false);
+            this.txtOficina.setVisible(false);
+            btnOficina.setVisible(false);
+            this.area = dc.buscarXJefe(UsuarioActivo.getUsuario().getEmpleado());
+            
+            
+        }
 //        mtVac = new MTVacacion(new ArrayList<Vacacion>());
 //        tblVacaciones.setModel(mtVac);
     }
@@ -2202,6 +2227,76 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Hubo un error", "Error", JOptionPane.ERROR_MESSAGE);
                 LOG.error("ERROR!!!!#$", ex);
+            }
+        }
+    }
+    
+    private void ExportarTXT(){
+        if (this.tblPeriodos.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.btnExportar.grabFocus();
+            return;
+        }
+        JFileChooser chooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de texto", "txt");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Guardar archivo");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            List<JTable> tb = new ArrayList<>();
+            List<String> nom = new ArrayList<>();
+            tb.add(tblPeriodos);
+            nom.add("Detalle de Asistencia");
+            String texto = chooser.getSelectedFile().toString().concat(".txt");
+            try {
+//                Date[] fechasLimite = this.obtenerFechasLimite();
+                ExportadorTXT e = new ExportadorTXT(new File(texto), tb, nom, empleadoSeleccionado.getContratoList().get(0).getFechaInicio(), new Date(), false);
+                if (e.exportarTXT()) {
+                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a texto.", "BCO",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    private void ExportarXLS(){
+        if (this.tblPeriodos.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "No hay datos en la tabla para exportar.", "BCO",
+                    JOptionPane.INFORMATION_MESSAGE);
+            this.btnExportar.grabFocus();
+            return;
+        }
+        JFileChooser chooser = new JFileChooser();
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de excel", "xls");
+        chooser.setFileFilter(filter);
+        chooser.setDialogTitle("Guardar archivo");
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setAcceptAllFileFilterUsed(false);
+
+        if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            List<JTable> tb = new ArrayList<>();
+            List<String> nom = new ArrayList<>();
+            tb.add(tblPeriodos);
+            nom.add("Periodos vacacionales");
+            String excel = chooser.getSelectedFile().toString().concat(".xls");
+            try {
+//                Date[] fechasLimite = this.obtenerFechasLimite();
+                Exportador e = new Exportador(new File(excel), tb, nom, empleadoSeleccionado.getContratoList().get(0).getFechaInicio(), new Date(), false);
+                if (e.exportar()) {
+                    JOptionPane.showMessageDialog(null, "Los datos fueron exportados a excel.", "EXPORTAR EXCEL",
+                            JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Hubo un error" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

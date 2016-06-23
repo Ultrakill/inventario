@@ -188,6 +188,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         jLabel16 = new javax.swing.JLabel();
         cboTipoVia = new javax.swing.JComboBox();
         cboTipoZona = new javax.swing.JComboBox();
+        jLabel17 = new javax.swing.JLabel();
+        chckBaja = new javax.swing.JCheckBox();
         jPanel6 = new javax.swing.JPanel();
         tabDatosLaborales = new javax.swing.JTabbedPane();
         pnlDatosContrato = new javax.swing.JPanel();
@@ -601,6 +603,21 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
         jPanel4.add(cboTipoZona, gridBagConstraints);
+
+        jLabel17.setText("Baja?: ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 6, 6);
+        jPanel4.add(jLabel17, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(3, 4, 3, 4);
+        jPanel4.add(chckBaja, gridBagConstraints);
 
         pnlGenerales.setViewportView(jPanel4);
 
@@ -1600,6 +1617,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JComboBox cboTipoDocumento;
     private javax.swing.JComboBox cboTipoVia;
     private javax.swing.JComboBox cboTipoZona;
+    private javax.swing.JCheckBox chckBaja;
     private com.toedter.calendar.JDateChooser dcFechaFin;
     private com.toedter.calendar.JDateChooser dcFechaInicio;
     private com.toedter.calendar.JDateChooser dcFechaNacimiento;
@@ -1628,6 +1646,7 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1827,6 +1846,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
             empleado.setNombre(txtNombres.getText());
             empleado.setSexo(cboGenero.getSelectedItem().toString().charAt(0));
             empleado.setTipoDocumento((TipoDocumento) cboTipoDocumento.getSelectedItem());
+            
+            empleado.setBaja(chckBaja.isSelected());
 
             FichaGeneral fgen = empleado.getFichaGeneral();
             if (fgen == null) {
@@ -1904,6 +1925,8 @@ public class DlgEmpleadoCRUD extends javax.swing.JDialog {
         txtMaterno.setText(empleado.getMaterno());
         cboGenero.setSelectedIndex(empleado.getSexo() == 'M' ? 0 : 1);
         dcFechaNacimiento.setDate(empleado.getFechaNacimiento());
+        
+        chckBaja.setSelected(empleado.getBaja());
 
         //DATOS GENERALES
         FichaGeneral general = empleado.getFichaGeneral();

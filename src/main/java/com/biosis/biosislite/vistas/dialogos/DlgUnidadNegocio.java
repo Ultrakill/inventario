@@ -70,7 +70,7 @@ public class DlgUnidadNegocio extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Buscar nacionalidad");
+        setTitle("Buscar Unidad de negocio");
         setMinimumSize(new java.awt.Dimension(606, 400));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 

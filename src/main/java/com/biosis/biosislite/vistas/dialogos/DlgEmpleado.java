@@ -5,14 +5,20 @@
  */
 package com.biosis.biosislite.vistas.dialogos;
 
-import com.biosis.biosislite.vistas.VistaRegistroAsistencia;
-import com.biosis.biosislite.vistas.AsignarPermiso;
+import com.biosis.biosislite.controladores.AreaEmpleadoControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
+import com.biosis.biosislite.entidades.escalafon.AreaEmpleado;
+import com.biosis.biosislite.entidades.escalafon.Departamento;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
+import com.biosis.biosislite.vistas.AsignarPermiso;
+import com.biosis.biosislite.vistas.VistaRegistroAsistencia;
+import com.biosis.biosislite.vistas.mantenimientos.CRUDAreaSede;
 import com.biosis.biosislite.vistas.mantenimientos.CRUDGrupoHorario;
 import com.biosis.biosislite.vistas.reportes.RptPermisos;
 import com.biosis.biosislite.vistas.reportes.RptRegistroAsistencia;
+import com.biosis.biosislite.vistas.reportes.RptVacaciones;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
@@ -23,7 +29,6 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
-import com.biosis.biosislite.vistas.reportes.RptVacaciones;
 
 /**
  *
@@ -36,8 +41,10 @@ public class DlgEmpleado extends javax.swing.JDialog {
      */
     private List<Empleado> lista;
     private final EmpleadoControlador ec;
-    private final JInternalFrame padre;    
+    private final JInternalFrame padre;
     private boolean agregar;
+
+    private Departamento area = null;
 
     public boolean isAgregar() {
         return agregar;
@@ -58,7 +65,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
         agregar = true;
         this.setLocationRelativeTo(parent);
     }
-    
+
     public DlgEmpleado(JDialog parent) {
         super(parent, true);
         initComponents();
@@ -69,6 +76,20 @@ public class DlgEmpleado extends javax.swing.JDialog {
         actualizarControlesNavegacion();
         agregar = true;
         this.setLocationRelativeTo(parent);
+    }
+
+    public DlgEmpleado(JInternalFrame parent, Departamento area) {
+        super(JOptionPane.getFrameForComponent(parent), true);
+        padre = parent;
+        initComponents();
+        ec = new EmpleadoControlador();
+        bindeoSalvaje();
+        buscar();
+        actualizarControlesNavegacion();
+        agregar = true;
+        this.setLocationRelativeTo(parent);
+
+        this.area = area;
     }
 
     /**
@@ -112,6 +133,9 @@ public class DlgEmpleado extends javax.swing.JDialog {
         jPanel1.add(lblBusqueda, gridBagConstraints);
 
         txtBusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtBusquedaKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBusquedaKeyReleased(evt);
             }
@@ -285,7 +309,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
             lblBusqueda.setBusy(false);
         }
     }//GEN-LAST:event_txtBusquedaKeyReleased
-    
+
     private void tblEmpleadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblEmpleadoKeyReleased
         // TODO add your handling code here:
 
@@ -303,19 +327,18 @@ public class DlgEmpleado extends javax.swing.JDialog {
                 } else if (this.padre instanceof AsignarPermiso && agregar) {
                     ((AsignarPermiso) padre).agregarEmpleado(lista.get(fila));
 
-                } else if(this.padre instanceof VistaRegistroAsistencia && agregar){
-                    ((VistaRegistroAsistencia)padre).agregarEmpleado(lista.get(fila));
-                } 
-                else if(this.padre instanceof RptPermisos && agregar){
-                    ((RptPermisos)this.padre).agregarEmpleado(lista.get(fila));
-                }
-                else if(this.padre instanceof RptRegistroAsistencia && agregar){
-                    ((RptRegistroAsistencia)this.padre).agregarEmpleado(lista.get(fila));
-                }
-                else if(this.padre instanceof RptVacaciones && agregar){
-                    ((RptVacaciones)this.padre).agregarEmpleado(lista.get(fila));
-                }
-                else {
+                } else if (this.padre instanceof VistaRegistroAsistencia && agregar) {
+                    ((VistaRegistroAsistencia) padre).agregarEmpleado(lista.get(fila));
+                } else if (this.padre instanceof RptPermisos && agregar) {
+                    ((RptPermisos) this.padre).agregarEmpleado(lista.get(fila));
+                } else if (this.padre instanceof RptRegistroAsistencia && agregar) {
+                    ((RptRegistroAsistencia) this.padre).agregarEmpleado(lista.get(fila));
+                } else if (this.padre instanceof RptVacaciones && agregar) {
+                    ((RptVacaciones) this.padre).agregarEmpleado(lista.get(fila));
+                } else if (this.padre instanceof CRUDAreaSede && agregar) {
+                    ((CRUDAreaSede) this.padre).agregarEmpleado(lista.get(fila));
+                    this.dispose();
+                } else {
                     empleadoSeleccionado = lista.get(fila);
                     this.dispose();
                 }
@@ -355,6 +378,10 @@ public class DlgEmpleado extends javax.swing.JDialog {
         buscar();
         this.actualizarControlesNavegacion();
     }//GEN-LAST:event_cboTamanioActionPerformed
+
+    private void txtBusquedaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBusquedaKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBusquedaKeyPressed
 
     private Empleado empleadoSeleccionado;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -426,6 +453,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
         tblEmpleado.packAll();
     }
 
+    private AreaEmpleadoControlador aec;
     private List<Empleado> listar(String busqueda, int pagina, int tamanio) {
         int total = ec.totalXPatron(busqueda);
 
@@ -438,9 +466,19 @@ public class DlgEmpleado extends javax.swing.JDialog {
         if (totalPaginas == 0) {
             totalPaginas = 1;
         }
-
-        return ec.buscarXPatron(busqueda, (pagina - 1) * tamanio, tamanio);
-
+        if (this.area == null) {
+            return ec.buscarXPatronBaja(busqueda, (pagina - 1) * tamanio, tamanio);
+        } else {
+            List<AreaEmpleado> areaEmpleadoList = aec.buscarXEmpleadoXFecha(this.area, new Date(), new Date());
+            List<Empleado> filtro = new ArrayList();
+            
+            for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
+                if (areaEmpleado.getEmpleado().getBaja() == false) {
+                    filtro.add(areaEmpleado.getEmpleado());
+                }
+            }
+            return filtro;
+        }
     }
 
     private void siguiente() {
