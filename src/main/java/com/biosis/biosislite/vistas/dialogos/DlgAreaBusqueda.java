@@ -8,7 +8,9 @@ package com.biosis.biosislite.vistas.dialogos;
 
 
 import com.biosis.biosislite.controladores.DepartamentoControlador;
+import com.biosis.biosislite.controladores.inventario.InventarioAmbienteControlador;
 import com.biosis.biosislite.entidades.escalafon.Departamento;
+import com.biosis.biosislite.entidades.inventario.Inventario;
 import java.awt.Component;
 import java.util.List;
 import javax.swing.JDialog;
@@ -32,12 +34,24 @@ public class DlgAreaBusqueda extends JDialog {
      */
     private final DepartamentoControlador areaControlador;
     private Departamento areaBusq;
+    
+    private InventarioAmbienteControlador ic = new InventarioAmbienteControlador(); 
+    private Inventario inventario = null;
 
     public DlgAreaBusqueda(Component componente) {
         super(JOptionPane.getFrameForComponent(componente), true);
         this.areaControlador = DepartamentoControlador.getInstance();
         initComponents();
         this.setLocationRelativeTo(componente);
+        listar();
+    }
+    
+    public DlgAreaBusqueda(Component componente, Inventario inventario) {
+        super(JOptionPane.getFrameForComponent(componente), true);
+        this.areaControlador = DepartamentoControlador.getInstance();
+        initComponents();
+        this.setLocationRelativeTo(componente);
+        this.inventario = inventario;
         listar();
     }
 
@@ -190,6 +204,9 @@ public class DlgAreaBusqueda extends JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void listar() {
+//        if(inventario != null){
+//            listaAreas = this.ic.buscarXInventario(inventario);
+//        }
         listaAreas = this.areaControlador.buscarTodos();
         listaAreas = ObservableCollections.observableList(listaAreas);
         

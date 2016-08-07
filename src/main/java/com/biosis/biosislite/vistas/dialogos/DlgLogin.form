@@ -95,7 +95,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL"/>
+            <Property name="text" type="java.lang.String" value="SISTEMA DE INVENTARIOS"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JLabel(){&#xa;    protected void paintComponent(Graphics g)&#xa;    {&#xa;        g.setColor( getBackground() );&#xa;        g.fillRect(0, 0, getWidth(), getHeight());&#xa;        super.paintComponent(g);&#xa;    }&#xa;};&#xa;&#xa;lblTitulo.setOpaque(false)"/>
@@ -314,9 +314,6 @@
     </Container>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/icon/iconosLogin/login4.png"/>
-        </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[681, 415]"/>
         </Property>

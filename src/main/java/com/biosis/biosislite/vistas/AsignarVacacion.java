@@ -187,7 +187,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         cmbFormatos = new javax.swing.JComboBox();
         btnExportar = new javax.swing.JButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
         chckArea = new javax.swing.JCheckBox();
         btnOficina = new javax.swing.JButton();
         txtOficina = new javax.swing.JTextField();
@@ -768,13 +767,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
         gridBagConstraints.gridx = 15;
         gridBagConstraints.gridy = 41;
         jPanel4.add(jPanel6, gridBagConstraints);
-
-        jRadioButton2.setText("Por área");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 16;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel4.add(jRadioButton2, gridBagConstraints);
 
         chckArea.setText("Filtrar por");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1404,7 +1396,6 @@ public class AsignarVacacion extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblArea;

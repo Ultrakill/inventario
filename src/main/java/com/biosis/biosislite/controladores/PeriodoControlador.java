@@ -34,4 +34,11 @@ public class PeriodoControlador extends Controlador<Periodo>{
         return this.getDao().buscar(jpql, variables);
     }
     
+    public Periodo buscarPeriodoVigente() {
+        String jpql = "SELECT a FROM Periodo a WHERE a.vigente = true";
+        List<Periodo> periodo = this.getDao().buscar(jpql, null, -1, 1);
+        Periodo elPeriodo = periodo.get(0);
+        return elPeriodo;
+    }
+    
 }

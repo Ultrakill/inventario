@@ -135,7 +135,7 @@ public class DlgLogin extends javax.swing.JDialog {
         lblTitulo.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL");
+        lblTitulo.setText("SISTEMA DE INVENTARIOS");
 
         lblSubtitulo.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
         lblSubtitulo.setForeground(new java.awt.Color(255, 255, 255));
@@ -314,7 +314,6 @@ public class DlgLogin extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(6, 0, 4, 0);
         getContentPane().add(jPanel1, gridBagConstraints);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/login4.png"))); // NOI18N
         jLabel1.setMaximumSize(new java.awt.Dimension(681, 415));
         jLabel1.setMinimumSize(new java.awt.Dimension(681, 415));
         jLabel1.setPreferredSize(new java.awt.Dimension(681, 415));

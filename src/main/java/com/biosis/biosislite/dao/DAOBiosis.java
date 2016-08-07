@@ -184,7 +184,7 @@ public class DAOBiosis<T> implements DAO<T> {
 
             return lista;
         } catch (Exception e) {
-            LOG.error("ERROR AL BUSCAR: " + e.getLocalizedMessage() + " " + e.getMessage());
+            LOG.error("ERROR AL BUSCAR", e);
             em = null;
             return null;
         }
@@ -212,7 +212,31 @@ public class DAOBiosis<T> implements DAO<T> {
         }
 
     }
+    
+    @Override
+    public int contarFiltro(String queryJPQL, Map<String, Object> parametros) {
+        Query query = getEntityManager().createQuery(queryJPQL);
 
+        if (parametros != null) {
+            for (Map.Entry<String, Object> entry : parametros.entrySet()) {
+                query.setParameter(entry.getKey(), entry.getValue());
+            }
+        }
+        return  ((Long) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public String buscarUltimo(String queryJPQL, Map<String, Object> parametros) {
+        Query query = getEntityManager().createQuery(queryJPQL);
+
+        if (parametros != null) {
+            for (Map.Entry<String, Object> entry : parametros.entrySet()) {
+                query.setParameter(entry.getKey(), entry.getValue());
+            }
+        }
+        return  query.getSingleResult().toString();
+    }
+    
     @Override
     public List<T> buscarTodos() {
         javax.persistence.criteria.CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
@@ -238,4 +262,6 @@ public class DAOBiosis<T> implements DAO<T> {
         getEntityManager().getTransaction().begin();
         getEntityManager().getTransaction().rollback();
     }
+    
+    
 }

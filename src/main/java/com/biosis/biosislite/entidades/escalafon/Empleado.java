@@ -68,6 +68,14 @@ public class Empleado implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, targetEntity = PuestoEmpleado.class,mappedBy = "empleado")
     private List<PuestoEmpleado> puestoList;
     
+    
+    //INVENTARIOS
+    
+    @Column(name = "tipo_persona", nullable = false)
+    @Basic
+    private int tipoPersona;
+    
+    
     public List<AreaEmpleado> getAreaEmpleadoList() {
         return areaEmpleadoList;
     }
@@ -209,6 +217,14 @@ public class Empleado implements Serializable {
 
     public void setBaja(boolean baja) {
         this.baja = baja;
+    }
+
+    public int getTipoPersona() {
+        return tipoPersona;
+    }
+
+    public void setTipoPersona(int tipoPersona) {
+        this.tipoPersona = tipoPersona;
     }
     
     

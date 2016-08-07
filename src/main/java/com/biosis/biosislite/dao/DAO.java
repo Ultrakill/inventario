@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  *
@@ -16,18 +17,35 @@ import javax.persistence.EntityManager;
  * @param <T>
  */
 public interface DAO<T> {
+
     public EntityManager getEntityManager();
+
     public Connection getConexion();
+
     public Boolean guardar(T objeto);
+
     public Boolean eliminar(T objeto);
+
     public Boolean modificar(T objeto);
+
     public Boolean guardarLote(List<T> objeto);
+
     public List<T> buscarTodos();
+
     public List<T> buscar(String queryJPQL);
+
     public List<T> buscar(String queryJPQL, Map<String, Object> parametros);
+
     public List<T> buscar(String queryJPQL, Map<String, Object> parametros, int inicio, int tamanio);
+
     public int contar();
+
     public int contar(String queryJPQL, Map<String, Object> parametros);
+
     public T buscarPorId(Object id);
+
+    public int contarFiltro(String queryJPQL, Map<String, Object> parametros);
+
+    public String buscarUltimo(String queryJPQL, Map<String, Object> parametros);
     
 }

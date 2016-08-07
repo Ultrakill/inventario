@@ -80,4 +80,11 @@ public class Periodo implements Serializable {
     public void setVigente(boolean vigente) {
         this.vigente = vigente;
     }
+
+    @Override
+    public String toString() {
+        return anio+"";
+    }
+    
+    
 }

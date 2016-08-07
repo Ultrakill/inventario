@@ -56,6 +56,22 @@
     <class>com.biosis.biosislite.entidades.sisgedo.Boleta</class>
     <class>com.biosis.biosislite.entidades.sisgedo.Motivo</class>
     <class>com.biosis.biosislite.entidades.sisgedo.UsuarioSISGEDO</class>
+    
+    <class>com.biosis.biosislite.entidades.inventario.Bien</class>
+    <class>com.biosis.biosislite.entidades.inventario.Bien_Inventario</class>
+    <class>com.biosis.biosislite.entidades.inventario.Campo</class>
+    <class>com.biosis.biosislite.entidades.inventario.Clase</class>
+    <class>com.biosis.biosislite.entidades.inventario.DetalleBienCampo</class>
+    <class>com.biosis.biosislite.entidades.inventario.DetalleMovimiento</class>    
+    <class>com.biosis.biosislite.entidades.inventario.Factura</class>
+    <class>com.biosis.biosislite.entidades.inventario.Inventario</class>
+    <class>com.biosis.biosislite.entidades.inventario.InventarioAmbiente</class>
+    <class>com.biosis.biosislite.entidades.inventario.Movimiento</class>    
+    <class>com.biosis.biosislite.entidades.inventario.Proveedor</class>
+    <class>com.biosis.biosislite.entidades.inventario.Tipo</class>    
+    <class>com.biosis.biosislite.entidades.inventario.UnidadMedida</class>
+    
+    
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://127.0.0.1;databaseName=db_base_biosis_rosario_1"/>
       <property name="javax.persistence.jdbc.password" value="xapplex"/>

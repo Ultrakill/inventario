@@ -227,4 +227,14 @@ public class DAOBiostar<T> implements DAO<T>{
         return getEntityManager().find(clase, id);
     }
 
+    @Override
+    public int contarFiltro(String queryJPQL, Map<String, Object> parametros) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String buscarUltimo(String queryJPQL, Map<String, Object> parametros) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

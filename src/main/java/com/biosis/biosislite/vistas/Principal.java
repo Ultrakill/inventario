@@ -6,8 +6,6 @@
 package com.biosis.biosislite.vistas;
 
 import com.biosis.biosislite.Main;
-//import com.biosis.biosislite.controladores.AlertaControlador;
-//import com.biosis.biosislite.controladores.AsignacionNGSControlador;
 import com.biosis.biosislite.controladores.EmpleadoControlador;
 //import com.biosis.biosislite.controladores.MatriculaControlador;
 //import com.biosis.biosislite.controladores.NotificacionControlador;
@@ -15,18 +13,23 @@ import com.biosis.biosislite.controladores.PeriodoControlador;
 //import com.biosis.biosislite.controladores.SeccionHorarioControlador;
 //import com.biosis.biosislite.controladores.ServidorSmtpControlador;
 import com.biosis.biosislite.controladores.UsuarioControlador;
-//import com.biosis.biosislite.email.MensajeC;
-//import com.biosis.biosislite.entidades.Alerta;
-//import com.biosis.biosislite.entidades.Notificacion;
 import com.biosis.biosislite.entidades.RolAcceso;
 import com.biosis.biosislite.entidades.Usuario;
-//import com.biosis.biosislite.entidades.educativo.Matricula;
-//import com.biosis.biosislite.entidades.educativo.Seccion;
 import com.biosis.biosislite.entidades.escalafon.Empleado;
-//import com.biosis.biosislite.entidades.mensajeria.Correo;
-import com.biosis.biosislite.utiles.UsuarioActivo;
 import com.biosis.biosislite.utiles.PersButtonUI;
+import com.biosis.biosislite.utiles.UsuarioActivo;
 import com.biosis.biosislite.vistas.dialogos.DlgCambiarPassword;
+import com.biosis.biosislite.vistas.dialogos.inventario.DlgMovimientoInventario;
+import com.biosis.biosislite.vistas.inventario.MantenimientoBien;
+import com.biosis.biosislite.vistas.inventario.MantenimientoCampo;
+import com.biosis.biosislite.vistas.inventario.MantenimientoClase;
+import com.biosis.biosislite.vistas.inventario.MantenimientoFactura;
+import com.biosis.biosislite.vistas.inventario.MantenimientoTipo;
+import com.biosis.biosislite.vistas.inventario.VistaImprimir;
+import com.biosis.biosislite.vistas.inventario.VistaInventario;
+import com.biosis.biosislite.vistas.inventario.VistaReporteInventario;
+import com.biosis.biosislite.vistas.inventario.VistaStock;
+import com.biosis.biosislite.vistas.inventario.VistaVerMovimientos;
 import com.biosis.biosislite.vistas.mantenimientos.CRUDAreaSede;
 import com.biosis.biosislite.vistas.mantenimientos.CRUDGrupoHorario;
 import com.biosis.biosislite.vistas.mantenimientos.CRUDHorario;
@@ -46,6 +49,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.awt.event.MouseMotionListener;
 import java.beans.PropertyVetoException;
 import java.io.File;
@@ -64,7 +68,6 @@ import javax.mail.MessagingException;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-import java.awt.Toolkit;
 
 /**
  *
@@ -84,7 +87,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icon/iconosLogin/Biosis.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/icon/iconosLogin/logo.png")));
         this.setTitle(Main.APLICACION_TITULO);
 //        this.jMenuItem6.setVisible(false);
 //        setIconImage(new ImageIcon(getClass().getResource("iconos/logo.png")).getImage());
@@ -98,6 +101,7 @@ public class Principal extends javax.swing.JFrame {
                 Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        ocultarInventario();
 //        reloj();
 
     }
@@ -119,6 +123,8 @@ public class Principal extends javax.swing.JFrame {
         lblUsuario = new javax.swing.JLabel();
         lblRol = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         pnlAccesos = new javax.swing.JPanel();
         btnEmpleados = new javax.swing.JButton();
         btnMarcaciones = new javax.swing.JButton();
@@ -136,17 +142,30 @@ public class Principal extends javax.swing.JFrame {
         mnuPermiso = new javax.swing.JMenu();
         mnuTiposPermiso = new javax.swing.JMenuItem();
         mnuAsignarPermiso = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        asigVacaciones = new javax.swing.JMenuItem();
+        mnuBien = new javax.swing.JMenu();
+        jMenuItem17 = new javax.swing.JMenuItem();
+        jMenuItem18 = new javax.swing.JMenuItem();
+        jMenuItem19 = new javax.swing.JMenuItem();
+        jMenuItem20 = new javax.swing.JMenuItem();
+        jMenuItem21 = new javax.swing.JMenuItem();
+        mnuInventarios = new javax.swing.JMenu();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
         mnuReportes = new javax.swing.JMenu();
+        mnuAsistencia = new javax.swing.JMenuItem();
+        mnuRepPermiso = new javax.swing.JMenuItem();
+        mnuRepVacacion = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        mnuStock = new javax.swing.JMenuItem();
+        mnuReporteInventario = new javax.swing.JMenuItem();
         mnuConfiguracion = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
-        mnuPeriodos = new javax.swing.JMenuItem();
-        mnuControlUsuario = new javax.swing.JMenuItem();
         mnuCambiarContrasenia = new javax.swing.JMenuItem();
+        mnuControlUsuario = new javax.swing.JMenuItem();
         mnuConfiguracionBD = new javax.swing.JMenuItem();
+        mnuPeriodos = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SISTEMA DE CONTROL DE ASISTENCIA DE PERSONAL - BIOSIS - GOBIERNO REGIONAL PIURA");
@@ -166,19 +185,45 @@ public class Principal extends javax.swing.JFrame {
         pnlBotnesLayout.rowHeights = new int[] {0};
         pnlBotnes.setLayout(pnlBotnesLayout);
 
-        pnlDatosUsuario.setLayout(new java.awt.GridLayout(3, 1, 0, 5));
+        pnlDatosUsuario.setLayout(new java.awt.GridBagLayout());
 
         lblUsuario.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         lblUsuario.setText("jLabel1");
-        pnlDatosUsuario.add(lblUsuario);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlDatosUsuario.add(lblUsuario, gridBagConstraints);
 
         lblRol.setFont(new java.awt.Font("Calibri", 1, 14)); // NOI18N
         lblRol.setText("jLabel2");
-        pnlDatosUsuario.add(lblRol);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
+        pnlDatosUsuario.add(lblRol, gridBagConstraints);
 
         lblFecha.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         lblFecha.setText("jLabel3");
-        pnlDatosUsuario.add(lblFecha);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlDatosUsuario.add(lblFecha, gridBagConstraints);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/logo3.png"))); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        pnlDatosUsuario.add(jLabel1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 3;
+        pnlDatosUsuario.add(jPanel1, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 6;
@@ -192,8 +237,8 @@ public class Principal extends javax.swing.JFrame {
 
         btnEmpleados.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         btnEmpleados.setForeground(new java.awt.Color(45, 115, 167));
-        btnEmpleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/usuariox32.png"))); // NOI18N
-        btnEmpleados.setText("Usuarios");
+        btnEmpleados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/bienes32x32B.png"))); // NOI18N
+        btnEmpleados.setText("Bienes");
         btnEmpleados.setMaximumSize(new java.awt.Dimension(150, 44));
         btnEmpleados.setMinimumSize(new java.awt.Dimension(150, 44));
         btnEmpleados.setPreferredSize(new java.awt.Dimension(150, 44));
@@ -207,8 +252,8 @@ public class Principal extends javax.swing.JFrame {
 
         btnMarcaciones.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         btnMarcaciones.setForeground(new java.awt.Color(45, 115, 167));
-        btnMarcaciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/marcacionx32.png"))); // NOI18N
-        btnMarcaciones.setText("Marcaciones");
+        btnMarcaciones.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/inventario32x32.png"))); // NOI18N
+        btnMarcaciones.setText("Inventarios");
         btnMarcaciones.setMaximumSize(new java.awt.Dimension(200, 44));
         btnMarcaciones.setMinimumSize(new java.awt.Dimension(200, 44));
         btnMarcaciones.setPreferredSize(new java.awt.Dimension(200, 44));
@@ -222,8 +267,8 @@ public class Principal extends javax.swing.JFrame {
 
         btnAsignarPermiso.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         btnAsignarPermiso.setForeground(new java.awt.Color(45, 115, 167));
-        btnAsignarPermiso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/permisosx32.png"))); // NOI18N
-        btnAsignarPermiso.setText("Asignar permisos");
+        btnAsignarPermiso.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/imprimir32x32B.png"))); // NOI18N
+        btnAsignarPermiso.setText("Impresora");
         btnAsignarPermiso.setMaximumSize(new java.awt.Dimension(155, 44));
         btnAsignarPermiso.setMinimumSize(new java.awt.Dimension(155, 44));
         btnAsignarPermiso.setPreferredSize(new java.awt.Dimension(155, 44));
@@ -367,21 +412,108 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuPermiso.add(mnuAsignarPermiso);
 
-        jMenuItem5.setBackground(new java.awt.Color(153, 204, 255));
-        jMenuItem5.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        jMenuItem5.setText("Asignar vacaciones");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        asigVacaciones.setBackground(new java.awt.Color(153, 204, 255));
+        asigVacaciones.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        asigVacaciones.setText("Asignar vacaciones");
+        asigVacaciones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                asigVacacionesActionPerformed(evt);
             }
         });
-        mnuPermiso.add(jMenuItem5);
+        mnuPermiso.add(asigVacaciones);
 
         menuBar.add(mnuPermiso);
 
+        mnuBien.setBackground(new java.awt.Color(45, 115, 167));
+        mnuBien.setForeground(new java.awt.Color(255, 255, 255));
+        mnuBien.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/bienes32x32.png"))); // NOI18N
+        mnuBien.setText("Bienes");
+        mnuBien.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        mnuBien.setMaximumSize(new java.awt.Dimension(120, 44));
+        mnuBien.setMinimumSize(new java.awt.Dimension(120, 44));
+        mnuBien.setOpaque(true);
+        mnuBien.setPreferredSize(new java.awt.Dimension(120, 44));
+
+        jMenuItem17.setText("Atributos del bien");
+        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem17ActionPerformed(evt);
+            }
+        });
+        mnuBien.add(jMenuItem17);
+
+        jMenuItem18.setText("Bien/Producto");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        mnuBien.add(jMenuItem18);
+
+        jMenuItem19.setText("Clase del bien");
+        jMenuItem19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem19ActionPerformed(evt);
+            }
+        });
+        mnuBien.add(jMenuItem19);
+
+        jMenuItem20.setText("Factura del bien");
+        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem20ActionPerformed(evt);
+            }
+        });
+        mnuBien.add(jMenuItem20);
+
+        jMenuItem21.setText("Tipo de bien");
+        jMenuItem21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem21ActionPerformed(evt);
+            }
+        });
+        mnuBien.add(jMenuItem21);
+
+        menuBar.add(mnuBien);
+
+        mnuInventarios.setBackground(new java.awt.Color(45, 115, 167));
+        mnuInventarios.setForeground(new java.awt.Color(255, 255, 255));
+        mnuInventarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconosLogin/inventario32x32B.png"))); // NOI18N
+        mnuInventarios.setText("Inventarios");
+        mnuInventarios.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
+        mnuInventarios.setMaximumSize(new java.awt.Dimension(147, 44));
+        mnuInventarios.setOpaque(true);
+        mnuInventarios.setPreferredSize(new java.awt.Dimension(147, 44));
+
+        jMenuItem10.setText("Entrega de inventario");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
+        mnuInventarios.add(jMenuItem10);
+
+        jMenuItem9.setText("Inventario físico");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        mnuInventarios.add(jMenuItem9);
+
+        jMenuItem11.setText("Movimientos de inventario");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        mnuInventarios.add(jMenuItem11);
+
+        menuBar.add(mnuInventarios);
+
         mnuReportes.setBackground(new java.awt.Color(45, 115, 167));
         mnuReportes.setForeground(new java.awt.Color(255, 255, 255));
-        mnuReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reporte.png"))); // NOI18N
+        mnuReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/reporte32x32.png"))); // NOI18N
         mnuReportes.setText("Reportes");
         mnuReportes.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         mnuReportes.setMaximumSize(new java.awt.Dimension(120, 44));
@@ -389,8 +521,34 @@ public class Principal extends javax.swing.JFrame {
         mnuReportes.setOpaque(true);
         mnuReportes.setPreferredSize(new java.awt.Dimension(120, 44));
 
-        jMenuItem1.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        jMenuItem1.setText("Reportes de asistencia");
+        mnuAsistencia.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        mnuAsistencia.setText("Reportes de asistencia");
+        mnuAsistencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuAsistenciaActionPerformed(evt);
+            }
+        });
+        mnuReportes.add(mnuAsistencia);
+
+        mnuRepPermiso.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        mnuRepPermiso.setText("Reportes de permisos / licencias / comisiones de servicio");
+        mnuRepPermiso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRepPermisoActionPerformed(evt);
+            }
+        });
+        mnuReportes.add(mnuRepPermiso);
+
+        mnuRepVacacion.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        mnuRepVacacion.setText("Reporte de vacaciones");
+        mnuRepVacacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRepVacacionActionPerformed(evt);
+            }
+        });
+        mnuReportes.add(mnuRepVacacion);
+
+        jMenuItem1.setText("Imprimir etiquetas");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -398,29 +556,27 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuReportes.add(jMenuItem1);
 
-        jMenuItem2.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        jMenuItem2.setText("Reportes de permisos / licencias / comisiones de servicio");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mnuStock.setText("Reporte de stock");
+        mnuStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mnuStockActionPerformed(evt);
             }
         });
-        mnuReportes.add(jMenuItem2);
+        mnuReportes.add(mnuStock);
 
-        jMenuItem6.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        jMenuItem6.setText("Reporte de vacaciones");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        mnuReporteInventario.setText("Reporte de inventarios");
+        mnuReporteInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                mnuReporteInventarioActionPerformed(evt);
             }
         });
-        mnuReportes.add(jMenuItem6);
+        mnuReportes.add(mnuReporteInventario);
 
         menuBar.add(mnuReportes);
 
         mnuConfiguracion.setBackground(new java.awt.Color(45, 115, 167));
         mnuConfiguracion.setForeground(new java.awt.Color(255, 255, 255));
-        mnuConfiguracion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/configuracion.png"))); // NOI18N
+        mnuConfiguracion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/config32x32.png"))); // NOI18N
         mnuConfiguracion.setText("Configuración");
         mnuConfiguracion.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         mnuConfiguracion.setMaximumSize(new java.awt.Dimension(147, 44));
@@ -436,14 +592,14 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(jMenuItem7);
 
-        mnuPeriodos.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        mnuPeriodos.setText("Periodos");
-        mnuPeriodos.addActionListener(new java.awt.event.ActionListener() {
+        mnuCambiarContrasenia.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        mnuCambiarContrasenia.setText("Cambiar contraseña");
+        mnuCambiarContrasenia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuPeriodosActionPerformed(evt);
+                mnuCambiarContraseniaActionPerformed(evt);
             }
         });
-        mnuConfiguracion.add(mnuPeriodos);
+        mnuConfiguracion.add(mnuCambiarContrasenia);
 
         mnuControlUsuario.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         mnuControlUsuario.setText("Control de usuarios");
@@ -454,15 +610,6 @@ public class Principal extends javax.swing.JFrame {
         });
         mnuConfiguracion.add(mnuControlUsuario);
 
-        mnuCambiarContrasenia.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
-        mnuCambiarContrasenia.setText("Cambiar contraseña");
-        mnuCambiarContrasenia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnuCambiarContraseniaActionPerformed(evt);
-            }
-        });
-        mnuConfiguracion.add(mnuCambiarContrasenia);
-
         mnuConfiguracionBD.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
         mnuConfiguracionBD.setText("Configuración de bases");
         mnuConfiguracionBD.addActionListener(new java.awt.event.ActionListener() {
@@ -471,6 +618,15 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         mnuConfiguracion.add(mnuConfiguracionBD);
+
+        mnuPeriodos.setFont(new java.awt.Font("Calibri", 0, 14)); // NOI18N
+        mnuPeriodos.setText("Periodos");
+        mnuPeriodos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPeriodosActionPerformed(evt);
+            }
+        });
+        mnuConfiguracion.add(mnuPeriodos);
 
         menuBar.add(mnuConfiguracion);
 
@@ -509,17 +665,20 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEmpleadosActionPerformed
         // TODO add your handling code here:
-        empleados();
+        MantenimientoBien bien = MantenimientoBien.getInstancia();
+        agregarAPanel(bien, true);
     }//GEN-LAST:event_btnEmpleadosActionPerformed
 
     private void btnMarcacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcacionesActionPerformed
         // TODO add your handling code here:
-        marcaciones();
+        VistaInventario inv = VistaInventario.getInstancia();
+        agregarAPanel(inv, true);
     }//GEN-LAST:event_btnMarcacionesActionPerformed
 
     private void btnAsignarPermisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarPermisoActionPerformed
         // TODO add your handling code here:
-        permiso();
+        VistaImprimir imprimir = VistaImprimir.getInstancia();
+        agregarAPanel(imprimir, true);
     }//GEN-LAST:event_btnAsignarPermisoActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -527,25 +686,25 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(new HorarioRotativo(), true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void mnuRepVacacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRepVacacionActionPerformed
         // TODO add your handling code here:
 //        RptTardanzasMes tardanzasMes = new RptTardanzasMes();
 //        agregarAPanel(tardanzasMes, true);
         
         RptVacaciones vacaciones = new RptVacaciones();
         agregarAPanel(vacaciones, true);
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_mnuRepVacacionActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void mnuRepPermisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRepPermisoActionPerformed
         // TODO add your handling code here:
         reportePermiso();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_mnuRepPermisoActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mnuAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuAsistenciaActionPerformed
         // TODO add your handling code here:
         //        reporteAsistencia();
         registroAsistencia();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mnuAsistenciaActionPerformed
 
     private void mnuPeriodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPeriodosActionPerformed
         // TODO add your handling code here:
@@ -585,11 +744,11 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(grupos, true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void asigVacacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asigVacacionesActionPerformed
         // TODO add your handling code here:
         AsignarVacacion asignar = new AsignarVacacion();
         agregarAPanel(asignar, true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_asigVacacionesActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
         // TODO add your handling code here:
@@ -597,19 +756,93 @@ public class Principal extends javax.swing.JFrame {
         agregarAPanel(sedesAreas, true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+        VistaInventario inv = VistaInventario.getInstancia();
+        agregarAPanel(inv, true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        // TODO add your handling code here:
+        DlgMovimientoInventario movInventario = DlgMovimientoInventario.getInstancia();
+        agregarAPanel(movInventario, true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        // TODO add your handling code here:
+        VistaVerMovimientos movimientos = VistaVerMovimientos.getInstancia();
+        agregarAPanel(movimientos, true);
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
+    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
+        // TODO add your handling code here:
+        MantenimientoCampo campo = MantenimientoCampo.getInstancia();
+        agregarAPanel(campo, true);
+    }//GEN-LAST:event_jMenuItem17ActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        // TODO add your handling code here:
+        MantenimientoBien bien = MantenimientoBien.getInstancia();
+        agregarAPanel(bien, true);
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
+    private void jMenuItem19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem19ActionPerformed
+        // TODO add your handling code here:
+        MantenimientoClase clase = MantenimientoClase.getInstancia();
+        agregarAPanel(clase, true);
+    }//GEN-LAST:event_jMenuItem19ActionPerformed
+
+    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
+        // TODO add your handling code here:
+        MantenimientoFactura factura = MantenimientoFactura.getInstancia();
+        agregarAPanel(factura, true);
+    }//GEN-LAST:event_jMenuItem20ActionPerformed
+
+    private void jMenuItem21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem21ActionPerformed
+        // TODO add your handling code here:
+        MantenimientoTipo tipo = MantenimientoTipo.getInstancia();
+        agregarAPanel(tipo, true);
+    }//GEN-LAST:event_jMenuItem21ActionPerformed
+
+    private void mnuStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuStockActionPerformed
+        // TODO add your handling code here:
+        VistaStock stock = VistaStock.getInstancia();
+        agregarAPanel(stock, true);
+    }//GEN-LAST:event_mnuStockActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        VistaImprimir imprimir = VistaImprimir.getInstancia();
+        agregarAPanel(imprimir, true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void mnuReporteInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuReporteInventarioActionPerformed
+        // TODO add your handling code here:
+        VistaReporteInventario reporteInventario = VistaReporteInventario.getInstancia();
+        agregarAPanel(reporteInventario, true);
+    }//GEN-LAST:event_mnuReporteInventarioActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem asigVacaciones;
     private javax.swing.JButton btnAsignarPermiso;
     private javax.swing.JButton btnEmpleados;
     private javax.swing.JButton btnMarcaciones;
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem17;
+    private javax.swing.JMenuItem jMenuItem18;
+    private javax.swing.JMenuItem jMenuItem19;
+    private javax.swing.JMenuItem jMenuItem20;
+    private javax.swing.JMenuItem jMenuItem21;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblJuvitec;
@@ -617,17 +850,24 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel lblUsuario;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem mnuAsignarPermiso;
+    private javax.swing.JMenuItem mnuAsistencia;
+    private javax.swing.JMenu mnuBien;
     private javax.swing.JMenuItem mnuCambiarContrasenia;
     private javax.swing.JMenu mnuConfiguracion;
     private javax.swing.JMenuItem mnuConfiguracionBD;
     private javax.swing.JMenuItem mnuControlUsuario;
     private javax.swing.JMenu mnuHorario;
+    private javax.swing.JMenu mnuInventarios;
     private javax.swing.JMenuItem mnuJornada;
     private javax.swing.JMenu mnuMarcaciones;
     private javax.swing.JMenuItem mnuMarcacionesSinProcesar;
     private javax.swing.JMenuItem mnuPeriodos;
     private javax.swing.JMenu mnuPermiso;
+    private javax.swing.JMenuItem mnuRepPermiso;
+    private javax.swing.JMenuItem mnuRepVacacion;
+    private javax.swing.JMenuItem mnuReporteInventario;
     private javax.swing.JMenu mnuReportes;
+    private javax.swing.JMenuItem mnuStock;
     private javax.swing.JMenuItem mnuTiposPermiso;
     private javax.swing.JMenuItem mnuVerEmpleados;
     private javax.swing.JPanel pnlAccesos;
@@ -796,12 +1036,14 @@ public class Principal extends javax.swing.JFrame {
         mnuPeriodos.setEnabled(periodo);
 //        System.out.println("PERMISO: "+ permiso);
         mnuPermiso.setEnabled(permiso);
+        mnuPermiso.setEnabled(vacacion);
         mnuMarcaciones.setEnabled(botonMarcaciones);
         mnuTiposPermiso.setEnabled(tiposPermiso);
         mnuAsignarPermiso.setEnabled(permiso);
 //        mnuAsignarVacaciones.setEnabled(asignarVacaciones);
 //        mnuHorasExtra.setEnabled(horasExtra);
 //        mnuSedesAreas.setEnabled(sedeArea);
+        asigVacaciones.setEnabled(vacacion);
 
         mnuReportes.setEnabled(reportes);
 //        mnuUsuarios.setEnabled(configuracion);
@@ -813,6 +1055,24 @@ public class Principal extends javax.swing.JFrame {
         btnMarcaciones.setEnabled(botonMarcaciones);
         btnAsignarPermiso.setEnabled(botonAsignarPermiso);
 
+    }
+
+    private void ocultarInventario() {
+        
+        this.mnuMarcaciones.setVisible(false); this.mnuMarcaciones.setEnabled(false);
+        this.mnuHorario.setVisible(false); this.mnuHorario.setEnabled(false);
+        this.mnuPermiso.setVisible(false); this.mnuPermiso.setEnabled(false);
+        
+        this.mnuAsistencia.setVisible(false); this.mnuAsistencia.setEnabled(false);
+        this.mnuRepPermiso.setVisible(false); this.mnuRepPermiso.setEnabled(false);
+        this.mnuRepVacacion.setVisible(false); this.mnuRepVacacion.setEnabled(false);
+        
+//        this.btnEmpleados.setVisible(false); this.btnEmpleados.setEnabled(false);
+//        this.btnMarcaciones.setVisible(false); this.btnMarcaciones.setEnabled(false);
+//        this.btnAsignarPermiso.setVisible(false); this.btnAsignarPermiso.setEnabled(false);
+               
+               
+        
     }
     
     /**

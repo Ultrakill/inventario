@@ -17,7 +17,9 @@ import com.biosis.biosislite.vistas.mantenimientos.CRUDGrupoHorario;
 import com.biosis.biosislite.vistas.reportes.RptPermisos;
 import com.biosis.biosislite.vistas.reportes.RptRegistroAsistencia;
 import com.biosis.biosislite.vistas.reportes.RptVacaciones;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JDialog;
@@ -82,14 +84,17 @@ public class DlgEmpleado extends javax.swing.JDialog {
         super(JOptionPane.getFrameForComponent(parent), true);
         padre = parent;
         initComponents();
+        this.area = area;
         ec = new EmpleadoControlador();
         bindeoSalvaje();
         buscar();
         actualizarControlesNavegacion();
         agregar = true;
         this.setLocationRelativeTo(parent);
+        
+//        aec = new AreaEmpleadoControlador();
 
-        this.area = area;
+        
     }
 
     /**
@@ -453,7 +458,7 @@ public class DlgEmpleado extends javax.swing.JDialog {
         tblEmpleado.packAll();
     }
 
-    private AreaEmpleadoControlador aec;
+    private AreaEmpleadoControlador aec = new AreaEmpleadoControlador();
     private List<Empleado> listar(String busqueda, int pagina, int tamanio) {
         int total = ec.totalXPatron(busqueda);
 
@@ -469,7 +474,11 @@ public class DlgEmpleado extends javax.swing.JDialog {
         if (this.area == null) {
             return ec.buscarXPatronBaja(busqueda, (pagina - 1) * tamanio, tamanio);
         } else {
-            List<AreaEmpleado> areaEmpleadoList = aec.buscarXEmpleadoXFecha(this.area, new Date(), new Date());
+            
+            System.out.println("AREA: " +this.area.getNombre());
+//            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            
+            List<AreaEmpleado> areaEmpleadoList = aec.buscarXEmpleadoXFecha(this.area, new Date(),new Date(),(pagina - 1) * tamanio, tamanio);
             List<Empleado> filtro = new ArrayList();
             
             for (AreaEmpleado areaEmpleado : areaEmpleadoList) {
